@@ -49,4 +49,6 @@ public class Customer implements Serializable {
     private Set<Order> orders;
     @OneToMany(mappedBy="customer")
     private Set<Feedback> feedbacks;
+    @OneToMany(mappedBy="customer")
+    private Set<Cart> carts;
 }

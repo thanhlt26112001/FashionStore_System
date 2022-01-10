@@ -37,4 +37,6 @@ public class SizeProduct implements Serializable {
     private Timestamp updatedAt;
     @OneToMany(mappedBy="sizeProduct")
     private Set<OrderDetail> orderDetails;
+    @OneToMany(mappedBy="sizeProduct")
+    private Set<Cart> carts;
 }

@@ -41,5 +41,7 @@ public class StoreProduct implements Serializable {
     private Timestamp updatedAt;
     @OneToMany(mappedBy="storeProduct")
     private Set<OrderDetail> orderDetails;
+    @OneToMany(mappedBy="storeProduct")
+    private Set<Cart> carts;
 }
 
