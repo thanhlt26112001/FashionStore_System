@@ -22,7 +22,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
-    private String name;
+    private String username;
     @Column
     private String password;
     @OneToOne(cascade = CascadeType.ALL)

@@ -1,5 +1,6 @@
 package com.example.fashionstore_system.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class Category implements Serializable {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Timestamp updatedAt;
+    @JsonManagedReference
     @OneToMany(mappedBy="category")
     private Set<Product> products;
 }
