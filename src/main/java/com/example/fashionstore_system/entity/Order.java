@@ -24,9 +24,6 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
-    @JoinColumn(name="store_id", nullable=false)
-    private Store store;
-    @ManyToOne
     @JoinColumn(name="customer_id", nullable=false)
     private Customer customer;
     @Column(name = "receiver_name")

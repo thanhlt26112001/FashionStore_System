@@ -30,9 +30,6 @@ public class Staff implements Serializable {
     private Integer phone;
     @Column
     private String avatar;
-    @ManyToOne
-    @JoinColumn(name="store_id", nullable=false)
-    private Store store;
     @Column(name = "created_at")
     @CreationTimestamp
     private Timestamp createdAt;

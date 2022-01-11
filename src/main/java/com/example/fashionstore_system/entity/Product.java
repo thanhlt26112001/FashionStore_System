@@ -26,7 +26,7 @@ public class Product implements Serializable {
     @Column
     private String name;
     @Column
-    private String desciption;
+    private String description;
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
@@ -34,6 +34,8 @@ public class Product implements Serializable {
     private String image;
     @Column
     private BigDecimal price;
+    @Column
+    private Integer quantity;
     @Column
     private Integer status;
     //0: out of stock, 1: available
@@ -46,9 +48,9 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "product")
     private Set<Feedback> feedbacks;
     @OneToMany(mappedBy = "product")
-    private Set<StoreProduct> storeProducts;
-    @OneToMany(mappedBy = "product")
     private Set<ProductImage> productImages;
-    @OneToMany(mappedBy = "product")
-    private Set<SizeProduct> sizeProducts;
+    @OneToMany(mappedBy="product")
+    private Set<Cart> carts;
+    @OneToMany(mappedBy="order")
+    private Set<OrderDetail> orderDetails;
 }

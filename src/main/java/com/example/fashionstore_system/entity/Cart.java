@@ -23,13 +23,8 @@ public class Cart implements Serializable {
     @JoinColumn(name="customer_id", nullable=false)
     private Customer customer;
     @ManyToOne
-    @JoinColumn(name="store_product_id", nullable=false)
     @JoinColumn(name="product_id", nullable=false)
-    private StoreProduct storeProduct;
-    @ManyToOne
-    @JoinColumn(name="size_product_id", nullable=false)
-    @JoinColumn(name="size_id", nullable=false)
-    private SizeProduct sizeProduct;
+    private Product product;
     @Column
     private Integer quantity;
 }
