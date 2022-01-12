@@ -55,4 +55,24 @@ public class Product implements Serializable {
     private Set<Cart> carts;
     @OneToMany(mappedBy="order")
     private Set<OrderDetail> orderDetails;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", image='" + image + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", feedbacks=" + feedbacks +
+                ", productImages=" + productImages +
+                ", carts=" + carts +
+                ", orderDetails=" + orderDetails +
+                '}';
+    }
 }
