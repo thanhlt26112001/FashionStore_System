@@ -3,9 +3,12 @@ package com.example.fashionstore_system.controller;
 import com.example.fashionstore_system.entity.Product;
 import com.example.fashionstore_system.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -24,5 +27,21 @@ public class ProductController {
     public List<Product> sortAllProduct() {
 
         return productService.sortAllProduct();
+    }
+
+//    @RequestMapping("/edit/{id}")
+//    public ModelAndView showEditProductPage(@PathVariable(name = "id") int id) {
+//        ModelAndView mav = new ModelAndView("edit_product");
+//        Product product = productService.get(id);
+//        mav.addObject("product", product);
+//
+//        return mav;
+//    }
+    @GetMapping("/Productdetail")
+    public String showProductDetail(Model model) {
+        Product product = productService.getProduct(1);
+        model.addAttribute("product", product);
+
+        return "product-details";
     }
 }

@@ -20,4 +20,11 @@ public class ProductService {
     public List<Product> sortAllProduct(){
         return productRepository.findAllByOrderByPriceDesc();
     }
+
+
+
+// product_detail
+    public Product getProduct(int id) {
+        return productRepository.getById(id);
+    }
 }
