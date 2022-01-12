@@ -141,29 +141,34 @@
     </div><!--/header-bottom-->
 </header><!--/header-->
 
-<section id="form"><!--form-->
+<section id="form" style="margin-top: 50px;"><!--form-->
     <div class="container">
         <div class="row">
+            <div class="col-sm-1 col-sm-offset-1"></div>
             <div class="col-sm-6 col-sm-offset-1">
                 <div class="login-form"><!--login form-->
-                    <h2>Login to your account</h2>
+                    <h2>Register new account</h2>
                     <form action="#" th:action="@{/saveUser}" th:object="${user}" method="post" name="login">
                         <label>Username(*) </label>
-                        <input type="text" placeholder="User Name" th:field="*{username}" required>
+                        <input type="text" id="username" name="username" th:field="*{username}" placeholder="User Name" required>
+                        <span id="msg_username"></span>
+                        <br>
                         <label>Fullname(*) </label>
                         <input type="text" placeholder="Full Name" th:field="*{customer.name}" required>
                         <label>Email(*) </label>
-                        <input type="email" placeholder="Your Email" th:field="*{customer.email}" required>
+                        <input type="email" id="email" name="email" placeholder="Your Email" th:field="*{customer.email}" required>
+                        <span id="msg_email"></span>
+                        <br>
                         <label>Password(*) </label>
                         <input type="password" placeholder="Password" th:field="*{password}" required>
                         <label>Phone </label>
-                        <input type="text" placeholder="Phone" th:field="*{customer.phone}" required>
+                        <input type="text" placeholder="Phone" th:field="*{customer.phone}" >
                         <label>Address </label>
-                        <input type="text" placeholder="Address" th:field="*{customer.address}" required>
+                        <input type="text" placeholder="Address" th:field="*{customer.address}" >
                         <label>Birthday </label>
-                        <input type="date" placeholder="" th:field="*{customer.birthday}" required>
+                        <input type="date" placeholder="" th:field="*{customer.birthday}" >
                         <label>Image </label>
-                        <input type="file" placeholder="" th:field="*{customer.avatar}" required>
+                        <input type="file" placeholder="" th:field="*{customer.avatar}" >
                         <button class="thm_btn" type="submit">Sign up Now</button>
                         <div class="action ul_li">
                                 <span class="right">
@@ -259,7 +264,6 @@
             </div>
         </div>
     </div>
-
     <div class="footer-widget">
         <div class="container">
             <div class="row">
@@ -325,7 +329,6 @@
             </div>
         </div>
     </div>
-
     <div class="footer-bottom">
         <div class="container">
             <div class="row">
@@ -334,16 +337,100 @@
             </div>
         </div>
     </div>
-
 </footer><!--/Footer-->
-
-
 
 <script src="js/jquery.js"></script>
 <script src="js/price-range.js"></script>
 <script src="js/jquery.scrollUp.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.prettyPhoto.js"></script>
-<script src="js/main.js"></script>
+<script src="js/main.js"></script>\
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#username").on("input", function(e) {
+            $('#msg_username').hide();
+            if ($('#username').val() == null || $('#username').val() == "") {
+                $('#msg_username').show();
+                $("#msg_username").html("Username is a required field.").css("color", "red");
+            } else {
+                $.ajax({
+                    type: 'post',
+                    url: "/check_username",
+                    data: JSON.stringify({userName: $('#username').val()}),
+                    contentType: 'application/json; charset=utf-8',
+                    // dataType: 'json',
+                    cache: false,
+                    beforeSend: function (f) {
+                        $('#msg_username').show();
+                        $('#msg_username').html('Checking...');
+                    },
+                    statusCode: {
+                        500: function(xhr) {
+                            $('#msg_username').show();
+                            $("#msg_username").html("Username available").css("color", "green");
+                        }
+                    },
+                    success: function(msg_username) {
+                        $('#msg_username').show();
+                        if(msg_username !== null || msg_username !== "") {
+                            $("#msg_username").html("Username already taken").css("color", "red");
+                        } else {
+                            $("#msg_username").html("Username available").css("color", "green");
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#msg_username').show();
+                        $("#msg_username").html(textStatus + " " + errorThrown).css("color", "red");
+                    }
+                });
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#email").on("input", function(g) {
+            $('#msg_email').hide();
+            if ($('#email').val() == null || $('#email').val() == "") {
+                $('#msg_email').show();
+                $("#msg_email").html("Email is a required field.").css("color", "red");
+            } else {
+                $.ajax({
+                    type: 'post',
+                    url: "/check_email",
+                    data: JSON.stringify({email: $('#email').val()}),
+                    contentType: 'application/json; charset=utf-8',
+                    // dataType: 'json',
+                    cache: false,
+                    beforeSend: function (h) {
+                        $('#msg_email').show();
+                        $('#msg_email').html('Checking...');
+                    },
+                    statusCode: {
+                        500: function(xhr) {
+                            $('#msg_email').show();
+                            $("#msg_email").html("Email available").css("color", "green");
+                        }
+                    },
+                    success: function(msg_email) {
+                        $('#msg_email').show();
+                        if(msg_email !== null || msg_email !== "") {
+                            $("#msg_email").html("Email already taken").css("color", "red");
+                        } else {
+                            $("#msg_email").html("Email available").css("color", "green");
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#msg_email').show();
+                        $("#msg_email").html(textStatus + " " + errorThrown).css("color", "red");
+                    }
+                });
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

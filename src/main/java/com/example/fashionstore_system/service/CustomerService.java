@@ -13,4 +13,8 @@ public class CustomerService {
     public void saveCustomer(Customer customer) {
         repository.save(customer);
     }
+
+    public Customer findByEmail(String email){
+        return repository.findByEmail(email);
+    }
 }

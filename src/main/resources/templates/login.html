@@ -55,7 +55,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+                        <a href="index.html"><img src="images/home/logo.png" alt=""/></a>
                     </div>
                     <div class="btn-group pull-right">
                         <div class="btn-group">
@@ -101,7 +101,8 @@
             <div class="row">
                 <div class="col-sm-9">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -141,9 +142,10 @@
     </div><!--/header-bottom-->
 </header><!--/header-->
 
-<section id="form"><!--form-->
+<section id="form" style="margin-top: 50px;"><!--form-->
     <div class="container">
         <div class="row">
+            <div class="col-sm-2 col-sm-offset-1"></div>
             <div class="col-sm-4 col-sm-offset-1">
                 <div class="login-form"><!--login form-->
                     <h2>Login to your account</h2>
@@ -151,22 +153,19 @@
                         <input type="text" placeholder="Your Username" name="username">
                         <input type="password" placeholder="Password" name="password">
                         <span class="left">
-                                      <a th:href="@{/forgot_password}">Forgot password?</a>
-                                    </span>
+                            <a th:href="@{/forgot_password}">Forgot password?</a>
+                        </span>
+                        <span class="right">
+                            <p style="color: red" th:text="${alert}"></p>
+                        </span>
                         <button class="thm_btn" type="submit">Login Now</button>
                         <div class="action ul_li">
-                                    <span class="left">
-                                      <input id="remember" type="checkbox" name="remember-me">
-                                      <label for="remember">Remember me</label>
-                                    </span>
-                            <span class="right">
-                                      <span>Don’t have an account<a th:href="@{/process_register}">Sign up</a></span>
-                                    </span>
+                            <span>Don’t have an account<a th:href="@{/process_register}">Sign up</a></span>
                         </div>
                     </form>
                 </div><!--/login form-->
 
-        </div>
+            </div>
         </div>
     </div>
 </section><!--/form-->
@@ -187,7 +186,7 @@
                         <div class="video-gallery text-center">
                             <a href="#">
                                 <div class="iframe-img">
-                                    <img src="images/home/iframe1.png" alt="" />
+                                    <img src="images/home/iframe1.png" alt=""/>
                                 </div>
                                 <div class="overlay-icon">
                                     <i class="fa fa-play-circle-o"></i>
@@ -202,7 +201,7 @@
                         <div class="video-gallery text-center">
                             <a href="#">
                                 <div class="iframe-img">
-                                    <img src="images/home/iframe2.png" alt="" />
+                                    <img src="images/home/iframe2.png" alt=""/>
                                 </div>
                                 <div class="overlay-icon">
                                     <i class="fa fa-play-circle-o"></i>
@@ -217,7 +216,7 @@
                         <div class="video-gallery text-center">
                             <a href="#">
                                 <div class="iframe-img">
-                                    <img src="images/home/iframe3.png" alt="" />
+                                    <img src="images/home/iframe3.png" alt=""/>
                                 </div>
                                 <div class="overlay-icon">
                                     <i class="fa fa-play-circle-o"></i>
@@ -232,7 +231,7 @@
                         <div class="video-gallery text-center">
                             <a href="#">
                                 <div class="iframe-img">
-                                    <img src="images/home/iframe4.png" alt="" />
+                                    <img src="images/home/iframe4.png" alt=""/>
                                 </div>
                                 <div class="overlay-icon">
                                     <i class="fa fa-play-circle-o"></i>
@@ -245,7 +244,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="address">
-                        <img src="images/home/map.png" alt="" />
+                        <img src="images/home/map.png" alt=""/>
                         <p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
                     </div>
                 </div>
@@ -308,9 +307,10 @@
                     <div class="single-widget">
                         <h2>About Shopper</h2>
                         <form action="#" class="searchform">
-                            <input type="text" placeholder="Your email address" />
-                            <button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
-                            <p>Get the most recent updates from <br />our site and be updated your self...</p>
+                            <input type="text" placeholder="Your email address"/>
+                            <button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i>
+                            </button>
+                            <p>Get the most recent updates from <br/>our site and be updated your self...</p>
                         </form>
                     </div>
                 </div>
@@ -323,13 +323,13 @@
         <div class="container">
             <div class="row">
                 <p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
-                <p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
+                <p class="pull-right">Designed by <span><a target="_blank"
+                                                           href="http://www.themeum.com">Themeum</a></span></p>
             </div>
         </div>
     </div>
 
 </footer><!--/Footer-->
-
 
 
 <script src="js/jquery.js"></script>

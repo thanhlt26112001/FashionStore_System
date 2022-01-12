@@ -1,6 +1,9 @@
 package com.example.fashionstore_system.service;
 
+import com.example.fashionstore_system.dto.UserDto;
+import com.example.fashionstore_system.entity.Customer;
 import com.example.fashionstore_system.entity.User;
+import com.example.fashionstore_system.repository.CustomerRepository;
 import com.example.fashionstore_system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,14 +14,36 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 
-
 @Service
 public class UserService {
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @Autowired
     private JavaMailSender javaMailSender;
-    public User getCustomerByUserName(String username) {
+
+    public UserDto getUserByUserName(final String userName) {
+        User user = repository.findByUsername(userName);
+        if (user!=null) {
+            UserDto userDto = new UserDto(user.getId(),user.getUsername(),user.getCustomer().getEmail());
+            return userDto;
+        }
+        throw new RuntimeException("No user available for the given user name");
+    }
+
+    public UserDto getUserByEmail(final String email) {
+        Customer user = customerRepository.findByEmail(email);
+        if (user!=null) {
+            UserDto userDto = new UserDto(user.getId(),user.getUser().getUsername(),user.getEmail());
+            return userDto;
+        }
+        throw new RuntimeException("No user available for the given user name");
+    }
+
+    public User findByUsername(String username){
         return repository.findByUsername(username);
     }
 
@@ -27,7 +52,6 @@ public class UserService {
     }
 
     public void sendVerificationEmail(User user, String siteUrl) throws MessagingException, UnsupportedEncodingException {
-
         String subject ="Congratulation";
         String senderName = "Rikkeisoft Java team2";
         String content =  "<table style=\"width: 100% !important\" >\n" +
@@ -59,7 +83,6 @@ public class UserService {
                 "        </table>";
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-
         helper.setFrom("EdulanSupport@gmail.com",senderName);
         helper.setTo(user.getCustomer().getEmail());
         helper.setSubject(subject);
