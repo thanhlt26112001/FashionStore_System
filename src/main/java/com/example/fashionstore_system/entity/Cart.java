@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "categories")
+@Table(name = "cart")
 public class Cart implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
