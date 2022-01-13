@@ -16,34 +16,32 @@
 <div align="center">
     <h1>Create New Staff</h1>
     <br/>
-    <form action="#" th:action="@{/save}" th:object="${staff}"
+    <form action="#" th:action="@{/saveStaff}" th:object="${user}"
           method="post">
-
-        <table border="0" cellpadding="10">
+        <table>
             <tr>
                 <td>Staff Name:</td>
-                <td><input type="text" th:field="*{name}"/></td>
+                <td><input type="text" th:field="*{staff.name}" required/></td>
+            </tr>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" th:field="*{username}" required/></td>
+            </tr>
+            <tr>
+                <td>password:</td>
+                <td><input type="text" th:field="*{password}" required/></td>
             </tr>
             <tr>
                 <td>Email:</td>
-                <td><input type="text" th:field="*{email}"/></td>
+                <td><input type="text" th:field="*{staff.email}" required/></td>
             </tr>
             <tr>
                 <td>Phone:</td>
-                <td><input type="text" th:field="*{phone}"/></td>
+                <td><input type="text" th:field="*{staff.phone}"/></td>
             </tr>
             <tr>
                 <td>Avatar:</td>
-                <td><input type="text" th:field="*{avatar}"/></td>
-            </tr>
-
-            <tr>
-                <td>Created_at:</td>
-                <td><input type="text" th:field="*{createdAt}"/></td>
-            </tr>
-            <tr>
-                <td>Update_at:</td>
-                <td><input type="text" th:field="*{updatedAt}"/></td>
+                <td><input type="text" th:field="*{staff.avatar}"/></td>
             </tr>
             <tr>
                 <td colspan="2">

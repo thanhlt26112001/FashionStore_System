@@ -1,86 +1,52 @@
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml"></html>
- 
 <html xmlns:th="http://www.thymeleaf.org">
-
-
 <head>
     <meta charset="utf-8"/>
     <title> Staff Manager</title>
     <!-- CSS only -->
-    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css}" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
-    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js}" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
+    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js}"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <div align="center" class="container">
-        
     <h1>Staff List</h1>
-        <a href="/new">Create New Staff</a>     <br/> <br/>   
+    <a href="/new">Create New Staff</a> <br/> <br/>
     <form th:action="@{'/staff'}">
         Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
-        &nbsp;
         <input type="submit" value="Search"/>
-        &nbsp;
         <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>
     </form>
-      
     <table class="table table-bordered border-primary">
-                
         <thead>
-                    
         <tr>
-                            
             <th style="text-align: center">Staff ID</th>
-                            
             <th style="text-align: center">Name</th>
-                            
             <th style="text-align: center">Email</th>
-                            
             <th style="text-align: center">Phone</th>
             <th style="text-align: center">UserName</th>
-
-             
-                            
             <th style="text-align: center">Actions</th>
-                        
         </tr>
-                
         </thead>
-                
         <tbody>
-                    
-        <tr th:each="staff : ${listUser}">
-                            
+        <tr th:each="staff : ${listStaffs}">
             <td th:text="${staff.getId()}">Staff ID</td>
-                            
             <td th:text="${staff.getName()}">Name</td>
-                            
             <td th:text="${staff.getEmail()}">Email</td>
-                            
             <td th:text="${staff.getPhone()}">Phone</td>
-
-            <td th:text="${staff.getUsername()}">User</td>
-             
-
-             
-            <td>                
+            <td th:text="${staff.user.getUsername()}">User</td>
+            <td>
                 <a th:href="@{'/edit/' + ${staff.id}}">Detail</a>
-                &nbsp;&nbsp;&nbsp;                 
-                <a th:href="@{'/delete/' + ${staff.id}}">Delete</a>    
-                             
+                <a th:href="@{'/delete/' + ${staff.id}}">Delete</a>
             </td>
-                       
         </tr>
-             
-
         </tbody>
-            
     </table>
 </div>
-   
 </body>
 <script type="text/javascript">
     function clearSearch() {

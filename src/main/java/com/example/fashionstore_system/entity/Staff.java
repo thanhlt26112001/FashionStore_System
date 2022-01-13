@@ -36,6 +36,4 @@ public class Staff implements Serializable {
     private Timestamp updatedAt;
     @OneToOne(mappedBy = "staff")
     private User user;
-
-
 }

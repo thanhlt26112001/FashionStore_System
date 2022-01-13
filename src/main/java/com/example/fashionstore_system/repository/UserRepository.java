@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 //    // sau mỗi trường thêm khoảng trắng để tránh lỗi khi nối chuỗi, đối với trường số thì nên có để so sánh với toán tử "LIKE"
-//    @Query("SELECT u FROM User u WHERE CONCAT(u.staff.name, ' ', u.staff.email, ' ', u.staff.phone, ' ') LIKE %?1%")
-//    public List<User> search(String keyword);
+    @Query("SELECT u FROM User u WHERE CONCAT(u.staff.name, ' ', u.staff.email, ' ', u.staff.phone, ' ') LIKE %?1%")
+    public List<User> search(String keyword);
+
+    public User findByUsername(String username);
 }

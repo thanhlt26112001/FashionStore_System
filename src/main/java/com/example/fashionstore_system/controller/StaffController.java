@@ -1,8 +1,14 @@
 package com.example.fashionstore_system.controller;
 
+import com.example.fashionstore_system.entity.Customer;
 import com.example.fashionstore_system.entity.Staff;
+import com.example.fashionstore_system.entity.User;
+import com.example.fashionstore_system.repository.RoleRepository;
+import com.example.fashionstore_system.service.CustomerService;
 import com.example.fashionstore_system.service.StaffService;
+import com.example.fashionstore_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,17 +25,21 @@ import java.util.List;
 public class StaffController {
 
     @Autowired
-    private StaffService service;
+    private StaffService staffService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     // functions show list Staff
     @RequestMapping("/staff")
     public String viewHomepage(Model model, @Param("keyword") String keyword) {
-        List<Staff> listStaffs = service.listAll(keyword);
-
-
-//        for (Staff staff: listStaffs) {
-//            if (staff.getUser().getRoleid)
-//        }
+        List<Staff> listStaffs = staffService.listAll(keyword);
         model.addAttribute("listStaffs", listStaffs);
         model.addAttribute("keyword", keyword);
         return "index";
@@ -38,35 +48,37 @@ public class StaffController {
     // function create new Staff
     @RequestMapping("/new")
     public String showNewStaffForm(Model model) {
-        Staff staff = new Staff();
-        model.addAttribute("staff", staff);
-
+        User user = new User();
+        model.addAttribute("user", user);
         return "new_staff";
-
     }
 
     // function save
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveProduct(@ModelAttribute("staff") Staff staff) {
-        service.save(staff);
-
-        return "redirect:/staff";
+    @RequestMapping(value = "/saveStaff", method = RequestMethod.POST)
+    public String saveStaff(@ModelAttribute("user") User user) {
+        user.setPassword(user.getPassword());
+        user.setUsername(user.getUsername());
+        user.setRole(roleRepository.getById(2));
+        Staff staff = user.getStaff();
+        staffService.save(staff);
+        user.setStaff(staff);
+        userService.saveUser(user);
+        return "index";
     }
 
     // function edit staff
     @RequestMapping("/edit/{id}")
     public ModelAndView showEditStaffPage(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView("edit_staff");
-        Staff staff = service.get(id);
+        Staff staff = staffService.get(id);
         mav.addObject("staff", staff);
-
         return mav;
     }
 
     // function delete staff
     @RequestMapping("/delete/{id}")
     public String deleteStaff(@PathVariable(name = "id") int id) {
-        service.delete(id);
+        staffService.delete(id);
         return "redirect:/staff";
     }
 
