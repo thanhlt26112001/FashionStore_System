@@ -1,6 +1,7 @@
 package com.example.fashionstore_system.security;
 
 import com.example.fashionstore_system.jwt.JwtAuthenticationFilter;
+import org.aspectj.bridge.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +15,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
+
+import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.CACHE;
+import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.COOKIES;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -52,19 +62,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService) // Cung cáp userservice cho spring security
                 .passwordEncoder(passwordEncoder()); // cung cấp password encoder
     }
+    private static final ClearSiteDataHeaderWriter.Directive[] SOURCE =
+            {CACHE, COOKIES};
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+//        Cookie sessionCookie = new Cookie("JSESSIONID", null);
+//        sessionCookie.setPath("/foo");
+//        sessionCookie.setMaxAge(0);
+//        CookieClearingLogoutHandler logoutHandler = new CookieClearingLogoutHandler(sessionCookie);
         http
                 .authorizeRequests()
                 .antMatchers("/changePassword").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .permitAll()
-                .loginPage("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .loginProcessingUrl("/doLogin")
+                    .permitAll()
+                    .loginPage("/login")
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .loginProcessingUrl("/doLogin")
+                .and()
+                .logout()
+                    .permitAll()
+                    .logoutUrl("/logout")
+                     .deleteCookies("JSESSIONID")
+//                    .addLogoutHandler(logoutHandler)
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/404");
