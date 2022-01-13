@@ -70,8 +70,8 @@ public class StaffController {
     @RequestMapping("/edit/{id}")
     public ModelAndView showEditStaffPage(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView("edit_staff");
-        Staff staff = staffService.get(id);
-        mav.addObject("staff", staff);
+        User user = userService.getById(id);
+        mav.addObject("user", user);
         return mav;
     }
 
