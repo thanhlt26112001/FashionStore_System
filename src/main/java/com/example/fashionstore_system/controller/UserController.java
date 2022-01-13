@@ -21,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -63,6 +65,12 @@ public class UserController {
         return "redirect:/";
     }
 
+    @RequestMapping("/loginFail")
+    public RedirectView loginFail(RedirectAttributes model) {
+        model.addFlashAttribute("alert", "Wrong Email or Password!");
+        return new RedirectView("/login");
+    }
+
     @PostMapping("/login")
     public LoginResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         // Xác thực thông tin người dùng Request lên
@@ -82,9 +90,13 @@ public class UserController {
 
     @GetMapping("/process_register")
     public String createNewUser(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "sign_up";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            User user = new User();
+            model.addAttribute("user", user);
+            return "sign_up";
+        }
+        return "redirect:/";
     }
 
     @RequestMapping("/forgot_password")
@@ -98,17 +110,18 @@ public class UserController {
     }
 
     @RequestMapping("/send_pass_back")
-    public String sendPassword(Model model,@RequestParam(name = "email") String email) {
+    public String sendPassword(Model model, @RequestParam(name = "email") String email) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = customerService.findByEmail(email).getUser();
         String newPass = randomPassword();
         user.setPassword(encoder.encode(newPass));
         userService.saveUser(user);
-        mailService.sendSimpleMessage(email, "Reset password", "This is your new password: "+newPass+"\n" +
-                                                                            "Please login and change password!!");
-        model.addAttribute("alert","Email sent!!");
+        mailService.sendSimpleMessage(email, "Reset password", "This is your new password: " + newPass + "\n" +
+                "Please login and change password!!");
+        model.addAttribute("alert", "Email sent!!");
         return "redirect:/login";
     }
+
     private String randomPassword() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
@@ -123,30 +136,34 @@ public class UserController {
 
         return generatedString;
     }
+
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute(name = "user") User user,
                            HttpServletRequest request, Model model)
             throws MessagingException, UnsupportedEncodingException {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodedPassword = encoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        user.setUsername(user.getUsername());
-        user.setRole(roleRepository.getById(1));
-        Customer customer = user.getCustomer();
-        if(customerService.findByEmail(user.getCustomer().getEmail())==null
-                && userService.findByUsername(user.getUsername())==null){
-            customerService.saveCustomer(customer);
-            user.setCustomer(customer);
-            userService.saveUser(user);
-        }
-        else{
-            model.addAttribute("alert","Register failed!!!");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String encodedPassword = encoder.encode(user.getPassword());
+            user.setPassword(encodedPassword);
+            user.setUsername(user.getUsername());
+            user.setRole(roleRepository.getById(1));
+            Customer customer = user.getCustomer();
+            if (customerService.findByEmail(user.getCustomer().getEmail()) == null
+                    && userService.findByUsername(user.getUsername()) == null) {
+                customerService.saveCustomer(customer);
+                user.setCustomer(customer);
+                userService.saveUser(user);
+            } else {
+                model.addAttribute("alert", "Register failed!!!");
+                return "redirect:/login";
+            }
+            String siteUrl = Utility.getSiteURL(request);
+            userService.sendVerificationEmail(user, siteUrl);
+            model.addAttribute("alert", "Register success!!!");
             return "redirect:/login";
         }
-        String siteUrl = Utility.getSiteURL(request);
-        userService.sendVerificationEmail(user, siteUrl);
-        model.addAttribute("alert","Register success!!!");
-        return "redirect:/login";
+        return "redirect:/";
     }
 
     @GetMapping("/changePassword")
@@ -158,8 +175,9 @@ public class UserController {
         }
         return "changePassword";
     }
+
     @PostMapping("/saveChangePassword")
-    public RedirectView saveChangePassword(HttpServletRequest request, RedirectAttributes model) {
+    public RedirectView saveChangePassword(HttpServletRequest request, HttpServletResponse response, RedirectAttributes model) {
         //prevent user return back to login page if they already login to the system
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
@@ -170,21 +188,23 @@ public class UserController {
         String newPass = request.getParameter("newpass");
         String reNewPass = request.getParameter("re_newpass");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if(!encoder.matches(curPass,user.getPassword())){
-            model.addFlashAttribute("alert_currentPass","Wrong password!");
+        if (!encoder.matches(curPass, user.getPassword())) {
+            model.addFlashAttribute("alert_currentPass", "Wrong password!");
             return new RedirectView("/changePassword");
-        }else if(curPass.equals(newPass) || newPass.length()<6){
-            model.addFlashAttribute("alert_newPass","New password must different and has more than 6 characters!");
-            return new RedirectView ("/changePassword");
-        }else if(!newPass.equals(reNewPass)){
-            model.addFlashAttribute("alert_reNewPass","Enter exactly new password again!");
-            return new RedirectView ("/changePassword");
+        } else if (curPass.equals(newPass) || newPass.length() < 6) {
+            model.addFlashAttribute("alert_newPass", "New password must different and has more than 6 characters!");
+            return new RedirectView("/changePassword");
+        } else if (!newPass.equals(reNewPass)) {
+            model.addFlashAttribute("alert_reNewPass", "Enter exactly new password again!");
+            return new RedirectView("/changePassword");
         }
         user.setPassword(encoder.encode(newPass));
         userService.saveUser(user);
-        model.addFlashAttribute("alert","Change password successfully!");
+        model.addFlashAttribute("alert", "Change password successfully!");
         mailService.sendSimpleMessage(user.getCustomer().getEmail(), "Reset password", "Your password has been changed successfully!!");
-        return new RedirectView ("/login");
+        new SecurityContextLogoutHandler().logout(request, response, authentication);
+        return new RedirectView("/login");
     }
 }
+
 
