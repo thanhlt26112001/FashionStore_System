@@ -18,7 +18,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -33,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Random;
 
 @Controller
@@ -67,7 +65,7 @@ public class UserController {
 
     @RequestMapping("/loginFail")
     public RedirectView loginFail(RedirectAttributes model) {
-        model.addFlashAttribute("alert", "Wrong Email or Password!");
+        model.addFlashAttribute("alert", "Wrong Username or Password!");
         return new RedirectView("/login");
     }
 

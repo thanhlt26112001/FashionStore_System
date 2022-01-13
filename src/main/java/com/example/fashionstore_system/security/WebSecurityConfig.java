@@ -1,7 +1,6 @@
 package com.example.fashionstore_system.security;
 
 import com.example.fashionstore_system.jwt.JwtAuthenticationFilter;
-import org.aspectj.bridge.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,14 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
-import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
 
 import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.CACHE;
@@ -68,10 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-//        Cookie sessionCookie = new Cookie("JSESSIONID", null);
-//        sessionCookie.setPath("/foo");
-//        sessionCookie.setMaxAge(0);
-//        CookieClearingLogoutHandler logoutHandler = new CookieClearingLogoutHandler(sessionCookie);
         http
                 .authorizeRequests()
                 .antMatchers("/changePassword").authenticated()
@@ -89,7 +79,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .logoutUrl("/logout")
                      .deleteCookies("JSESSIONID")
-//                    .addLogoutHandler(logoutHandler)
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/404");

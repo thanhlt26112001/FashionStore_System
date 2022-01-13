@@ -150,7 +150,9 @@
                 <div class="login-form"><!--login form-->
                     <h2>Login to your account</h2>
                     <form action="#" th:action="@{/doLogin}" method="post">
+                        <label>Username</label>
                         <input type="text" placeholder="Your Username" name="username">
+                        <label>Password</label>
                         <input type="password" placeholder="Password" name="password">
                         <span class="left">
                             <a th:href="@{/forgot_password}">Forgot password?</a>
