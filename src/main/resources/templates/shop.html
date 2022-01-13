@@ -159,6 +159,20 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="left-sidebar">
+						<div style="margin-bottom: 40px">
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown" style="width: 200%">
+									Sắp xếp
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a th:href="@{'/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir}}">
+										Sắp xếp giá bán giảm hoặc tăng</a></li>
+									<li><a th:href="@{'/page/' + ${currentPage} + '?sortField=createdAt&sortDir=' + ${reverseSortDir}}">
+										Sắp xếp sản phẩm mới nhất hoặc cũ hơn</a></li>
+								</ul>
+							</div>
+						</div>
 						<h2>Category</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
 							<!-- <div class="panel panel-default">
@@ -266,29 +280,9 @@
 								</div>
 							</div>
 						</div><!--/category-productsr-->
-					
-						<div class="brands_products"><!--brands_products-->
-							<h2>Brands</h2>
-							<div class="brands-name">
-								<ul class="nav nav-pills nav-stacked">
-									<li><a href=""> <span class="pull-right">(50)</span>Acne</a></li>
-									<li><a href=""> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-									<li><a href=""> <span class="pull-right">(27)</span>Albiro</a></li>
-									<li><a href=""> <span class="pull-right">(32)</span>Ronhill</a></li>
-									<li><a href=""> <span class="pull-right">(5)</span>Oddmolly</a></li>
-									<li><a href=""> <span class="pull-right">(9)</span>Boudestijn</a></li>
-									<li><a href=""> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
-								</ul>
-							</div>
-						</div><!--/brands_products-->
-						
-						<div class="price-range"><!--price-range-->
-							<h2>Price Range</h2>
-							<div class="well">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b>$ 0</b> <b class="pull-right">$ 600</b>
-							</div>
-						</div><!--/price-range-->
+
+
+						<!--/price-range-->
 						
 						<div class="shipping text-center"><!--shipping-->
 							<img src="images/home/shipping.jpg" alt="" />
@@ -326,15 +320,58 @@
 
 
 						</div><!--features_items-->
+<!--							<div th:if = "${totalPages > 1}">-->
+<!--								<div class = "row col-sm-10">-->
+<!--									<div class = "col-sm-2">-->
+<!--										Total Products: [[${totalItems}]]-->
+<!--									</div>-->
+<!--									<div class = "col-sm-1">-->
+<!--					<span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
+<!--						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>-->
+<!--						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;-->
+<!--					</span>-->
+<!--									</div>-->
+<!--									<div class = "col-sm-1">-->
+<!--										<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
+<!--										<span th:unless="${currentPage < totalPages}">Next</span>-->
+<!--									</div>-->
+
+<!--									<div class="col-sm-1">-->
+<!--										<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
+<!--										<span th:unless="${currentPage < totalPages}">Last</span>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+
+							<ul class="pagination" th:if = "${totalPages > 1}">
+								<li class="active">
+									<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+								</li>
+								<li>
+									<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+									<span th:unless="${currentPage < totalPages}">Next</span>
+								</li>
+								<li>
+									<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+									<span th:unless="${currentPage < totalPages}">Last</span>
+								</li>
+								<li>
+									Total Products: [[${totalItems}]]
+								</li>
+							</ul>
+<!--							<ul class="pagination">-->
+<!--								<li class="active"><a href="/product/list/page?p=0">First</a></li>-->
+<!--								<li><a href="/product/list/page?p=${listproduct.number - 1}">Previous</a></li>-->
+<!--								<li><a href="/product/list/page?p=listproduct.number + 1">Next</a></li>-->
+<!--								<li><a href="/product/list/page?p=${listproduct.totalPages - 1}">Last</a></li>-->
+<!--							</ul>-->
 					</div>
 
 				</tbody>
-				<ul class="pagination">
-					<li class="active"><a href="">1</a></li>
-					<li><a href="">2</a></li>
-					<li><a href="">3</a></li>
-					<li><a href="">&raquo;</a></li>
-				</ul>
+
 				</div>
 		</div>
 	</section>

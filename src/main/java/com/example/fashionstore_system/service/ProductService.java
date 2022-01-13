@@ -3,10 +3,7 @@ package com.example.fashionstore_system.service;
 import com.example.fashionstore_system.entity.Product;
 import com.example.fashionstore_system.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
@@ -19,18 +16,7 @@ import java.util.function.Function;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
-//    public List<Product> getAllProduct() {
-//        return productRepository.findAll();
-//    }
 
-//    public List<Product> sortAllProduct(){
-//        return productRepository.findAllByOrderByPriceDesc();
-//    }
-
-
-    public List<Product> findAllByOrderByPriceDesc() {
-        return productRepository.findAllByOrderByPriceDesc();
-    }
 
     public List<Product> findAll() {
         return productRepository.findAll();
@@ -38,6 +24,18 @@ public class ProductService {
 
     public List<Product> findAll(Sort sort) {
         return productRepository.findAll(sort);
+    }
+//phan trang
+public Page<Product> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+    Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+            Sort.by(sortField).descending();
+
+    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+    return this.productRepository.findAll(pageable);
+}
+
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
 
