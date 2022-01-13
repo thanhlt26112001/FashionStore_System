@@ -5,19 +5,18 @@ import com.example.fashionstore_system.entity.Product;
 import com.example.fashionstore_system.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.List;
+import java.util.Optional;
 
-
+@RequestMapping("/product")
 @Controller
 public class ProductController {
     @Autowired
@@ -43,11 +42,18 @@ public class ProductController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("totalPages", totalPages);
-        model.addAttribute("listproduct", listproduct);
         return "shop";
     }
 
-
+//    @GetMapping("/list")
+//    public String getAllProduct(Model model, @RequestParam("field")Optional<String> field) {
+//        Sort sort = Sort.by(Sort.Direction.DESC, field.orElse("price"));
+//        List<Product> listproduct = productService.findAll(sort);
+//
+//        model.addAttribute("listproduct", listproduct);
+//
+//        return "shop";
+//    }
 
 
 
