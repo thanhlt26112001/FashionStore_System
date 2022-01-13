@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,9 +25,12 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/listproducts")
-    public String viewCourse(Model model, @RequestParam(value = "keyword", defaultValue = "")
-            String keyword, @RequestParam(value = "categoryId", defaultValue = "-1") Integer categoryId) {
-        return listByPages(1, "id", "asc", keyword, categoryId, model);
+    public String viewCourse(Model model,
+                             @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                             @RequestParam(value = "categoryId", defaultValue = "-1") Integer categoryId,
+                             @RequestParam(value = "sortField", defaultValue = "id") String sortField,
+                             @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir) {
+        return listByPages(1, sortField, sortDir, keyword, categoryId, model);
     }
 
     //phân trang
@@ -53,12 +57,12 @@ public class ProductController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("categoryId", categoryId);
         model.addAttribute("query", "?sortField=" + sortField + "&sortDir="
-                            + sortDir + "&keyword=" + keyword + "&categoryId=" + categoryId);
-        model.addAttribute("categoryList",productService.getCategoryList());
+                + sortDir + "&keyword=" + keyword + "&categoryId=" + categoryId);
+        model.addAttribute("categoryList", productService.getCategoryList());
         return "shop";
     }
 
-    @GetMapping("/Productdetail/{id}")
+    @GetMapping("/productdetail/{id}")
     public String showProductDetail(Model model, @PathVariable(name = "id") int id) {
         Product product = productService.getProduct(id);
         model.addAttribute("product", product);

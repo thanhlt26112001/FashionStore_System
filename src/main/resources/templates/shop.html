@@ -172,10 +172,12 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a th:href="@{'/product/listproducts/' + ${currentPage} + ${query}}">
+                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
+                                    +'&sortField=price&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
                                         Sắp xếp giá bán giảm hoặc tăng</a></li>
                                 <li>
-                                    <a th:href="@{'/product/listproducts/' + ${currentPage} + ${query}}">
+                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
+                                    +'&sortField=createdAt&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
                                         Sắp xếp sản phẩm mới nhất hoặc cũ hơn</a></li>
                             </ul>
                         </div>
