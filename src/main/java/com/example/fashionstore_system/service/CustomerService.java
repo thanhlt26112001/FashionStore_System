@@ -16,5 +16,6 @@ public class CustomerService {
 
     public Customer findByEmail(String email){
         return repository.findByEmail(email);
+
     }
 }
