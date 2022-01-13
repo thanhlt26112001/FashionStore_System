@@ -17,21 +17,25 @@ public class ProductService {
     private ProductRepository productRepository;
 
 //phan trang
-public Page<Product> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-    Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-            Sort.by(sortField).descending();
-
-    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+//public Page<Product> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+//    Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+//            Sort.by(sortField).descending();
+//
+//    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+//    return this.productRepository.findAll(pageable);
+//}
+//
+//    public Page<Product> findAll(Pageable pageable) {
+//        return productRepository.findAll(pageable);
+//    }
+    public Page<Product> listAll(int currentPage, String sortField, String sortDirection){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+    Pageable pageable = PageRequest.of(currentPage - 1,6, sort);
     return this.productRepository.findAll(pageable);
 }
 
-    public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
-    }
-public Page<Product> listAll(int currentPage){
-    Pageable pageable = PageRequest.of(currentPage - 1,6);
-    return this.productRepository.findAll(pageable);
-}
+
     public List<Product> findAll() {
         return productRepository.findAll();
     }

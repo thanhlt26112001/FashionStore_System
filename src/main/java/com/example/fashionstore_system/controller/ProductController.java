@@ -24,26 +24,32 @@ public class ProductController {
 
     @GetMapping("/listproducts")
     public String viewCourse(Model model) {
-        return listByPages(model, 1);
+
+        return listByPages(1, "id", "asc", model);
     }
-//phân trang
+
+    //phân trang
     @GetMapping("/listproducts/{pageNumber}")
-    public String listByPages(Model model,
-                              @PathVariable(name = "pageNumber") int currentPage) {
-        Page<Product> page = productService.listAll(currentPage);
+    public String listByPages(@PathVariable(name = "pageNumber") int currentPage,
+                              @RequestParam("sortField") String sortField,
+                              @RequestParam("sortDir") String sortDir,
+                              Model model) {
+        Page<Product> page = productService.listAll(currentPage, sortField, sortDir);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         List<Product> listproduct = page.getContent();
         List<Product> listproductRegister = new ArrayList<>();
-
         model.addAttribute("listproductRegister", listproductRegister);
-        model.addAttribute("listproduct", productService.findAll());
-        //model.addAttribute("query", "/?search=" + searchInput + "&category=" + categoryId);
+        model.addAttribute("listproduct", listproduct);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         return "shop";
     }
+
 
 //    @GetMapping("/list")
 //    public String getAllProduct(Model model, @RequestParam("field")Optional<String> field) {
