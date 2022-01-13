@@ -11,4 +11,7 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByOrderByPriceDesc();
 
+    //search for products by name
+    @Query("SELECT p. From Product p WHERE p.name lIKE %?1%")
+    public List<Product> search(String keyword);
 }
