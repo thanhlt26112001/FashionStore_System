@@ -37,7 +37,11 @@ public Page<Product> findPaginated(int pageNo, int pageSize, String sortField, S
     public Page<Product> findAll(Pageable pageable) {
         return productRepository.findAll(pageable);
     }
-
+//aaa
+public Page<Product> listAll(int currentPage){
+    Pageable pageable = PageRequest.of(currentPage - 1,6);
+    return this.productRepository.findAll(pageable);
+}
 
     // product_detail
     public Product getProduct(int id) {

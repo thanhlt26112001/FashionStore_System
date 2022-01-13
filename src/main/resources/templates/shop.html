@@ -317,54 +317,61 @@
 
 
 						</div><!--features_items-->
-<!--							<div th:if = "${totalPages > 1}">-->
-<!--								<div class = "row col-sm-10">-->
-<!--									<div class = "col-sm-2">-->
-<!--										Total Products: [[${totalItems}]]-->
-<!--									</div>-->
-<!--									<div class = "col-sm-1">-->
-<!--					<span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>-->
-<!--						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;-->
-<!--					</span>-->
-<!--									</div>-->
-<!--									<div class = "col-sm-1">-->
-<!--										<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
-<!--										<span th:unless="${currentPage < totalPages}">Next</span>-->
-<!--									</div>-->
+							<div class="text-center">
+								<div class="text-center">
+									<span>Total Items: [[${totalItems}]] - Page: [[${currentPage}]] of [[${totalPages}]] </span>
+								</div>
+								<nav class="pagination justify-content-center flex-wrap">
+									<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+										<a th:href="@{'/listproducts/1' }"
+										   class="page-link">First</a>
+									</li>
+									<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+										<a th:href="@{'/listproducts/'+${currentPage - 1} }"
+										   class="page-link">Previous</a>
+									</li>
 
-<!--									<div class="col-sm-1">-->
-<!--										<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
-<!--										<span th:unless="${currentPage < totalPages}">Last</span>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--							</div>-->
+									<th:block th:if="${totalPages <= 10}">
+										<li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
+											<a th:href="@{'/listproducts/'+${i} }"
+											   class="page-link"> [[${i}]]</a>
+										</li>
+									</th:block>
+									<th:block th:if="${totalPages > 10}">
+										<th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
+											<li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
+												<a th:href="@{'/listproducts/'+${i} }"
+												   class="page-link"> [[${i}]]</a>
+											</li>
+											<a th:href="@{'/4' + ${query}}"
+											   class="page-link">...</a>
+											<li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
+												<a th:href="@{'/listproducts/'+${i} }"
+												   class="page-link"> [[${i}]]</a>
+											</li>
+										</th:block>
+										<th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
+											<a th:href="@{'/listproducts/'+${currentPage - 3} }"
+											   class="page-link">...</a>
+											<li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}" class="page-item">
+												<a th:href="@{'/listproducts/'+${i} + ${query}}"
+												   class="page-link"> [[${i}]]</a>
+											</li>
+											<a th:href="@{'/listproducts/'+${currentPage + 3} }"
+											   class="page-link">...</a>
+										</th:block>
+									</th:block>
+									<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+										<a th:href="@{'/listproducts/'+${currentPage + 1} }"
+										   class="page-link">Next</a>
+									</li>
+									<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+										<a th:href="@{'/listproducts/'+${totalPages} }"
+										   class="page-link">Last</a>
+									</li>
+								</nav>
+							</div>
 
-							<ul class="pagination" th:if = "${totalPages > 1}">
-								<li class="active">
-									<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
-					</span>
-								</li>
-								<li>
-									<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-									<span th:unless="${currentPage < totalPages}">Next</span>
-								</li>
-								<li>
-									<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-									<span th:unless="${currentPage < totalPages}">Last</span>
-								</li>
-								<li>
-									Total Products: [[${totalItems}]]
-								</li>
-							</ul>
-<!--							<ul class="pagination">-->
-<!--								<li class="active"><a href="/product/list/page?p=0">First</a></li>-->
-<!--								<li><a href="/product/list/page?p=${listproduct.number - 1}">Previous</a></li>-->
-<!--								<li><a href="/product/list/page?p=listproduct.number + 1">Next</a></li>-->
-<!--								<li><a href="/product/list/page?p=${listproduct.totalPages - 1}">Last</a></li>-->
-<!--							</ul>-->
 					</div>
 
 				</tbody>
