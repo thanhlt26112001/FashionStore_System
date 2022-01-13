@@ -11,13 +11,9 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
+    public Page<Product> searchProductByName(String keyword, Pageable pageable);
 
-    //List<Product> findAllByOrderByPriceDesc();
-//    public Page<Product> findProductByNameContaining(String name, Pageable pageable);
-//    public Page<Product> findProductsByCategoryOrOrderByIdDesc(Integer category, Pageable pageable);
-//    public Page<Product> findProductsByCategoryAAndNameContaining(Integer category_id, String name, Pageable pageable);
-
-    List<Product> findAllByOrderByPriceDesc();
-
-
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %?1% AND p.category.id=?2")
+    public Page<Product> searchProductByNameAndCategory(String keyword,int categoryId, Pageable pageable);
 }
