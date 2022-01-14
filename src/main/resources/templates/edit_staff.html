@@ -15,12 +15,12 @@
 <div align="center">
     <h1>Edit Staff</h1>
     <br/>
-    <form action="#" th:action="@{/saveStaffEdit}" th:object="${user}"
-          method="post">
+    <form th:action="@{/saveStaffEdit}" th:object="${user}" method="post">
         <table>
             <tr>
                 <td> ID:</td>
-                <td><input type="text" th:field="*{staff.id}" readonly="readonly"/>
+                <td><input type="text" th:field="*{staff.id}" readonly/>
+                <td><input type="hidden" th:field="*{id}" />
                 </td>
             </tr>
             <tr>

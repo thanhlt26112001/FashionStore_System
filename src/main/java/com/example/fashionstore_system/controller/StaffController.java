@@ -68,15 +68,18 @@ public class StaffController {
     //
     @RequestMapping(value = "/saveStaffEdit", method = RequestMethod.POST)
     public String saveStaffEdit(@ModelAttribute("user") User user) {
-        user.setId(user.getId());
-        user.setPassword(user.getPassword());
-        user.setUsername(user.getUsername());
-        user.setRole(roleRepository.getById(2));
-        Staff staff = user.getStaff();
-        staff.setId(staff.getId());
-        staffService.save(staff);
-        user.setStaff(staff);
-        userService.saveUser(user);
+        User userSave = userService.getById(user.getId());
+        userSave.setUsername(user.getUsername());
+        userSave.setPassword(user.getPassword());
+        userSave.setRole(roleRepository.getById(2));
+        Staff staffSave = staffService.getById(user.getStaff().getId());
+        staffSave.setAvatar(user.getStaff().getAvatar());
+        staffSave.setEmail(user.getStaff().getEmail());
+        staffSave.setPhone(user.getStaff().getPhone());
+        staffSave.setName(user.getStaff().getName());
+        staffSave.setUser(userSave);
+        staffService.save(staffSave);
+        userService.saveUser(userSave);
         return "redirect:/staff";
 
     }
