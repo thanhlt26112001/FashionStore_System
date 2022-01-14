@@ -9,6 +9,7 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -21,7 +22,7 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-//phan trang
+    //phan trang
 //public Page<Product> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
 //    Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
 //            Sort.by(sortField).descending();
@@ -33,39 +34,32 @@ public class ProductService {
 //    public Page<Product> findAll(Pageable pageable) {
 //        return productRepository.findAll(pageable);
 //    }
-    public Page<Product> listAll(int currentPage, String sortField, String sortDirection, String keyword, int categoryId){
+    public Page<Product> listAll(int currentPage, String sortField, String sortDirection, String keyword, int categoryId) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
-    Pageable pageable = PageRequest.of(currentPage - 1,6, sort);
-        if(categoryId==-1){
+        Pageable pageable = PageRequest.of(currentPage - 1, 6, sort);
+        if (categoryId == -1) {
             return productRepository.searchProductByName(keyword, pageable);
         }
         return productRepository.searchProductByNameAndCategory(keyword, categoryId, pageable);
-}
+    }
+
     public Page<Product> findAll(Pageable pageable) {
         return productRepository.findAll(pageable);
     }
-public Page<Product> listAll(int currentPage, String keyword){
 
-    Pageable pageable = PageRequest.of(currentPage - 1,6);
-    if (keyword != null) {
-        return this.productRepository.searchProductByName(keyword, pageable);
+    public Page<Product> listAll(int currentPage, String keyword) {
+        Pageable pageable = PageRequest.of(currentPage - 1, 6);
+        if (keyword != null) {
+            return this.productRepository.searchProductByName(keyword, pageable);
+        }
+        return this.productRepository.findAll(pageable);
     }
-    return this.productRepository.findAll(pageable);
 
-}
     // product_detail
     public Product getProduct(int id) {
         return productRepository.getById(id);
     }
-
-    //search product by name
-//    public List<Product> listAll(String keyword) {
-//        if (keyword != null) {
-//            return productRepository.searchProductByName(keyword);
-//        }
-//        return productRepository.findAll();
-//    }
 
     public List<Category> getCategoryList() {
         return categoryRepository.findAll();
@@ -73,5 +67,24 @@ public Page<Product> listAll(int currentPage, String keyword){
 
     public List<Product> findAll(Sort sort) {
         return productRepository.findAll(sort);
+    }
+
+    //product management
+    //search product by name
+    public List<Product> listAll(String keyword) {
+        if (keyword != null) {
+            return productRepository.searchProduct(keyword);
+        }
+        return productRepository.findAll();
+    }
+
+    public void saveProduct(Product product) {
+        productRepository.save(product);
+    }
+
+    //xem sản phẩm theo id: sử dụng method line 60
+
+    public void deleteProduct(int id) {
+        productRepository.deleteById(id);
     }
 }
