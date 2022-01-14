@@ -3,6 +3,7 @@ package com.example.fashionstore_system.controller;
 import com.example.fashionstore_system.entity.Customer;
 import com.example.fashionstore_system.entity.Staff;
 import com.example.fashionstore_system.entity.User;
+import com.example.fashionstore_system.repository.CustomerRepository;
 import com.example.fashionstore_system.repository.RoleRepository;
 import com.example.fashionstore_system.service.CustomerService;
 import com.example.fashionstore_system.service.StaffService;
@@ -28,10 +29,10 @@ public class StaffController {
     private StaffService staffService;
 
     @Autowired
-    private UserService userService;
+    private CustomerService customerService;
 
     @Autowired
-    private CustomerService customerService;
+    private UserService userService;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -58,13 +59,15 @@ public class StaffController {
     public String saveStaffCustomer(@ModelAttribute("user") User user) {
         user.setPassword(user.getPassword());
         user.setUsername(user.getUsername());
-        user.setRole(roleRepository.getById(2));
+        user.setRole(roleRepository.getById(user.getRole().getId()));
         Customer customer = user.getCustomer();
         customer.setName(user.getStaff().getName());
         customer.setEmail(user.getStaff().getEmail());
         customer.setPhone(user.getStaff().getPhone());
         customer.setEmail(user.getCustomer().getEmail());
         customer.setBirthday(user.getCustomer().getBirthday());
+        customer.setAvatar(user.getStaff().getAvatar());
+        customer.setPoint(0);
         customerService.saveCustomer(customer);
         Staff staff = user.getStaff();
         staffService.saveStaff(staff);

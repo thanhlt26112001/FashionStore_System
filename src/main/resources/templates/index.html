@@ -22,9 +22,9 @@
         <input type="submit" value="Search"/>
         <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>
     </form>
-    <table class="table table-bordered border-primary">
+    <table class="table table-bordered">
         <thead>
-        <tr>
+        <tr style="text-align: center">
             <th style="text-align: center">Staff ID</th>
             <th style="text-align: center">Name</th>
             <th style="text-align: center">Email</th>
@@ -34,17 +34,20 @@
         </tr>
         </thead>
         <tbody>
+
         <tr th:each="staff : ${listStaffs}">
             <td th:text="${staff.id}">Staff ID</td>
             <td th:text="${staff.name}">Name</td>
             <td th:text="${staff.email}">Email</td>
             <td th:text="${staff.phone}">Phone</td>
             <td th:text="${staff.user.username}">User</td>
-            <td>
-                <a th:href="@{'/editStaff/' + ${staff.user.id}}">Detail</a>
-                <a th:href="@{'/deleteStaff/' + ${staff.user.id}}">Delete</a>
+            <td style="text-align: center">
+                <a th:href="@{'/editStaff/' + ${staff.user.id} }" class="btn btn-primary btn-sm"
+                   href="#" style="margin-top: 0">Detail</a>
+                <a th:href="@{'/deleteStaff/' + ${staff.user.id}}" class="btn btn-danger btn-sm" href="#">Delete</a>
             </td>
         </tr>
+
         </tbody>
     </table>
 </div>

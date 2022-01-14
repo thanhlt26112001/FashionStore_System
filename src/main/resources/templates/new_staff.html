@@ -54,9 +54,9 @@
             <tr>
                 <td>Role:</td>
                 <td>
-                    <select th:field="*{role.name}">
-                        <option th:value="'ROLE_STAFF'" th:text="ROLE_STAFF"></option>
-                        <option th:value="'ROLE_CUSTOMER'" th:text="ROLE_CUSTOMER"></option>
+                    <select th:field="*{role.id}">
+                        <option th:value='2' th:text="STAFF"></option>
+                        <option th:value='3' th:text="MANAGER"></option>
                     </select>
                 </td>
             </tr>
