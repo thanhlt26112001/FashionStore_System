@@ -35,14 +35,14 @@
         </thead>
         <tbody>
         <tr th:each="staff : ${listStaffs}">
-            <td th:text="${staff.getId()}">Staff ID</td>
-            <td th:text="${staff.getName()}">Name</td>
-            <td th:text="${staff.getEmail()}">Email</td>
-            <td th:text="${staff.getPhone()}">Phone</td>
-            <td th:text="${staff.user.getUsername()}">User</td>
+            <td th:text="${staff.id}">Staff ID</td>
+            <td th:text="${staff.name}">Name</td>
+            <td th:text="${staff.email}">Email</td>
+            <td th:text="${staff.phone}">Phone</td>
+            <td th:text="${staff.user.username}">User</td>
             <td>
-                <a th:href="@{'/edit/' + ${staff.id}}">Detail</a>
-                <a th:href="@{'/delete/' + ${staff.id}}">Delete</a>
+                <a th:href="@{'/edit/' + ${staff.user.id}}">Detail</a>
+                <a th:href="@{'/delete/' + ${staff.user.id}}">Delete</a>
             </td>
         </tr>
         </tbody>

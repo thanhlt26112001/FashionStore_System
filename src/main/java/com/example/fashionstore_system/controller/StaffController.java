@@ -63,9 +63,23 @@ public class StaffController {
         staffService.save(staff);
         user.setStaff(staff);
         userService.saveUser(user);
-        return "index";
+        return "redirect:/staff";
     }
+    //
+    @RequestMapping(value = "/saveStaffEdit", method = RequestMethod.POST)
+    public String saveStaffEdit(@ModelAttribute("user") User user) {
+        user.setId(user.getId());
+        user.setPassword(user.getPassword());
+        user.setUsername(user.getUsername());
+        user.setRole(roleRepository.getById(2));
+        Staff staff = user.getStaff();
+        staff.setId(staff.getId());
+        staffService.save(staff);
+        user.setStaff(staff);
+        userService.saveUser(user);
+        return "redirect:/staff";
 
+    }
     // function edit staff
     @RequestMapping("/edit/{id}")
     public ModelAndView showEditStaffPage(@PathVariable(name = "id") int id) {
@@ -78,7 +92,11 @@ public class StaffController {
     // function delete staff
     @RequestMapping("/delete/{id}")
     public String deleteStaff(@PathVariable(name = "id") int id) {
-        staffService.delete(id);
+        User user = userService.getById(id);
+       int staffId = user.getStaff().getId();
+        userService.deleteUser(id);
+
+       // staffService.delete(staffId);
         return "redirect:/staff";
     }
 
