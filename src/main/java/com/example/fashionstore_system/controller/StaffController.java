@@ -53,38 +53,54 @@ public class StaffController {
         return "new_staff";
     }
 
-    // function save
+    // function saveStaff
     @RequestMapping(value = "/saveStaff", method = RequestMethod.POST)
-    public String saveStaff(@ModelAttribute("user") User user) {
+    public String saveStaffCustomer(@ModelAttribute("user") User user) {
         user.setPassword(user.getPassword());
         user.setUsername(user.getUsername());
         user.setRole(roleRepository.getById(2));
+        Customer customer = user.getCustomer();
+        customer.setName(user.getStaff().getName());
+        customer.setEmail(user.getStaff().getEmail());
+        customer.setPhone(user.getStaff().getPhone());
+        customer.setEmail(user.getCustomer().getEmail());
+        customer.setBirthday(user.getCustomer().getBirthday());
+        customerService.saveCustomer(customer);
         Staff staff = user.getStaff();
-        staffService.save(staff);
+        staffService.saveStaff(staff);
         user.setStaff(staff);
         userService.saveUser(user);
         return "redirect:/staff";
     }
-    //
+    //Function saveStaffEdit
     @RequestMapping(value = "/saveStaffEdit", method = RequestMethod.POST)
     public String saveStaffEdit(@ModelAttribute("user") User user) {
+        //user
         User userSave = userService.getById(user.getId());
         userSave.setUsername(user.getUsername());
         userSave.setPassword(user.getPassword());
-        userSave.setRole(roleRepository.getById(2));
+        userSave.setRole(roleRepository.getById(user.getRole().getId()));
+        //customer
+        Customer customerSave = customerService.getById(user.getCustomer().getId());
+        customerSave.setName(user.getCustomer().getName());
+        customerSave.setEmail(user.getCustomer().getEmail());
+        customerSave.setPhone(user.getCustomer().getPhone());
+        customerSave.setAddress(user.getCustomer().getAddress());
+        customerSave.setBirthday(user.getCustomer().getBirthday());
+        //Staff
         Staff staffSave = staffService.getById(user.getStaff().getId());
         staffSave.setAvatar(user.getStaff().getAvatar());
         staffSave.setEmail(user.getStaff().getEmail());
         staffSave.setPhone(user.getStaff().getPhone());
         staffSave.setName(user.getStaff().getName());
         staffSave.setUser(userSave);
-        staffService.save(staffSave);
+        customerService.saveCustomer(customerSave);
+        staffService.saveStaff(staffSave);
         userService.saveUser(userSave);
         return "redirect:/staff";
-
     }
     // function edit staff
-    @RequestMapping("/edit/{id}")
+    @RequestMapping("/editStaff/{id}")
     public ModelAndView showEditStaffPage(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView("edit_staff");
         User user = userService.getById(id);
@@ -93,15 +109,13 @@ public class StaffController {
     }
 
     // function delete staff
-    @RequestMapping("/delete/{id}")
+    @RequestMapping("/deleteStaff/{id}")
     public String deleteStaff(@PathVariable(name = "id") int id) {
         User user = userService.getById(id);
-       int staffId = user.getStaff().getId();
+       // int staffId = user.getStaff().getId();
         userService.deleteUser(id);
-
-       // staffService.delete(staffId);
+        // staffService.delete(staffId);
         return "redirect:/staff";
     }
-
 }
 

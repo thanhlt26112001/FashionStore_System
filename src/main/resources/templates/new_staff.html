@@ -44,6 +44,23 @@
                 <td><input type="text" th:field="*{staff.avatar}"/></td>
             </tr>
             <tr>
+                <td>Address:</td>
+                <td><input type="text" th:field="*{customer.address}"/></td>
+            </tr>
+            <tr>
+                <td>BirthDay:</td>
+                <td><input type="date" th:field="*{customer.birthday}"/></td>
+            </tr>
+            <tr>
+                <td>Role:</td>
+                <td>
+                    <select th:field="*{role.name}">
+                        <option th:value="'ROLE_STAFF'" th:text="ROLE_STAFF"></option>
+                        <option th:value="'ROLE_CUSTOMER'" th:text="ROLE_CUSTOMER"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2">
                     <button type="submit">Save</button>
                 </td>

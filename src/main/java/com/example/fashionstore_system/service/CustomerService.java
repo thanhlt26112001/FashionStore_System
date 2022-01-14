@@ -8,14 +8,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService {
     @Autowired
-    private CustomerRepository repository;
+    private CustomerRepository customerRepository;
 
     public void saveCustomer(Customer customer) {
-        repository.save(customer);
+        customerRepository.save(customer);
     }
 
     public Customer findByEmail(String email){
-        return repository.findByEmail(email);
+        return customerRepository.findByEmail(email);
+
+    }
+    public Customer getById(int id){
+        return customerRepository.getById(id);
 
     }
 }
