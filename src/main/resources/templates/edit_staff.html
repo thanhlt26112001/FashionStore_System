@@ -26,19 +26,19 @@
             </tr>
             <tr>
                 <td>Staff Name</td>
-                <td><input type="text" th:field="*{staff.name}"/></td>
+                <td><input type="text" th:field="*{staff.name}" id="name" placeholder="name"/></td>
             </tr>
             <tr>
                 <td>Email</td>
-                <td><input type="text" th:field="*{staff.email}"/></td>
+                <td><input type="text" th:field="*{staff.email}" id="email" placeholder="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="(characters followed: character@characters.domain " readonly/></td>
             </tr>
             <tr>
                 <td>Phone</td>
-                <td><input type="text" th:field="*{staff.phone}"/></td>
+                  <td><input type="text" th:field="*{staff.phone}" id="phone" placeholder="phone" pattern="[0-9]+.{6,}" title="Input number"/></td>
             </tr>
             <tr>
                 <td>Username</td>
-                <td><input type="text" th:field="*{username}"/></td>
+                <td><input type="text" th:field="*{username}" id="username" placeholder="username" pattern=".{6,}"  title="Six or more characters" readonly/></td>
             </tr>
             <tr>
                 <td>Address</td>
@@ -67,47 +67,5 @@
         </table>
     </form>
 </div>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#username").on("input", function(e) {
-            $('#msg').hide();
-            if ($('#username').val() == null || $('#username').val() == "") {
-                $('#msg').show();
-                $("#msg").html("Username is a required field.").css("color", "red");
-            } else {
-                $.ajax({
-                    type: 'post',
-                    url: "/user",
-                    data: JSON.stringify({userName: $('#username').val()}),
-                    contentType: 'application/json; charset=utf-8',
-                    //dataType: 'html',
-                    cache: false,
-                    beforeSend: function (f) {
-                        $('#msg').show();
-                        $('#msg').html('Checking...');
-                    },
-                    statusCode: {
-                        500: function(xhr) {
-                            $('#msg').show();
-                            $("#msg").html("Username available").css("color", "green");
-                        }
-                    },
-                    success: function(msg) {
-                        $('#msg').show();
-                        if(msg !== null || msg !== "") {
-                            $("#msg").html("Username already taken").css("color", "red");
-                        } else {
-                            $("#msg").html("Username available").css("color", "green");
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        $('#msg').show();
-                        $("#msg").html(textStatus + " " + errorThrown).css("color", "red");
-                    }
-                });
-            }
-        });
-    });
-</script>
 </body>
 </html>

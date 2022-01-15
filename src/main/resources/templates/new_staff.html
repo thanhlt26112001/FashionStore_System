@@ -18,38 +18,42 @@
     <br/>
     <form action="#" th:action="@{/admin/saveStaff}" th:object="${user}"
           method="post">
+
         <table>
             <tr>
                 <td>Staff Name:</td>
-                <td><input type="text" th:field="*{staff.name}" required/></td>
+                <td><input type="text" th:field="*{staff.name} " placeholder="Name" required/></td>
             </tr>
             <tr>
                 <td>Username:</td>
-                <td><input type="text" th:field="*{username}" required/></td>
+                <td><input type="text" th:field="*{username}" id="username" placeholder="username" pattern=".{6,}"  title="Six or more characters" required/></td>
+                <span style="color: red" th:text="${alert_Username}"></span>
             </tr>
             <tr>
                 <td>password:</td>
-                <td><input type="password" th:field="*{password}" required/></td>
+                <td><input type="password" th:field="*{password} "  placeholder="Password"   pattern=".{6,}"  title="Six or more characters" required/></td>
+                <span style="color: red" th:text="${alert_Email}"></span>
             </tr>
             <tr>
                 <td>Email:</td>
-                <td><input type="text" th:field="*{staff.email}" required/></td>
+                <td><input type="email" id="email" name="email" th:field="*{staff.email}" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="(characters followed: character@characters.domain " required/></td>
+                <td><span id="msg_email"></span></td>
             </tr>
             <tr>
                 <td>Phone:</td>
-                <td><input type="text" th:field="*{staff.phone}"/></td>
+                <td><input type="text" th:field="*{staff.phone}" placeholder="phone" pattern="[0-9]{10,11}" title="Input number "/></td>
             </tr>
             <tr>
                 <td>Avatar:</td>
-                <td><input type="text" th:field="*{staff.avatar}"/></td>
+                <td><input type="text" th:field="*{staff.avatar}" placeholder="Avatar"/></td>
             </tr>
             <tr>
                 <td>Address:</td>
-                <td><input type="text" th:field="*{customer.address}"/></td>
+                <td><input type="text" th:field="*{customer.address}" placeholder="Address"/></td>
             </tr>
             <tr>
                 <td>BirthDay:</td>
-                <td><input type="date" th:field="*{customer.birthday}"/></td>
+                <td><input type="date" th:field="*{customer.birthday}" required/></td>
             </tr>
             <tr>
                 <td>Role:</td>
