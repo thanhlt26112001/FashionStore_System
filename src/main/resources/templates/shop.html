@@ -139,8 +139,9 @@
                     <div class="search_box pull-right">
                         <div class="input-group">
                             <form th:action="@{'/product/listproducts'}">
-                                Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
-<!--                                <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>-->
+                                Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"
+                                               required/>
+                                <!--                                <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>-->
                                 <input type="hidden" name="categoryId" th:value="${categoryId}"/>
                             </form>
                         </div>
@@ -240,16 +241,18 @@
                             <div class="single-products">
                                 <div class="productinfo text-center">
                                     <img th:src="${product.getImage()}"/>
-                                    <h2 th:text="${product.price}"></h2>
-                                    <p th:text="${product.name}"></p>
+                                    <h2 th:text="${product.price} + ' VNĐ'"></h2>
+                                    <h4 style="text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
+                                       th:text="${product.name}"></h4>
                                     <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
                                         to cart</a>
                                 </div>
                                 <div class="product-overlay">
                                     <div class="overlay-content">
-                                        <h2>$56</h2>
-                                        <p>Easy Polo Black Edition</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
+                                        <h2 th:text="${product.price} + ' VNĐ'"></h2>
+                                        <h4 style="color: white; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
+                                           th:text="${product.name}"></h4>
+                                        <a th:href="@{'/cart/addtoCart/'+${product.id}}" class="btn btn-default add-to-cart"><i
                                                 class="fa fa-shopping-cart"></i>Add to cart</a>
                                     </div>
                                 </div>

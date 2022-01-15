@@ -92,10 +92,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/check_username");
-        web.ignoring().antMatchers("/check_email");
-        web.ignoring().antMatchers("/cart/reduceAmount");
-        web.ignoring().antMatchers("/css/**", "/js/**", "/images/**");
+        web.ignoring().antMatchers("/check_username")
+                .antMatchers("/check_email")
+                .antMatchers("/cart/reduceAmount")
+                .antMatchers("/css/*", "/js/*", "/images/*")
+                .antMatchers("/templates/login.html");
     }
 
 }
