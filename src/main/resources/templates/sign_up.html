@@ -149,8 +149,10 @@
                 <div class="login-form"><!--login form-->
                     <h2>Register new account</h2>
                     <form action="#" th:action="@{/saveUser}" th:object="${user}" method="post" name="login">
-                        <label>Username(*) </label>
-                        <input type="text" id="username" name="username" th:field="*{username}" placeholder="User Name" required>
+                        <label>Username(*) (Must not contain special characters) </label>
+                        <input type="text" id="username" name="username"
+                               pattern="^[A-Za-z0-9_]{6,16}$"
+                               th:field="*{username}" placeholder="User Name" required>
                         <span id="msg_username"></span>
                         <br>
                         <label>Fullname(*) </label>
@@ -159,8 +161,9 @@
                         <input type="email" id="email" name="email" placeholder="Your Email" th:field="*{customer.email}" required>
                         <span id="msg_email"></span>
                         <br>
-                        <label>Password(*) </label>
-                        <input type="password" placeholder="Password" th:field="*{password}" required>
+                        <label>Password(*) (Must contain more than 6 characters) </label>
+                        <input type="password" placeholder="Password"
+                               minlength="6" th:field="*{password}" required>
                         <label>Phone </label>
                         <input type="text" placeholder="Phone" th:field="*{customer.phone}" >
                         <label>Address </label>
