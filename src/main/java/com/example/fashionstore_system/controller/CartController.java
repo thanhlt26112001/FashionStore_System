@@ -2,11 +2,10 @@ package com.example.fashionstore_system.controller;
 
 import com.example.fashionstore_system.dto.UserDto;
 import com.example.fashionstore_system.dto.UserInput;
-import com.example.fashionstore_system.entity.Cart;
-import com.example.fashionstore_system.entity.Product;
-import com.example.fashionstore_system.entity.User;
+import com.example.fashionstore_system.entity.*;
 import com.example.fashionstore_system.service.CartService;
 import com.example.fashionstore_system.service.ProductService;
+import com.example.fashionstore_system.service.PromotionService;
 import com.example.fashionstore_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +30,8 @@ public class CartController {
     private UserService userService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private PromotionService promotionService;
 
     @GetMapping({"/", "/show"})
     public String checkLoginCart(Model model) {
@@ -39,7 +40,16 @@ public class CartController {
             return "redirect:/login";
         }
         User user = userService.findByUsername(authentication.getName());
-        model.addAttribute("listCart", cartService.getCustomerCart(user.getCustomer().getId()));
+        List<Cart> cartList = cartService.getCustomerCart(user.getCustomer().getId());
+        model.addAttribute("listCart", cartList);
+        double total=0.0;
+        for (Cart cart : cartList){
+            total+=cart.getQuantity()* Double.parseDouble(String.valueOf(cart.getProduct().getPrice()));
+        }
+        model.addAttribute("total",total);
+        model.addAttribute("listPromotion",promotionService.getAllPromotions());
+        Promotion promotion = new Promotion();
+        model.addAttribute("promotion",promotion);
         return "cart";
     }
 
@@ -96,6 +106,16 @@ public class CartController {
             cartService.saveCart(cart);
         }
         return new RedirectView("/cart/show");
+    }
+    @GetMapping("/checkout")
+    public String checkout(Model model) {
+        Order order = new Order();
+        model.addAttribute("order", order);
+        return "checkout_form";
+    }
+    @PostMapping("/applycoupon")
+    public String UsePromotion(@ModelAttribute(name = "promotion") Promotion promotion,Model model){
+
     }
 
 }
