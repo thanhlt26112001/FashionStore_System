@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -26,9 +27,10 @@ public class Customer implements Serializable {
     @Column
     private String name;
     @Column
+    @Email
     private String email;
     @Column
-    private Integer phone;
+    private String phone;
     @Column
     private String address;
     @Column

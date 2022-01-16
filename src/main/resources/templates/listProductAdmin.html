@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <title>Product Manager</title>
+</head>
+<body>
+<div align="center">
+  <h1>Product List</h1>
+  <a href="/admin/product/new">Create New Product</a>
+  <br/><br/>
+  <div align="center">
+    <form th:action="@{'/admin/product'}">
+      <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
+      <!--                                <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>-->
+      <input type="submit" value="Search"/>
+    </form>
+  </div>
+  <table border="1" cellpadding="10">
+    <thead>
+    <tr>
+      <th>Product ID</th>
+      <th>Name</th>
+      <th>Desciption</th>
+      <th>Category</th>
+      <th>Image</th>
+      <th>Price</th>
+      <th>Quantity</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${listProducts}">
+      <!--/*@thymesVar id="id" type="aj"*/-->
+      <td th:text="${product.id}">Product ID</td>
+      <td th:text="${product.name}">Name</td>
+      <td th:text="${product.description}">Description</td>
+      <td th:text="${product.category.name}">Category</td>
+      <td th:text="${product.image}">Image</td>
+      <td th:text="${product.price}">Price</td>
+      <td th:text="${product.quantity}">Quantity</td>
+      <td>
+        <a th:href="@{'/admin/product/edit/' + ${product.id}}">Edit</a>
+        &nbsp;&nbsp;&nbsp;
+        <a th:href="@{'/admin/product/delete/' + ${product.id}}">Delete</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,7 +58,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a href="index.html"><img src="images/home/logo.png" alt=""/></a>
+                        <a href="listStaffAdmin.html"><img src="images/home/logo.png" alt=""/></a>
                     </div>
                     <div class="btn-group pull-right">
                         <div class="btn-group">
@@ -115,7 +114,7 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="listStaffAdmin.html">Home</a></li>
                             <li class="dropdown"><a href="#" class="active">Shop<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="shop.html" class="active">Products</a></li>
@@ -173,12 +172,24 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
-                                    +'&sortField=price&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
-                                        Sắp xếp giá bán giảm hoặc tăng</a></li>
+                                    +'&sortField=price&sortDir='+ asc+'&keyword='+${keyword}}">
+                                        Sắp xếp giá bán tăng dần</a>
+                                </li>
                                 <li>
                                     <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
-                                    +'&sortField=createdAt&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
-                                        Sắp xếp sản phẩm mới nhất hoặc cũ hơn</a></li>
+                                    +'&sortField=price&sortDir='+ desc+'&keyword='+${keyword}}">
+                                        Sắp xếp giá bán giảm dần</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
+                                    +'&sortField=createdAt&sortDir='+ asc+'&keyword='+${keyword}}">
+                                        Sắp xếp sản phẩm cũ nhất</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
+                                    +'&sortField=createdAt&sortDir='+ desc+'&keyword='+${keyword}}">
+                                        Sắp xếp sản phẩm mới nhất</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
