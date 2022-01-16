@@ -34,16 +34,12 @@ public class AdminController {
 
     //dungnv made this
     // Admin Staff Manager
-
     @Autowired
     private StaffService staffService;
-
     @Autowired
     private CustomerService customerService;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
