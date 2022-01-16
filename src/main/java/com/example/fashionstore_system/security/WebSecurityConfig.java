@@ -44,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
+
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -57,17 +58,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService) // Cung cáp userservice cho spring security
                 .passwordEncoder(passwordEncoder()); // cung cấp password encoder
     }
+
     private static final ClearSiteDataHeaderWriter.Directive[] SOURCE =
             {CACHE, COOKIES};
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http
                 .authorizeRequests()
+                .antMatchers("/resources/**").permitAll()
                 .antMatchers("/changePassword").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin()
+                    .formLogin()
                     .permitAll()
                     .loginPage("/login")
                     .usernameParameter("username")
@@ -75,21 +79,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginProcessingUrl("/doLogin")
                     .failureUrl("/loginFail")
                 .and()
-                .logout()
+                    .logout()
                     .permitAll()
                     .logoutUrl("/logout")
-                     .deleteCookies("JSESSIONID")
+                    .deleteCookies("JSESSIONID")
                 .and()
-                .exceptionHandling()
-                .accessDeniedPage("/404");
+                    .exceptionHandling()
+                    .accessDeniedPage("/404");
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/check_username");
-        web.ignoring().antMatchers("/check_email");
-
+        web.ignoring().antMatchers("/check_username")
+                .antMatchers("/check_email")
+                .antMatchers("/cart/reduceAmount")
+                .antMatchers("/css/*", "/js/*", "/images/*")
+                .antMatchers("/templates/login.html");
     }
 
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>Edit Product</title>
+</head>
+<body>
+<div align="center">
+  <h1>Edit Product</h1>
+  <br />
+  <form action="#" th:action="@{/admin/product/save}" th:object="${product}"
+        method="post">
+    <table border="0" cellpadding="10">
+      <tr>
+        <td>Product ID:</td>
+        <td>
+          <input type="text" th:field="*{id}" readonly="readonly" />
+        </td>
+      </tr>
+      <tr>
+        <td>Product Name:</td>
+        <td>
+          <input type="text" th:field="*{name}" />
+        </td>
+      </tr>
+      <tr>
+        <td>Description:</td>
+        <td><input type="text" th:field="*{description}" /></td>
+      </tr>
+      <tr>
+        <td>Category:</td>
+        <td><select th:field="*{category}" class="form-select" aria-label="Default select example">
+          <option th:each="cate :${listCategory}" th:value="${cate.id}" th:text="${cate.name}"></option>
+        </select></td>
+      </tr>
+      <tr>
+        <td>Image:</td>
+        <td><input type="text" th:field="*{image}" /></td>
+      </tr>
+      <tr>
+        <td>Price:</td>
+        <td><input type="text" th:field="*{price}" /></td>
+      </tr>
+      <tr>
+        <td>Quantity:</td>
+        <td><input type="text" th:field="*{quantity}" /></td>
+      </tr>
+      <tr>
+        <td colspan="2"><button type="submit">Save</button> </td>
+      </tr>
+    </table>
+  </form>
+  <div>
+    <h2>Add Image Product</h2>
+    <form th:action="@{'/admin/product/saveImage/'+${product.id}}" th:object="${productImage}" method="post">
+      <tr>
+        <td>Image Link:</td>
+        <td><input type="text" th:field="*{image}" required/></td>
+        <td colspan="2"><button type="submit">Save</button></td>
+      </tr>
+    </form>
+    <div>
+      <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+          <th>Image Link</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr th:each="img : ${productImageList}">
+          <td><a th:href="@{${img.image}}"  th:text="${img.image}"></a></td>
+          <td><a th:href="@{'/admin/product/deleteImage/' + ${img.id}}">Delete</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!--  <form th:action="@{/admin/product/saveImage}" th:object="${addImage}" method="post">-->
+<!--    <input type="hidden" th:field="*{product.id}" th:value="${product.id}"/>-->
+<!--    <input type="submit" value="Save"/>-->
+<!--  </form>-->
+</div>
+</body>
+</html>

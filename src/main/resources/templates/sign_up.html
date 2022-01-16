@@ -55,7 +55,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+                        <a href="listStaffAdmin.html"><img src="images/home/logo.png" alt="" /></a>
                     </div>
                     <div class="btn-group pull-right">
                         <div class="btn-group">
@@ -110,7 +110,7 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="listStaffAdmin.html">Home</a></li>
                             <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="shop.html">Products</a></li>
@@ -149,8 +149,10 @@
                 <div class="login-form"><!--login form-->
                     <h2>Register new account</h2>
                     <form action="#" th:action="@{/saveUser}" th:object="${user}" method="post" name="login">
-                        <label>Username(*) </label>
-                        <input type="text" id="username" name="username" th:field="*{username}" placeholder="User Name" required>
+                        <label>Username(*) (Must not contain special characters) </label>
+                        <input type="text" id="username" name="username"
+                               pattern="^[A-Za-z0-9_]{6,16}$"
+                               th:field="*{username}" placeholder="User Name" required>
                         <span id="msg_username"></span>
                         <br>
                         <label>Fullname(*) </label>
@@ -159,10 +161,11 @@
                         <input type="email" id="email" name="email" placeholder="Your Email" th:field="*{customer.email}" required>
                         <span id="msg_email"></span>
                         <br>
-                        <label>Password(*) </label>
-                        <input type="password" placeholder="Password" th:field="*{password}" required>
+                        <label>Password(*) (Must contain more than 6 characters) </label>
+                        <input type="password" placeholder="Password"
+                               minlength="6" th:field="*{password}" required>
                         <label>Phone </label>
-                        <input type="text" placeholder="Phone" th:field="*{customer.phone}" >
+                        <input type="text" placeholder="Phone" pattern="^[0-9]{10,11}$"th:field="*{customer.phone}" >
                         <label>Address </label>
                         <input type="text" placeholder="Address" th:field="*{customer.address}" >
                         <label>Birthday </label>
@@ -360,7 +363,6 @@
                     url: "/check_username",
                     data: JSON.stringify({userName: $('#username').val()}),
                     contentType: 'application/json; charset=utf-8',
-                    // dataType: 'json',
                     cache: false,
                     beforeSend: function (f) {
                         $('#msg_username').show();

@@ -1,21 +1,20 @@
 package com.example.fashionstore_system.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.sql.Date;
+
 import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Data
 @Entity
 @Table(name = "staffs")
 public class Staff implements Serializable {
@@ -27,7 +26,7 @@ public class Staff implements Serializable {
     @Column
     private String email;
     @Column
-    private Integer phone;
+    private String phone;
     @Column
     private String avatar;
     @Column(name = "created_at")
