@@ -11,7 +11,6 @@
   <br />
   <form action="#" th:action="@{/admin/product/save}" th:object="${product}"
         method="post">
-
     <table border="0" cellpadding="10">
       <tr>
         <td>Product Name:</td>
@@ -23,7 +22,9 @@
       </tr>
       <tr>
         <td>Category:</td>
-        <td><input type="text" th:field="*{category}" /></td>
+        <td><select th:field="*{category}" class="form-select" aria-label="Default select example">
+          <option th:each="cate :${listCategory}" th:value="${cate.id}" th:text="${cate.name}"></option>
+        </select></td>
       </tr>
       <tr>
         <td>Image:</td>

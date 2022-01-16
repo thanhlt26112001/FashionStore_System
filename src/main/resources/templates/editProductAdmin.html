@@ -30,7 +30,9 @@
       </tr>
       <tr>
         <td>Category:</td>
-        <td><input type="text" th:field="*{category}" /></td>
+        <td><select th:field="*{category}" class="form-select" aria-label="Default select example">
+          <option th:each="cate :${listCategory}" th:value="${cate.id}" th:text="${cate.name}"></option>
+        </select></td>
       </tr>
       <tr>
         <td>Image:</td>
@@ -49,6 +51,36 @@
       </tr>
     </table>
   </form>
+  <div>
+    <h2>Add Image Product</h2>
+    <form th:action="@{'/admin/product/saveImage/'+${product.id}}" th:object="${productImage}" method="post">
+      <tr>
+        <td>Image Link:</td>
+        <td><input type="text" th:field="*{image}" required/></td>
+        <td colspan="2"><button type="submit">Save</button></td>
+      </tr>
+    </form>
+    <div>
+      <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+          <th>Image Link</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr th:each="img : ${productImageList}">
+          <td><a th:href="@{img.image}"  th:text="${img.image}"></a></td>
+          <td><a th:href="@{'/admin/product/deleteImage/' + ${img.id}}">Delete</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!--  <form th:action="@{/admin/product/saveImage}" th:object="${addImage}" method="post">-->
+<!--    <input type="hidden" th:field="*{product.id}" th:value="${product.id}"/>-->
+<!--    <input type="submit" value="Save"/>-->
+<!--  </form>-->
 </div>
 </body>
 </html>
