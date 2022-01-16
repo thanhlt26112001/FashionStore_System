@@ -161,13 +161,7 @@ public class AdminController {
         staffSave.setPhone(user.getStaff().getPhone());
         staffSave.setName(user.getStaff().getName());
         staffSave.setUser(userSave);
-        if (userRepository.findByUsername(user.getUsername()) != null) {
-            model.addFlashAttribute("alert_Username", "Username is exited!");
-            return new RedirectView("/admin/editStaff");
-        } else if (staffRepository.findByEmail(user.getStaff().getEmail()) != null) {
-            model.addFlashAttribute("alert_Email", "Email is exited!");
-            return new RedirectView("/admin/editStaff");
-        }
+
         customerService.saveCustomer(customerSave);
         staffService.saveStaff(staffSave);
         userService.saveUser(userSave);
