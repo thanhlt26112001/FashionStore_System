@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -173,12 +172,24 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
-                                    +'&sortField=price&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
-                                        Sắp xếp giá bán giảm hoặc tăng</a></li>
+                                    +'&sortField=price&sortDir='+ asc+'&keyword='+${keyword}}">
+                                        Sắp xếp giá bán tăng dần</a>
+                                </li>
                                 <li>
                                     <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
-                                    +'&sortField=createdAt&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
-                                        Sắp xếp sản phẩm mới nhất hoặc cũ hơn</a></li>
+                                    +'&sortField=price&sortDir='+ desc+'&keyword='+${keyword}}">
+                                        Sắp xếp giá bán giảm dần</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
+                                    +'&sortField=createdAt&sortDir='+ asc+'&keyword='+${keyword}}">
+                                        Sắp xếp sản phẩm cũ nhất</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
+                                    +'&sortField=createdAt&sortDir='+ desc+'&keyword='+${keyword}}">
+                                        Sắp xếp sản phẩm mới nhất</a>
+                                </li>
                             </ul>
                         </div>
                     </div>

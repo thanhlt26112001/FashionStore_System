@@ -22,17 +22,6 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
 //phan trang
-//public Page<Product> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-//    Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-//            Sort.by(sortField).descending();
-//
-//    Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-//    return this.productRepository.findAll(pageable);
-//}
-//
-//    public Page<Product> findAll(Pageable pageable) {
-//        return productRepository.findAll(pageable);
-//    }
     public Page<Product> listAll(int currentPage, String sortField, String sortDirection, String keyword, int categoryId){
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
@@ -42,36 +31,18 @@ public class ProductService {
         }
         return productRepository.searchProductByNameAndCategory(keyword, categoryId, pageable);
 }
-    public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
-    }
-public Page<Product> listAll(int currentPage, String keyword){
 
-    Pageable pageable = PageRequest.of(currentPage - 1,6);
-    if (keyword != null) {
-        return this.productRepository.searchProductByName(keyword, pageable);
-    }
-    return this.productRepository.findAll(pageable);
 
-}
     // product_detail
     public Product getProduct(int id) {
         return productRepository.getById(id);
     }
 
-    //search product by name
-//    public List<Product> listAll(String keyword) {
-//        if (keyword != null) {
-//            return productRepository.searchProductByName(keyword);
-//        }
-//        return productRepository.findAll();
-//    }
-
     public List<Category> getCategoryList() {
         return categoryRepository.findAll();
     }
 
-    public List<Product> findAll(Sort sort) {
-        return productRepository.findAll(sort);
-    }
+//    public List<Product> findAll(Sort sort) {
+//        return productRepository.findAll(sort);
+//    }
 }
