@@ -165,7 +165,7 @@
                         <input type="password" placeholder="Password"
                                minlength="6" th:field="*{password}" required>
                         <label>Phone </label>
-                        <input type="text" placeholder="Phone" th:field="*{customer.phone}" >
+                        <input type="text" placeholder="Phone" pattern="^[0-9]{10,11}$"th:field="*{customer.phone}" >
                         <label>Address </label>
                         <input type="text" placeholder="Address" th:field="*{customer.address}" >
                         <label>Birthday </label>
