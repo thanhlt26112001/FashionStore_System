@@ -12,7 +12,13 @@ public class OrderDetailService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    public List<OrderDetail> getOrderDetailsByOrderId(int orderId){
+    public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
         return orderDetailRepository.findAllByOrderId(orderId);
+    }
+
+    public void deleteorderdetail(List<OrderDetail> list) {
+        for (OrderDetail orderDetail : list) {
+            orderDetailRepository.delete(orderDetail);
+        }
     }
 }

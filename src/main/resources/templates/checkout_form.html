@@ -1,28 +1,27 @@
 
 <!DOCTYPE html>
-<html lang="en">
-xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Login | E-Shopper</title>
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet">
-    <link th:href="@{css/prettyPhoto.css}" rel="stylesheet">
-    <link th:href="@{css/price-range.css}" rel="stylesheet">
-    <link th:href="@{css/animate.css}" rel="stylesheet">
-    <link th:href="@{css/main.css}" rel="stylesheet">
-    <link th:href="@{css/responsive.css}" rel="stylesheet">
-    <link rel="shortcut icon" th:href="@{images/ico/favicon.ico}">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/css/prettyPhoto.css}" rel="stylesheet">
+    <link th:href="@{/css/price-range.css}" rel="stylesheet">
+    <link th:href="@{/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/responsive.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/images/ico/favicon.ico}">
     <link rel="apple-touch-icon-precomposed" sizes="144x144"
-          th:href="@{images/ico/apple-touch-icon-144-precomposed.png}">
+          th:href="@{/images/ico/apple-touch-icon-144-precomposed.png}">
     <link rel="apple-touch-icon-precomposed" sizes="114x114"
-          th:href="@{images/ico/apple-touch-icon-114-precomposed.png}">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" th:href="@{images/ico/apple-touch-icon-72-precomposed.png}">
-    <link rel="apple-touch-icon-precomposed" th:href="@{images/ico/apple-touch-icon-57-precomposed.png}">
+          th:href="@{/images/ico/apple-touch-icon-114-precomposed.png}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" th:href="@{/images/ico/apple-touch-icon-72-precomposed.png}">
+    <link rel="apple-touch-icon-precomposed" th:href="@{/images/ico/apple-touch-icon-57-precomposed.png}">
 </head><!--/head-->
 
 <body>
@@ -163,10 +162,15 @@ xmlns:th="http://www.thymeleaf.org">
                         <p>Bill To</p>
                         <div class="form-one">
                             <form th:action="@{/cart/saveOrder}" th:object="${order}" method="post">
-                                <input type="text" placeholder="Receiver Name" th:field="*{order.receiverName}">
-                                <input type="text" placeholder="Phone" th:field="*{order.receiverPhone}">
-                                <input type="text" placeholder="Address" th:field="*{order.receiverAddress}">
-                                <input type="text" placeholder="Payment Method">
+                                <input type="text" placeholder="Receiver Name" th:field="*{receiverName}">
+                                <input type="text" placeholder="Phone" th:field="*{receiverPhone}">
+                                <input type="text" placeholder="Address" th:field="*{receiverAddress}">
+                                <label>Payment Method </label>
+                                <select th:field="*{paymentMethod}">
+                                    <option value="1">Cash</option>
+                                    <option value="2">Internet Banking</option>
+                                </select>
+
                             </form>
                         </div>
 
@@ -175,7 +179,7 @@ xmlns:th="http://www.thymeleaf.org">
                 <div class="col-sm-4">
                     <div class="order-message">
                         <p>Shipping Order</p>
-                        <textarea name="message"  placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
+
                         <label><input type="checkbox"> Shipping to bill address</label>
                     </div>
                 </div>

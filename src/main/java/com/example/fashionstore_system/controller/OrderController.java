@@ -1,5 +1,6 @@
 package com.example.fashionstore_system.controller;
 
+import com.example.fashionstore_system.entity.OrderDetail;
 import com.example.fashionstore_system.entity.User;
 import com.example.fashionstore_system.service.OrderDetailService;
 import com.example.fashionstore_system.service.OrderService;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.List;
 
 @Controller
 public class OrderController {
@@ -42,5 +45,12 @@ public class OrderController {
     public String vieworderdetails(@PathVariable("id") Integer id, Model model){
         model.addAttribute("orderdetail",orderDetailService.getOrderDetailsByOrderId(id));
         return "order_detail";
+    }
+    @RequestMapping("/myorder/cancel/{id}")
+    public String CancelOrders(@PathVariable("id") Integer id, Model model){
+        List<OrderDetail> orderDetails= orderDetailService.getOrderDetailsByOrderId(id);
+        orderDetailService.deleteorderdetail(orderDetails);
+        orderService.deleteOrder(id);
+        return "user_order";
     }
 }

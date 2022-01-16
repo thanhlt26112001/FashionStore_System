@@ -113,9 +113,26 @@ public class CartController {
         model.addAttribute("order", order);
         return "checkout_form";
     }
-    @PostMapping("/applycoupon")
+    @GetMapping("/applycoupon")
     public String UsePromotion(@ModelAttribute(name = "promotion") Promotion promotion,Model model){
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "redirect:/login";
+        }
+        User user = userService.findByUsername(authentication.getName());
+        List<Cart> cartList = cartService.getCustomerCart(user.getCustomer().getId());
+        model.addAttribute("listCart", cartList);
+        double total=0.0;
+        for (Cart cart : cartList){
+            total+=cart.getQuantity()* Double.parseDouble(String.valueOf(cart.getProduct().getPrice()));
+        }
+        Promotion data = promotionService.getPromotionById(promotion.getId());
+        promotion.setDiscount(data.getDiscount());
+        total = total-(total*(promotion.getDiscount())/100);
+        model.addAttribute("total",total);
+        model.addAttribute("listPromotion",promotionService.getAllPromotions());
+        model.addAttribute("promotion",promotion);
+        return "cart";
     }
 
 }

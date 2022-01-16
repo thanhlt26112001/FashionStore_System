@@ -164,6 +164,7 @@
                     <td class="quantity">Status</td>
                     <td class="total">Total</td>
                     <td></td>
+                    <td></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -192,6 +193,9 @@
                     </td>
                     <td class="order-detail">
                         <a class="cart_quantity_delete" th:href="@{'/myorder/'+${order.id}}">Details</a>
+                    </td>
+                    <td class="order-detail" th:if="${order.status==1}">
+                        <a class="cart_quantity_delete" th:href="@{'/myorder/cancel/'+${order.id}}">Cancel</a>
                     </td>
                 </tr>
                 </tbody>
