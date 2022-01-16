@@ -2,17 +2,15 @@ package com.example.fashionstore_system.service;
 
 import com.example.fashionstore_system.entity.Category;
 import com.example.fashionstore_system.entity.Product;
+import com.example.fashionstore_system.entity.ProductImage;
 import com.example.fashionstore_system.repository.CategoryRepository;
+import com.example.fashionstore_system.repository.ProductImageRepository;
 import com.example.fashionstore_system.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 
 @Service
 public class ProductService {
@@ -21,6 +19,9 @@ public class ProductService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductImageRepository productImageRepository;
 
     //phan trang
 //public Page<Product> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
@@ -44,17 +45,17 @@ public class ProductService {
         return productRepository.searchProductByNameAndCategory(keyword, categoryId, pageable);
     }
 
-    public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
-    }
-
-    public Page<Product> listAll(int currentPage, String keyword) {
-        Pageable pageable = PageRequest.of(currentPage - 1, 6);
-        if (keyword != null) {
-            return this.productRepository.searchProductByName(keyword, pageable);
-        }
-        return this.productRepository.findAll(pageable);
-    }
+//    public Page<Product> findAll(Pageable pageable) {
+//        return productRepository.findAll(pageable);
+//    }
+//
+//    public Page<Product> listAll(int currentPage, String keyword) {
+//        Pageable pageable = PageRequest.of(currentPage - 1, 6);
+//        if (keyword != null) {
+//            return this.productRepository.searchProductByName(keyword, pageable);
+//        }
+//        return this.productRepository.findAll(pageable);
+//    }
 
     // product_detail
     public Product getProduct(int id) {
@@ -65,26 +66,46 @@ public class ProductService {
         return categoryRepository.findAll();
     }
 
-    public List<Product> findAll(Sort sort) {
-        return productRepository.findAll(sort);
+    public List<ProductImage> findImageProduct() {
+        return productImageRepository.findAll();
     }
 
     //product management
     //search product by name
-    public List<Product> listAll(String keyword) {
+    public Page<Product> listAll(int currentPage, String keyword) {
+        Pageable pageable = PageRequest.of(currentPage - 1, 100);
         if (keyword != null) {
-            return productRepository.searchProduct(keyword);
+            return productRepository.searchProductByName(keyword, pageable);
         }
-        return productRepository.findAll();
+        return productRepository.findAll(pageable);
     }
 
     public void saveProduct(Product product) {
         productRepository.save(product);
     }
 
+    public void saveImageProduct(ProductImage productImage) {
+        productImageRepository.save(productImage);
+    }
+
+    public List<ProductImage> findImageProductById(int id) {
+        return productImageRepository.findAllByProductId(id);
+    }
+
     //xem sản phẩm theo id: sử dụng method line 60
 
     public void deleteProduct(int id) {
+        for (ProductImage image : productRepository.getById(id).getProductImages()) {
+            productImageRepository.deleteById(image.getId());
+        }
         productRepository.deleteById(id);
+    }
+
+    public void deleteImageProduct(int id) {
+        productImageRepository.deleteById(id);
+    }
+
+    public ProductImage findImageById(int id) {
+        return productImageRepository.findById(id);
     }
 }

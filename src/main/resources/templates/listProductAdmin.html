@@ -10,7 +10,7 @@
   <h1>Product List</h1>
   <a href="/admin/product/new">Create New Product</a>
   <br/><br/>
-  <div align="right">
+  <div align="center">
     <form th:action="@{'/admin/product'}">
       <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
       <!--                                <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>-->
@@ -40,9 +40,9 @@
       <td th:text="${product.price}">Price</td>
       <td th:text="${product.quantity}">Quantity</td>
       <td>
-        <a th:href="@{'admin/product/edit/' + ${product.id}}">Edit</a>
+        <a th:href="@{'/admin/product/edit/' + ${product.id}}">Edit</a>
         &nbsp;&nbsp;&nbsp;
-        <a th:href="@{'admin/product/delete/' + ${product.id}}">Delete</a>
+        <a th:href="@{'/admin/product/delete/' + ${product.id}}">Delete</a>
       </td>
     </tr>
     </tbody>
