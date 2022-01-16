@@ -1,6 +1,5 @@
 package com.example.fashionstore_system.service;
 
-import com.example.fashionstore_system.dto.PromotionsDTO;
 import com.example.fashionstore_system.entity.Promotion;
 import com.example.fashionstore_system.repository.PromotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+
 
 import java.util.List;
 
@@ -46,6 +45,11 @@ public class PromotionService {
         return promotionRepository.findByName(name);
     }
 
-
+    public List<Promotion> getAllPromotions(){
+        return promotionRepository.findAll();
+    }
+    public Promotion getPromotionById(int promotionId){
+        return promotionRepository.findAllById(promotionId);
+    }
 }
 

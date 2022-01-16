@@ -1,25 +1,27 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Register | E-Shopper</title>
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet">
-    <link th:href="@{css/prettyPhoto.css}" rel="stylesheet">
-    <link th:href="@{css/price-range.css}" rel="stylesheet">
-    <link th:href="@{css/animate.css}" rel="stylesheet">
-    <link th:href="@{css/main.css}" rel="stylesheet">
-    <link th:href="@{css/responsive.css}" rel="stylesheet">
-    <link rel="shortcut icon" th:href="@{images/ico/favicon.ico}">
+    <title>Login | E-Shopper</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/css/prettyPhoto.css}" rel="stylesheet">
+    <link th:href="@{/css/price-range.css}" rel="stylesheet">
+    <link th:href="@{/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/responsive.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/images/ico/favicon.ico}">
     <link rel="apple-touch-icon-precomposed" sizes="144x144"
-          th:href="@{images/ico/apple-touch-icon-144-precomposed.png}">
+          th:href="@{/images/ico/apple-touch-icon-144-precomposed.png}">
     <link rel="apple-touch-icon-precomposed" sizes="114x114"
-          th:href="@{images/ico/apple-touch-icon-114-precomposed.png}">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" th:href="@{images/ico/apple-touch-icon-72-precomposed.png}">
-    <link rel="apple-touch-icon-precomposed" th:href="@{images/ico/apple-touch-icon-57-precomposed.png}">
+          th:href="@{/images/ico/apple-touch-icon-114-precomposed.png}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" th:href="@{/images/ico/apple-touch-icon-72-precomposed.png}">
+    <link rel="apple-touch-icon-precomposed" th:href="@{/images/ico/apple-touch-icon-57-precomposed.png}">
 </head><!--/head-->
 
 <body>
@@ -55,7 +57,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a href="listStaffAdmin.html"><img src="images/home/logo.png" alt="" /></a>
+                        <a href="index.html"><img src="images/home/logo.png" alt="" /></a>
                     </div>
                     <div class="btn-group pull-right">
                         <div class="btn-group">
@@ -86,9 +88,9 @@
                         <ul class="nav navbar-nav">
                             <li><a href=""><i class="fa fa-user"></i> Account</a></li>
                             <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
-                            <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                            <li><a href="checkout.html" class="active"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                             <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                            <li><a href="login.html" class="active"><i class="fa fa-lock"></i> Login</a></li>
+                            <li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
                         </ul>
                     </div>
                 </div>
@@ -110,14 +112,14 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="listStaffAdmin.html">Home</a></li>
+                            <li><a href="index.html">Home</a></li>
                             <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="shop.html">Products</a></li>
                                     <li><a href="product-details.html">Product Details</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
+                                    <li><a href="checkout.html" class="active">Checkout</a></li>
                                     <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="login.html" class="active">Login</a></li>
+                                    <li><a href="login.html">Login</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
@@ -141,50 +143,181 @@
     </div><!--/header-bottom-->
 </header><!--/header-->
 
-<section id="form" style="margin-top: 50px;"><!--form-->
+<section id="cart_items">
     <div class="container">
-        <div class="row">
-            <div class="col-sm-1 col-sm-offset-1"></div>
-            <div class="col-sm-6 col-sm-offset-1">
-                <div class="login-form"><!--login form-->
-                    <h2>Register new account</h2>
-                    <form action="#" th:action="@{/saveUser}" th:object="${user}" method="post" name="login">
-                        <label>Username(*) (Must not contain special characters) </label>
-                        <input type="text" id="username" name="username"
-                               pattern="^[A-Za-z0-9_]{6,16}$"
-                               th:field="*{username}" placeholder="User Name" required>
-                        <span id="msg_username"></span>
-                        <br>
-                        <label>Fullname(*) </label>
-                        <input type="text" placeholder="Full Name" th:field="*{customer.name}" required>
-                        <label>Email(*) </label>
-                        <input type="email" id="email" name="email" placeholder="Your Email" th:field="*{customer.email}" required>
-                        <span id="msg_email"></span>
-                        <br>
-                        <label>Password(*) (Must contain more than 6 characters) </label>
-                        <input type="password" placeholder="Password"
-                               minlength="6" th:field="*{password}" required>
-                        <label>Phone </label>
-                        <input type="text" placeholder="Phone" pattern="^[0-9]{10,11}$"th:field="*{customer.phone}" >
-                        <label>Address </label>
-                        <input type="text" placeholder="Address" th:field="*{customer.address}" >
-                        <label>Birthday </label>
-                        <input type="date" placeholder="" th:field="*{customer.birthday}" >
-                        <label>Image </label>
-                        <input type="file" placeholder="" th:field="*{customer.avatar}" >
-                        <button class="thm_btn" type="submit">Sign up Now</button>
-                        <div class="action ul_li">
-                                <span class="right">
-                                    <span>Already have an account<a th:href="@{/login}">Login</a></span>
-                                </span>
-                        </div>
-                    </form>
-                </div><!--/login form-->
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li class="active">Check out</li>
+            </ol>
+        </div><!--/breadcrums-->
 
+
+        <div class="shopper-informations">
+            <div class="row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-5 clearfix">
+                    <div class="bill-to">
+                        <p>Bill To</p>
+                        <div class="form-one">
+                            <form th:action="@{/cart/saveOrder}" th:object="${order}" method="post">
+                                <input type="text" placeholder="Receiver Name" th:field="*{receiverName}">
+                                <input type="text" placeholder="Phone" th:field="*{receiverPhone}">
+                                <input type="text" placeholder="Address" th:field="*{receiverAddress}">
+                                <label>Payment Method </label>
+                                <select th:field="*{paymentMethod}">
+                                    <option value="1">Cash</option>
+                                    <option value="2">Internet Banking</option>
+                                </select>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="order-message">
+                        <p>Shipping Order</p>
+
+                        <label><input type="checkbox"> Shipping to bill address</label>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="review-payment">
+            <h2>Review & Payment</h2>
+        </div>
+
+        <div class="table-responsive cart_info">
+            <table class="table table-condensed">
+                <thead>
+                <tr class="cart_menu">
+                    <td class="image">Item</td>
+                    <td class="description"></td>
+                    <td class="price">Price</td>
+                    <td class="quantity">Quantity</td>
+                    <td class="total">Total</td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="cart_product">
+                        <a href=""><img src="images/cart/one.png" alt=""></a>
+                    </td>
+                    <td class="cart_description">
+                        <h4><a href="">Colorblock Scuba</a></h4>
+                        <p>Web ID: 1089772</p>
+                    </td>
+                    <td class="cart_price">
+                        <p>$59</p>
+                    </td>
+                    <td class="cart_quantity">
+                        <div class="cart_quantity_button">
+                            <a class="cart_quantity_up" href=""> + </a>
+                            <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
+                            <a class="cart_quantity_down" href=""> - </a>
+                        </div>
+                    </td>
+                    <td class="cart_total">
+                        <p class="cart_total_price">$59</p>
+                    </td>
+                    <td class="cart_delete">
+                        <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="cart_product">
+                        <a href=""><img src="images/cart/two.png" alt=""></a>
+                    </td>
+                    <td class="cart_description">
+                        <h4><a href="">Colorblock Scuba</a></h4>
+                        <p>Web ID: 1089772</p>
+                    </td>
+                    <td class="cart_price">
+                        <p>$59</p>
+                    </td>
+                    <td class="cart_quantity">
+                        <div class="cart_quantity_button">
+                            <a class="cart_quantity_up" href=""> + </a>
+                            <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
+                            <a class="cart_quantity_down" href=""> - </a>
+                        </div>
+                    </td>
+                    <td class="cart_total">
+                        <p class="cart_total_price">$59</p>
+                    </td>
+                    <td class="cart_delete">
+                        <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cart_product">
+                        <a href=""><img src="images/cart/three.png" alt=""></a>
+                    </td>
+                    <td class="cart_description">
+                        <h4><a href="">Colorblock Scuba</a></h4>
+                        <p>Web ID: 1089772</p>
+                    </td>
+                    <td class="cart_price">
+                        <p>$59</p>
+                    </td>
+                    <td class="cart_quantity">
+                        <div class="cart_quantity_button">
+                            <a class="cart_quantity_up" href=""> + </a>
+                            <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
+                            <a class="cart_quantity_down" href=""> - </a>
+                        </div>
+                    </td>
+                    <td class="cart_total">
+                        <p class="cart_total_price">$59</p>
+                    </td>
+                    <td class="cart_delete">
+                        <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">&nbsp;</td>
+                    <td colspan="2">
+                        <table class="table table-condensed total-result">
+                            <tr>
+                                <td>Cart Sub Total</td>
+                                <td>$59</td>
+                            </tr>
+                            <tr>
+                                <td>Exo Tax</td>
+                                <td>$2</td>
+                            </tr>
+                            <tr class="shipping-cost">
+                                <td>Shipping Cost</td>
+                                <td>Free</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td><span>$61</span></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="payment-options">
+					<span>
+						<label><input type="checkbox"> Direct Bank Transfer</label>
+					</span>
+            <span>
+						<label><input type="checkbox"> Check Payment</label>
+					</span>
+            <span>
+						<label><input type="checkbox"> Paypal</label>
+					</span>
+        </div>
     </div>
-</section><!--/form-->
+</section> <!--/#cart_items-->
+
 
 
 <footer id="footer"><!--Footer-->
@@ -267,6 +400,7 @@
             </div>
         </div>
     </div>
+
     <div class="footer-widget">
         <div class="container">
             <div class="row">
@@ -332,6 +466,7 @@
             </div>
         </div>
     </div>
+
     <div class="footer-bottom">
         <div class="container">
             <div class="row">
@@ -340,99 +475,15 @@
             </div>
         </div>
     </div>
+
 </footer><!--/Footer-->
 
-<script src="js/jquery.js"></script>
-<script src="js/price-range.js"></script>
-<script src="js/jquery.scrollUp.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.prettyPhoto.js"></script>
-<script src="js/main.js"></script>\
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#username").on("input", function(e) {
-            $('#msg_username').hide();
-            if ($('#username').val() == null || $('#username').val() == "") {
-                $('#msg_username').show();
-                $("#msg_username").html("Username is a required field.").css("color", "red");
-            } else {
-                $.ajax({
-                    type: 'post',
-                    url: "/check_username",
-                    data: JSON.stringify({userName: $('#username').val()}),
-                    contentType: 'application/json; charset=utf-8',
-                    cache: false,
-                    beforeSend: function (f) {
-                        $('#msg_username').show();
-                        $('#msg_username').html('Checking...');
-                    },
-                    statusCode: {
-                        500: function(xhr) {
-                            $('#msg_username').show();
-                            $("#msg_username").html("Username available").css("color", "green");
-                        }
-                    },
-                    success: function(msg_username) {
-                        $('#msg_username').show();
-                        if(msg_username !== null || msg_username !== "") {
-                            $("#msg_username").html("Username already taken").css("color", "red");
-                        } else {
-                            $("#msg_username").html("Username available").css("color", "green");
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        $('#msg_username').show();
-                        $("#msg_username").html(textStatus + " " + errorThrown).css("color", "red");
-                    }
-                });
-            }
-        });
-    });
-</script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#email").on("input", function(g) {
-            $('#msg_email').hide();
-            if ($('#email').val() == null || $('#email').val() == "") {
-                $('#msg_email').show();
-                $("#msg_email").html("Email is a required field.").css("color", "red");
-            } else {
-                $.ajax({
-                    type: 'post',
-                    url: "/check_email",
-                    data: JSON.stringify({email: $('#email').val()}),
-                    contentType: 'application/json; charset=utf-8',
-                    // dataType: 'json',
-                    cache: false,
-                    beforeSend: function (h) {
-                        $('#msg_email').show();
-                        $('#msg_email').html('Checking...');
-                    },
-                    statusCode: {
-                        500: function(xhr) {
-                            $('#msg_email').show();
-                            $("#msg_email").html("Email available").css("color", "green");
-                        }
-                    },
-                    success: function(msg_email) {
-                        $('#msg_email').show();
-                        if(msg_email !== null || msg_email !== "") {
-                            $("#msg_email").html("Email already taken").css("color", "red");
-                        } else {
-                            $("#msg_email").html("Email available").css("color", "green");
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        $('#msg_email').show();
-                        $("#msg_email").html(textStatus + " " + errorThrown).css("color", "red");
-                    }
-                });
-            }
-        });
-    });
-</script>
 
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.scrollUp.min.js"></script>
+<script src="js/jquery.prettyPhoto.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

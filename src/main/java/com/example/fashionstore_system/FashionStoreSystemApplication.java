@@ -17,5 +17,4 @@ public class FashionStoreSystemApplication  {
         SpringApplication.run(FashionStoreSystemApplication.class, args
         );
     }
-
 }

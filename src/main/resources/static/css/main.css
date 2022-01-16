@@ -1627,7 +1627,7 @@ h2.title {
 
 .cart_product {
   display: block;
-  margin: 15px -70px 10px 25px;
+  /*margin: 15px -70px 10px 25px;*/
 }
 
 .cart_quantity_button a {
@@ -1658,7 +1658,10 @@ h2.title {
   margin-right: -12px;
   overflow: hidden;
 }
-
+.order-detail  {
+  display: block;
+  margin-right: -12px;
+}
 
 .cart_delete a {
   background:#F0F0E9;

@@ -20,5 +20,6 @@ public interface PromotionRepository extends JpaRepository<Promotion, Integer> {
 
     public Page<Promotion> findByNameContaining(String keyword, Pageable pageable);
 
+    public Promotion findAllById(int PromotionId);
 
 }
