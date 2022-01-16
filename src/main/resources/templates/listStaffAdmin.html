@@ -29,7 +29,7 @@
     <h1>Staff List</h1>
     <a href="/admin/newStaff" class="btn btn-primary">Add Staff</a> <br/> <br/>
     <form th:action="@{'/admin/staff'}">
-        Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
+        Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
         <input type="submit" value="Search"/>
         <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>
     </form>
