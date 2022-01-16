@@ -21,7 +21,6 @@ import java.io.UnsupportedEncodingException;
 @Service
 public class UserService {
 
-
     @Autowired
     private CustomerRepository customerRepository;
 
