@@ -203,6 +203,8 @@ public class UserController {
         new SecurityContextLogoutHandler().logout(request, response, authentication);
         return new RedirectView("/login");
     }
+
+
 }
 
 

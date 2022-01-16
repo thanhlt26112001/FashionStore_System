@@ -20,8 +20,6 @@ import java.io.UnsupportedEncodingException;
 
 @Service
 public class UserService {
-    @Autowired
-    private UserRepository repository;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -37,7 +35,7 @@ public class UserService {
     }
 
     public UserDto getUserByUserName(final String userName) {
-        User user = repository.findByUsername(userName);
+        User user = userRepository.findByUsername(userName);
         if (user != null) {
             UserDto userDto = new UserDto(user.getId(), user.getUsername(), user.getCustomer().getEmail());
             return userDto;
@@ -55,11 +53,11 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        return repository.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 
     public void saveUser(User user) {
-        repository.save(user);
+        userRepository.save(user);
     }
 
     public void sendVerificationEmail(User user, String siteUrl) throws MessagingException, UnsupportedEncodingException {
@@ -100,4 +98,8 @@ public class UserService {
         helper.setText(content, true);
         javaMailSender.send(message);
     }
+    public void deleteUser(int id){
+        userRepository.deleteById(id);
+    }
+
 }

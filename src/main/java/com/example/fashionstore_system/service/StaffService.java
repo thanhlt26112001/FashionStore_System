@@ -16,8 +16,8 @@ public class StaffService {
     public List<Staff> listAll() {
         return staffRepository.findAll();
     }
-
-    public void save(Staff staff) {
+    public Staff getById(int id){return staffRepository.getById(id);};
+    public void saveStaff(Staff staff) {
         staffRepository.save(staff);
     }
 
