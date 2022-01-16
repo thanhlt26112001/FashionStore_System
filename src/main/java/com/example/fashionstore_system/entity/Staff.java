@@ -26,7 +26,7 @@ public class Staff implements Serializable {
     @Column
     private String email;
     @Column
-    private Integer phone;
+    private String phone;
     @Column
     private String avatar;
     @Column(name = "created_at")

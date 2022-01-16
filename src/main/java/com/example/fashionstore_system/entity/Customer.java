@@ -30,7 +30,7 @@ public class Customer implements Serializable {
     @Email
     private String email;
     @Column
-    private Integer phone;
+    private String phone;
     @Column
     private String address;
     @Column
