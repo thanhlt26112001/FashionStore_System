@@ -70,7 +70,7 @@
         </thead>
         <tbody>
           <tr th:each="img : ${productImageList}">
-          <td><a th:href="@{img.image}"  th:text="${img.image}"></a></td>
+          <td><a th:href="@{${img.image}}"  th:text="${img.image}"></a></td>
           <td><a th:href="@{'/admin/product/deleteImage/' + ${img.id}}">Delete</a></td>
         </tr>
         </tbody>

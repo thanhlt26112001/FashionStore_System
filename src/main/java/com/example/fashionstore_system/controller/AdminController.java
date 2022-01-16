@@ -267,11 +267,11 @@ public class AdminController {
         userSave.setRole(roleRepository.getById(user.getRole().getId()));
         //customer
         Customer customerSave = customerService.getById(user.getCustomer().getId());
-        customerSave.setName(user.getCustomer().getName());
-        customerSave.setEmail(user.getCustomer().getEmail());
-        customerSave.setPhone(user.getCustomer().getPhone());
-        customerSave.setAddress(user.getCustomer().getAddress());
-        customerSave.setBirthday(user.getCustomer().getBirthday());
+//        customerSave.setName(user.getCustomer().getName());
+//        customerSave.setEmail(user.getCustomer().getEmail());
+//        customerSave.setPhone(user.getCustomer().getPhone());
+//        customerSave.setAddress(user.getCustomer().getAddress());
+//        customerSave.setBirthday(user.getCustomer().getBirthday());
         //Staff
         Staff staffSave = staffService.getById(user.getStaff().getId());
         staffSave.setAvatar(user.getStaff().getAvatar());
@@ -299,8 +299,12 @@ public class AdminController {
     @RequestMapping("/deleteStaff/{id}")
     public String deleteStaff(@PathVariable(name = "id") int id) {
         User user = userService.getById(id);
+        int staffId = user.getStaff().getId();
+        user.setStaff(null);
+        user.setRole(roleRepository.getById(1));
         // int staffId = user.getStaff().getId();
-        userService.deleteUser(id);
+        userService.saveUser(user);
+        staffService.delete(staffId);
         // staffService.delete(staffId);
         return "redirect:/admin/staff";
     }
@@ -515,7 +519,7 @@ public class AdminController {
         Category category1 = categoriesService.findByName(category.getName());
         if (category1 != null) {
             model.addFlashAttribute("alert", "Category name is existed!!!");
-            return new RedirectView("/admin/category/listCategory");
+            return new RedirectView("/admin/category/listCategory/add");
         }
         categoriesService.save(category);
         return new RedirectView("/admin/category/listCategory");

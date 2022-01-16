@@ -39,8 +39,8 @@
       <td th:text="${customer.phone}">Phone</td>
       <td th:text="${customer.user.username}">User</td>
       <td>
-        <a th:href="@{'/admin/customer/edit/' + ${customer.id}}">Edit</a>
-        <a th:href="@{'/admin/customer/delete/' + ${customer.id}}">Delete</a>
+        <a th:href="@{'/admin/customer/edit/' + ${customer.user.id}}">Edit</a>
+        <a th:href="@{'/admin/customer/delete/' + ${customer.user.id}}">Delete</a>
       </td>
     </tr>
     </tbody>
