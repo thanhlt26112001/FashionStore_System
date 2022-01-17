@@ -155,34 +155,37 @@
 
         <div class="shopper-informations">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                 </div>
-                <div class="col-sm-5 clearfix">
+                <div class="col-sm-8 clearfix">
                     <div class="bill-to">
                         <p>Bill To</p>
                         <div class="form-one">
                             <form th:action="@{/cart/saveOrder}" th:object="${order}" method="post">
-                                <input type="text" placeholder="Receiver Name" th:field="*{receiverName}">
-                                <input type="text" placeholder="Phone" th:field="*{receiverPhone}">
-                                <input type="text" placeholder="Address" th:field="*{receiverAddress}">
+                                <input type="text" placeholder="Receiver Name" th:field="*{receiverName}" required>
+                                <input type="text" placeholder="Phone" th:field="*{receiverPhone}" required>
+                                <input type="text" placeholder="Address" th:field="*{receiverAddress}" required>
                                 <label>Payment Method </label>
                                 <select th:field="*{paymentMethod}">
                                     <option value="1">Cash</option>
                                     <option value="2">Internet Banking</option>
                                 </select>
-
+                                <label>Payment Method </label>
+                                <select th:field="*{shippingUnit}" >
+                                    <option th:each="shippingunit:${shippingUnitlist}"
+                                            th:value="${shippingunit.id}"
+                                            th:utext="${shippingunit.name}">
+                                </select>
+                                <input th:if="${promotion!=null}" type="hidden" name="promotionId" th:value="${promotion.id}">
+                                <input th:if="${promotion==null}" type="hidden" name="promotionId" th:value="${0}">
+                                <input type="hidden" name="totalprice" th:value="${totalprice}">
+                                <button type="submit" class="btn btn-default check_out" >Check out</button>
                             </form>
                         </div>
 
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="order-message">
-                        <p>Shipping Order</p>
 
-                        <label><input type="checkbox"> Shipping to bill address</label>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="review-payment">
@@ -194,126 +197,61 @@
                 <thead>
                 <tr class="cart_menu">
                     <td class="image">Item</td>
-                    <td class="description"></td>
+                    <td class="description">Name</td>
                     <td class="price">Price</td>
                     <td class="quantity">Quantity</td>
                     <td class="total">Total</td>
-                    <td></td>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td class="cart_product">
-                        <a href=""><img src="images/cart/one.png" alt=""></a>
-                    </td>
-                    <td class="cart_description">
-                        <h4><a href="">Colorblock Scuba</a></h4>
-                        <p>Web ID: 1089772</p>
-                    </td>
-                    <td class="cart_price">
-                        <p>$59</p>
-                    </td>
-                    <td class="cart_quantity">
-                        <div class="cart_quantity_button">
-                            <a class="cart_quantity_up" href=""> + </a>
-                            <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                            <a class="cart_quantity_down" href=""> - </a>
-                        </div>
-                    </td>
-                    <td class="cart_total">
-                        <p class="cart_total_price">$59</p>
-                    </td>
-                    <td class="cart_delete">
-                        <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="cart_product">
-                        <a href=""><img src="images/cart/two.png" alt=""></a>
-                    </td>
-                    <td class="cart_description">
-                        <h4><a href="">Colorblock Scuba</a></h4>
-                        <p>Web ID: 1089772</p>
-                    </td>
-                    <td class="cart_price">
-                        <p>$59</p>
-                    </td>
-                    <td class="cart_quantity">
-                        <div class="cart_quantity_button">
-                            <a class="cart_quantity_up" href=""> + </a>
-                            <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                            <a class="cart_quantity_down" href=""> - </a>
-                        </div>
-                    </td>
-                    <td class="cart_total">
-                        <p class="cart_total_price">$59</p>
-                    </td>
-                    <td class="cart_delete">
-                        <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="cart_product">
-                        <a href=""><img src="images/cart/three.png" alt=""></a>
-                    </td>
-                    <td class="cart_description">
-                        <h4><a href="">Colorblock Scuba</a></h4>
-                        <p>Web ID: 1089772</p>
-                    </td>
-                    <td class="cart_price">
-                        <p>$59</p>
-                    </td>
-                    <td class="cart_quantity">
-                        <div class="cart_quantity_button">
-                            <a class="cart_quantity_up" href=""> + </a>
-                            <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                            <a class="cart_quantity_down" href=""> - </a>
-                        </div>
-                    </td>
-                    <td class="cart_total">
-                        <p class="cart_total_price">$59</p>
-                    </td>
-                    <td class="cart_delete">
-                        <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4">&nbsp;</td>
-                    <td colspan="2">
-                        <table class="table table-condensed total-result">
-                            <tr>
-                                <td>Cart Sub Total</td>
-                                <td>$59</td>
-                            </tr>
-                            <tr>
-                                <td>Exo Tax</td>
-                                <td>$2</td>
-                            </tr>
-                            <tr class="shipping-cost">
-                                <td>Shipping Cost</td>
-                                <td>Free</td>
-                            </tr>
-                            <tr>
-                                <td>Total</td>
-                                <td><span>$61</span></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+                <th:block th:if="${listCart.size()>0}">
+                    <tr th:each="cart : ${listCart}">
+                        <td class="cart_product">
+                            <a href=""><img style="width: 100px;" th:src="${cart.product.image}"></a>
+                        </td>
+                        <td class="cart_description" style="width: 30%; padding-right: 5px;">
+                            <h4><a href="" th:text="${cart.product.name}"></a></h4>
+                        </td>
+                        <td class="cart_price">
+                            <p th:text="${cart.product.price}+' VNĐ'"></p>
+                        </td>
+                        <td class="cart_quantity">
+                            <h4 th:text="${cart.quantity}"></h4>
+                        </td>
+                        <td class="cart_total">
+                            <p class="cart_total_price" th:id="'total'+${cart.id}"
+                               th:text="${cart.product.price * cart.quantity}+' VNĐ'"></p>
+                        </td>
+                        <input type="hidden" th:id="'maxQuantity'+${cart.id}" th:value="${cart.product.quantity}">
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                        <td colspan="2">
+                            <table class="table table-condensed total-result">
+                                <tr>
+                                    <td>Cart Sub Total</td>
+                                    <td><span th:text="${subtotal}"></span></td>
+                                </tr>
+                                <tr class="shipping-cost">
+                                    <td>Shipping Cost</td>
+                                    <td>Free</td>
+                                </tr>
+                                <tr class="shipping-cost">
+                                    <td>Promotion</td>
+                                    <td th:if="${promotion!=null}" th:text="${promotion.discount}+'%'"></td>
+                                    <td th:if="${promotion==null}">None </td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td><span th:text="${totalprice}"></span></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </th:block>
                 </tbody>
             </table>
-        </div>
-        <div class="payment-options">
-					<span>
-						<label><input type="checkbox"> Direct Bank Transfer</label>
-					</span>
-            <span>
-						<label><input type="checkbox"> Check Payment</label>
-					</span>
-            <span>
-						<label><input type="checkbox"> Paypal</label>
-					</span>
+
         </div>
     </div>
 </section> <!--/#cart_items-->

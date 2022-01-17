@@ -183,6 +183,7 @@
                     </td>
                     <td class="cart_total">
                         <div th:switch="${order.status}">
+                            <p th:case="'0'">Processing</p>
                             <p th:case="'1'">Shipping</p>
                             <p th:case="'2'">Finished</p>
                             <p th:case="'3'">Canceled</p>
@@ -194,7 +195,7 @@
                     <td class="order-detail">
                         <a class="cart_quantity_delete" th:href="@{'/myorder/'+${order.id}}">Details</a>
                     </td>
-                    <td class="order-detail" th:if="${order.status==1}">
+                    <td class="order-detail" th:if="${order.status==0}">
                         <a class="cart_quantity_delete" th:href="@{'/myorder/cancel/'+${order.id}}">Cancel</a>
                     </td>
                 </tr>

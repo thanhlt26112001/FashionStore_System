@@ -27,4 +27,10 @@ public class CartService {
     public void deleteCart(Cart cart){
         cartRepository.delete(cart);
     }
+
+    public void deleteUserCart(List<Cart> cartList) {
+        for(Cart cart:cartList){
+            cartRepository.delete(cart);
+        }
+    }
 }
