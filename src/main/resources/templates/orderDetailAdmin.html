@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OrderDetail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/css/prettyPhoto.css}" rel="stylesheet">
+    <link th:href="@{/css/price-range.css}" rel="stylesheet">
+    <link th:href="@{/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/responsive.css}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script th:src="@{/js/html5shiv.js}"></script>
+    <script th:src="@{/js/respond.min.js}"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+</head>
+<body>
+<h2 class="mt-2" style="text-align:center">Chi tiết đơn hàng</h2>
+<!--<div>-->
+<!--    <form th:action="@{/admin/order}" th:object="${order}" method="post"-->
+<!--          enctype="multipart/form-data">-->
+<!--        <div class="row">-->
+<!--            <label class="col-3">Order ID: <input th:field="*{id}" type="text" class="form-control"-->
+<!--                                                  name="id" id="id" readonly/></label>-->
+
+<!--            <label class="col-3">CreatedAt: <input th:field="*{createdAt}" type="text" class="form-control"-->
+<!--                                                  name="date" id="createdAt " readonly/></label>-->
+
+<!--            <label class="col-6">Customer: <input th:field="*{customer.name}" type="text"-->
+<!--                                                  class="form-control"-->
+<!--                                                  name="name" id="customer name" readonly/></label>-->
+<!--        </div>-->
+<!--        <div class="row">-->
+<!--            <label class="col-3">ReceiverName: <input th:field="*{receiverName}" type="text" class="form-control"-->
+<!--                                                      name="name" id="receiverName" readonly/></label>-->
+
+<!--            <label class="col-3">Phone: <input th:field="*{receiverPhone}" type="text" class="form-control"-->
+<!--                                               name="phone" id="phone" readonly/></label>-->
+
+<!--            <label class="col-6">Address: <input th:field="*{receiverAddress}" type="text" class="form-control"-->
+<!--                                                 name="address" id="address" readonly/></label>-->
+
+<!--        </div>-->
+<!--        <div class="row">-->
+
+<!--            <label class="col-3">Promotion: <input th:field="*{promotion.name}" type="text"-->
+<!--                                                   class="form-control"-->
+<!--                                                   name="Promotion" id="Promotion" readonly/></label>-->
+<!--            <label class="col-3">ShippingUnit: <input th:field="*{shippingUnit.name}" type="text"-->
+<!--                                                      class="form-control"-->
+<!--                                                      name="shippingUnit" id="shippingUnit" readonly/></label>-->
+<!--            <label class="col-6">Price: <input th:field="*{price}" type="text" class="form-control"-->
+<!--                                               name="price" id="price" readonly/></label>-->
+
+<!--        </div>-->
+<!--        <div class="row">-->
+<!--            &lt;!&ndash;            0:ship cod, 1:banking&ndash;&gt;-->
+<!--            <label class="col-6">PaymentMethod: <input th:field="*{paymentMethod}" type="text" class="form-control"-->
+<!--                                               name="price" id="paymentMethod" readonly/></label>-->
+<!--            &lt;!&ndash;            0:unpaid, 1: paid&ndash;&gt;-->
+<!--            <label class="col-3">PaymentStatus: </label>-->
+<!--            <select asp-for="paymentStatus" class="form-control col-2" id="paymentStatus" name="paymentStatus">-->
+<!--                <option value="0">unpaid</option>-->
+<!--                <option value="1">paid</option>-->
+<!--            </select>-->
+<!--            <label class="col-1">Status :</label>-->
+<!--            <select asp-for="Tinhtrang" class="form-control col-2" id="Status" name="Status">-->
+<!--                &lt;!&ndash;                0:processing, 1: shipping, 2: finished, 3:canceled&ndash;&gt;-->
+<!--                <option value="0">processing</option>-->
+<!--                <option value="1">shipping</option>-->
+<!--                <option value="2">finished</option>-->
+<!--                <option value="3">canceled</option>-->
+<!--            </select>-->
+<!--            <input type="submit" value="OK" class="btn btn-success col-1"/>-->
+<!--        </div>-->
+<!--        <table class="table table-bordered mt-2">-->
+<!--            <tr>-->
+<!--                <th>Product Name</th>-->
+<!--                <th>Image</th>-->
+<!--                <th>Quantity</th>-->
+<!--                <th>Price</th>-->
+<!--                <th>CreateAt</th>-->
+<!--            </tr>-->
+<!--            <tr th:each="orderDetail : ${orderDetailList}">-->
+<!--                <td th:text="${orderDetail.product.name}">Product Name</td>-->
+<!--                <td img th:src="${orderDetail.product.image}">Staff ID</td>-->
+<!--                <td th:text="${orderDetail.quantity}">Quantity</td>-->
+<!--                <td th:text="${orderDetail.price}">Price</td>-->
+
+<!--            </tr>-->
+<!--        </table>-->
+<!--    </form>-->
+<!--</div>-->
+<div class="container">
+    <h2>Order details</h2>
+    <form th:action="@{/admin/saveOrderEdit}" th:object="${order}" method="post"
+              enctype="multipart/form-data">
+    <div style="display: flex; justify-content: space-between">
+        <div style="display: grid">
+            <label class="col-3">Order ID: <input th:field="*{id}" type="text" class="form-control"
+                                                  name="id" id="id" readonly/>
+                <input type="hidden" th:field="*{shippingUnit.id}"/>
+                <input type="hidden" th:field="*{promotion.id}"/>
+                <input type="hidden" th:field="*{customer.id}"/> </label>
+            <label class="col-3">CreatedAt: <input th:field="*{createdAt}" type="text" class="form-control"
+                                                   name="date" id="createdAt " readonly/></label>
+            <label class="col-6">Customer: <input th:field="*{customer.name}" type="text"
+                                                  class="form-control"
+                                                  name="name" id="customer name" readonly/></label>
+            <!--            0:ship cod, 1:banking-->
+            <label class="col-6">PaymentMethod: <input th:field="*{paymentMethod}" type="text" class="form-control"
+                                                       name="price" id="paymentMethod" readonly/></label>
+        </div>
+        <div style="display: grid">
+            <label class="col-3">ReceiverName: <input th:field="*{receiverName}" type="text" class="form-control"
+                                                      name="name" id="receiverName" readonly/></label>
+            <label class="col-3">Phone: <input th:field="*{receiverPhone}" type="text" class="form-control"
+                                               name="phone" id="phone" readonly/></label>
+            <label class="col-6">Address: <input th:field="*{receiverAddress}" type="text" class="form-control"
+                                                 name="address" id="address" readonly/></label>
+            <label class="col-3">PaymentStatus: </label>
+            <select th:field="*{paymentStatus}">
+                <option th:value='0' th:text="unpaid"></option>
+                <option th:value='1' th:text="paid"></option>
+            </select>
+        </div>
+        <div style="display: grid">
+            <label class="col-3">Promotion: <input th:field="*{promotion.name}" type="text"
+                                                   class="form-control"
+                                                   name="Promotion" id="Promotion" readonly/></label>
+            <label class="col-3">ShippingUnit: <input th:field="*{shippingUnit.name}" type="text"
+                                                      class="form-control"
+                                                      name="shippingUnit" id="shippingUnit" readonly/></label>
+            <label class="col-6">Price: <input th:field="*{price}" type="text" class="form-control"
+                                               name="price" id="price" readonly/></label>
+            <label class="col-3">Status: </label>
+            <select th:field="*{status}">
+                <option th:value='0' th:text="processing"></option>
+                <option th:value='1' th:text="shipping"></option>
+                <option th:value='2' th:text="finished"></option>
+                <option th:value='3' th:text="canceled"></option>
+            </select>
+            <input type="submit" value="OK" class="btn btn-success col-1"/>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr style="text-align: center">
+            <th>Product Name</th>
+            <th>Image</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orderDetail : ${orderDetailList}">
+            <td th:text="${orderDetail.product.name}"></td>
+            <td > <img th:src="@{orderDetail.product.image}" style="width: 50px"> </td>
+            <td th:text="${orderDetail.quantity}"></td>
+            <td th:text="${orderDetail.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+</div>
+<br/>
+</body>
+</html>
