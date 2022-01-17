@@ -26,60 +26,65 @@
 </head>
 <body>
 <div align="center" class="container">
-    <h1>Order List</h1>
+    <h1 style="
+    color: orange;
+    font-family: cursive;
+    font-weight: bold;
+">Order List</h1>
 
-    <form th:action="@{'/admin/order'}">
-        Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
-        <input type="submit" value="Search"/>
-        <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>
-    </form>
+    <div class="search_box pull-right" style="margin-bottom: 10px">
+        <div class="input-group">
+            <form th:action="@{'/admin/order'}">
+                Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
+            </form>
+        </div>
+    </div>
     <table class="table table-bordered">
         <thead>
         <tr style="text-align: center">
             <th style="text-align: center">Orer ID</th>
-            <th style="text-align: center">Customer ID</th>
-            <th style="text-align: center">Reciver_Name</th>
-            <th style="text-align: center">Reciver_Address</th>
-            <th style="text-align: center">Reciver_Phone</th>
-            <th style="text-align: center">Promotion_Id</th>
-            <th style="text-align: center">Shipping_Unit_Id</th>
-            <th style="text-align: center">Price</th>
-            <th style="text-align: center">Payment_Method</th>
+            <th style="text-align: center">Customer Username</th>
+            <th style="text-align: center">Reciver Name</th>
+            <th style="text-align: center">Reciver Address</th>
+            <th style="text-align: center">Reciver Phone</th>
+            <th style="text-align: center">Promotion</th>
+            <th style="text-align: center">Shipping Unit</th>
+            <th style="text-align: center"><a style="color: black" th:href="@{'/admin/order/'+${currentPage}
+                                    +'?sortField=price&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
+                Price</a></th>
+            <th style="text-align: center">Payment Method</th>
+            <th style="text-align: center">Payment Status</th>
             <th style="text-align: center">Status</th>
-            <th style="text-align: center">Payment_Status</th>
-            <th style="text-align: center">Create_At</th>
+            <th style="text-align: center">Created At</th>
             <th style="text-align: center">Actions</th>
         </tr>
         </thead>
         <tbody>
 
         <tr th:each="order : ${orderList}">
-            <td th:text="${order.id}">Staff ID</td>
-            <td th:text="${order.customer.id}">Customer ID</td>
-            <td th:text="${order.receiverName}">Reciver_Name</td>
-            <td th:text="${order.receiverPhone}">Reciver_Phone</td>
-            <td th:text="${order.receiverAddress}">Reciver_Address</td>
-            <td th:text="${order.promotion.id}">Promotion_Id</td>
-            <td th:text="${order.shippingUnit.id}">Shipping_Unit_Id</td>
-            <td th:text="${order.price}">Price</td>
-            <td th:text="${order.paymentMethod}">Payment_Method</td>
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.customer.user.username}"></td>
+            <td th:text="${order.receiverName}"></td>
+            <td th:text="${order.receiverAddress}"></td>
+            <td th:text="${order.receiverPhone}"></td>
+            <td th:text="${order.promotion.discount}"></td>
+            <td th:text="${order.shippingUnit.name}"></td>
+            <td th:text="${order.price}"></td>
+            <td th:text="${order.paymentMethod}"></td>
             <td th:switch="${order.paymentStatus}">
                 <p th:case="'0'">Unpaid</p>
                 <p th:case="'1'">Paid</p>
             </td>
             <td th:switch="${order.status}">
-                <p th:case="'0'">processing</p>
-                <p th:case="'1'">shipping</p>
-                <p th:case="'2'">finished</p>
-                <p th:case="'3'">canceled</p>
+                <p th:case="'0'">Processing</p>
+                <p th:case="'1'">Shipping</p>
+                <p th:case="'2'">Finished</p>
+                <p th:case="'3'">Canceled</p>
             </td>
-
-            <td th:text="${order.createdAt}">Create_At</td>
-
+            <td th:text="${order.createdAt}"></td>
             <td style="text-align: center">
-                <a th:href="@{'/admin/orderDetail/' + ${order.id} }" class="btn btn-primary btn-sm"
-                   href="#" style="margin-top: 0">Detail</a>
-
+                <a th:href="@{'/admin/orderDetail/' + ${order.id} }"
+                   class="btn btn-primary btn-sm" href="#" style="margin-top: 0">Detail</a>
             </td>
         </tr>
         </tbody>

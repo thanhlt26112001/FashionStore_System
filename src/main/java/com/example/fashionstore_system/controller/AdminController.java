@@ -637,16 +637,7 @@ public class AdminController {
         Order orderSave = orderService.getById(order.getId());
         orderSave.setPaymentStatus(order.getPaymentStatus());
         orderSave.setStatus(order.getStatus());
-        Customer customer = customerService.getById(order.getCustomer().getId());
-        customer.setName(order.getCustomer().getName());
-        Promotion promotion = promotionService.getById(order.getPromotion().getId());
-        promotion.setName(order.getPromotion().getName());
-        ShippingUnit shippingUnit = shippingUnitService.getShippingUnitById(order.getShippingUnit().getId());
-        shippingUnit.setName(order.getShippingUnit().getName());
-        customerService.saveCustomer(customer);
-        promotionService.save(promotion);
-        shippingUnitService.saveShippingUnit(shippingUnit);
-        orderService.saveOrder(order);
+        orderService.saveOrder(orderSave);
         return "redirect:/admin/order" ;
     }
 }
