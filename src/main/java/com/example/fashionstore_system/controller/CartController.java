@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -34,7 +39,7 @@ public class CartController {
     private PromotionService promotionService;
 
     @GetMapping({"/", "/show"})
-    public String checkLoginCart(Model model) {
+    public String checkLoginCart(Model model) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "redirect:/login";
@@ -47,10 +52,49 @@ public class CartController {
             total+=cart.getQuantity()* Double.parseDouble(String.valueOf(cart.getProduct().getPrice()));
         }
         model.addAttribute("total",total);
-        model.addAttribute("listPromotion",promotionService.getAllPromotions());
+        List<Promotion> allpromotion = promotionService.getAllPromotions();
+        Date today = new Date();
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        String dayInWeek ="";
+        switch (day){
+            case 2:
+            dayInWeek+= "Monday";
+            break;
+            case 3:
+                dayInWeek+= "Tuesday";
+                break;
+            case 4:
+                dayInWeek+= "Wednesday";
+                break;
+            case 5:
+                dayInWeek+= "Thursday";
+                break;
+            case 6:
+                dayInWeek+= "Friday";
+                break;
+            case 7:
+                dayInWeek+= "Saturday";
+                break;
+            case 8:
+                dayInWeek+= "Sunday";
+                break;
+        }
+        List<Promotion> availablepromotion = new ArrayList<Promotion>() ;
+        for (Promotion promotion:allpromotion){
+            if (promotion.getStartDate().before(today)&&promotion.getEndDate().after(today)
+                &&(promotion.getApplyDay().contains(dayInWeek)||promotion.getApplyDay().equals("AllWeek"))){
+                availablepromotion.add(promotion);
+            }
+        }
+        model.addAttribute("listPromotion",availablepromotion);
         Promotion promotion = new Promotion();
         model.addAttribute("promotion",promotion);
         return "cart";
+    }
+    public static String getToday(String format){
+        Date date = new Date();
+        return new SimpleDateFormat(format).format(date);
     }
 
     @PostMapping("/increaseAmount")

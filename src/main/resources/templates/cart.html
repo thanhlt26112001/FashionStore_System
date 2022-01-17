@@ -233,9 +233,10 @@
 
                         <li class="single_field">
                             <label>Coupon:</label>
-                            <select th:field="*{id}">
+                            <select th:field="*{id}" >
                                 <option value="">--</option>
                                 <option th:each="promotion:${listPromotion}"
+
                                 th:value="${promotion.id}"
                                 th:utext="${promotion.name}">
                             </select>
