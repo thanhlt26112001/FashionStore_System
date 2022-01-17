@@ -16,9 +16,10 @@ public class OrderDetailService {
         return orderDetailRepository.findAllByOrderId(orderId);
     }
 
-    public void deleteorderdetail(List<OrderDetail> list) {
-        for (OrderDetail orderDetail : list) {
-            orderDetailRepository.delete(orderDetail);
-        }
+    public void deleteorderdetail(OrderDetail orderDetail) {
+        orderDetailRepository.delete(orderDetail);
+    }
+    public void saveOrderDetail(OrderDetail orderDetail){
+        orderDetailRepository.save(orderDetail);
     }
 }

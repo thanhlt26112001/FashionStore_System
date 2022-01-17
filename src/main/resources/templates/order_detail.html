@@ -153,6 +153,26 @@
                 <li class="active">My Orders</li>
             </ol>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p th:text="'Receiver Name: '+${order.receiverName}"></p>
+                <p th:text="'Receiver Phone: '+${order.receiverPhone}"></p>
+                <p th:text="'Receiver Address: '+${order.receiverAddress}"></p>
+            </div>
+            <div class="col-md-6">
+                <p th:text="${'Order Date: '+ #calendars.format(order.createdAt, 'dd/MM/yyyy')}"></p>
+
+                <div th:switch="${order.status}">
+                    <p th:case="'0'">Status: Processing</p>
+                    <p th:case="'1'">Status: Shipping</p>
+                    <p th:case="'2'">Status: Finished</p>
+                    <p th:case="'3'">Status: Canceled</p>
+                </div>
+                </p>
+
+                <p th:text="${'Total: '+order.price}"></p>
+            </div>
+        </div>
         <div class="table-responsive cart_info">
             <table class="table table-condensed">
                 <thead>
@@ -186,7 +206,9 @@
                         <p th:text="${orderdetails.order.shippingUnit.name}"></p>
                     </td>
                     <td class="cart_total">
-                        <p th:text="${orderdetails.order.promotion.name}"></p>
+                        <p th:if="${orderdetails.order.promotion!=null}"
+                           th:text="${orderdetails.order.promotion.name}"></p>
+                        <p th:if="${orderdetails.order.promotion==null}">None </p>
                     </td>
                     <td class="cart_total">
                         <div th:switch="${orderdetails.order.paymentMethod}">
@@ -195,7 +217,10 @@
                         </div>
                     </td>
                     <td class="cart_total">
-                        <p th:text="${orderdetails.price * orderdetails.quantity}"></p>
+                        <p th:if="${orderdetails.order.promotion!=null}"
+                           th:text="${orderdetails.price * orderdetails.quantity *(100 - orderdetails.order.promotion.discount)/100}"></p>
+                        <p th:if="${orderdetails.order.promotion==null}"
+                           th:text="${orderdetails.price * orderdetails.quantity}"></p>
                     </td>
                 </tr>
                 </tbody>
@@ -203,7 +228,6 @@
         </div>
     </div>
 </section> <!--/#cart_items-->
-
 
 
 <footer id="footer"><!--Footer-->

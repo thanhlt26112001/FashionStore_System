@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -233,7 +233,7 @@
 
                         <li class="single_field">
                             <label>Coupon:</label>
-                            <select th:field="*{id}">
+                            <select th:field="*{id}" >
                                 <option value="">--</option>
                                 <option th:each="promotion:${listPromotion}"
                                 th:value="${promotion.id}"
@@ -246,17 +246,22 @@
                 </form>
             </div>
             <div class="col-sm-6">
-                <div th:object="${total}">
+                <form th:action="@{/cart/checkout}" >
+                <div>
                 <div class="total_area">
                     <ul>
-                        <li>Cart Sub Total <span th:text="${total}"></span></li>
+                        <li>Cart Sub Total <span th:text="${subtotal}"></span></li>
                         <li>Shipping Cost <span>Free</span></li>
-                        <li>Total <span th:text="${total}"></span></li>
+                        <li>Total <span th:value="${total}" th:text="${total}"></span></li>
                     </ul>
                     <a class="btn btn-default update" th:href="@{/cart/show}" >Update</a>
-                    <a class="btn btn-default check_out" th:href="@{/cart/checkout}">Check Out</a>
+                    <input type="hidden" name="totalprice" th:value="${total}">
+                    <input type="hidden" name="subtotal" th:value="${subtotal}">
+                    <input type="hidden" name="promotionId" th:value="${promotion.id}">
+                    <button th:if="${listCart.size()>0}" type="submit" class="btn btn-default check_out" >Check Out</button>
                 </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>

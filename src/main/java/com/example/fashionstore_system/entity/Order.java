@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -33,7 +35,8 @@ public class Order implements Serializable {
     @Column(name = "receiver_address")
     private String receiverAddress;
     @ManyToOne
-    @JoinColumn(name="promotion_id", nullable=false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="promotion_id", nullable=true)
     private Promotion promotion;
     @ManyToOne
     @JoinColumn(name="shipping_unit_id", nullable=false)

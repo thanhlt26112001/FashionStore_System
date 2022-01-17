@@ -1,10 +1,14 @@
 package com.example.fashionstore_system.controller;
 
+import com.example.fashionstore_system.entity.Order;
 import com.example.fashionstore_system.entity.OrderDetail;
+import com.example.fashionstore_system.entity.Product;
 import com.example.fashionstore_system.entity.User;
 import com.example.fashionstore_system.service.OrderDetailService;
 import com.example.fashionstore_system.service.OrderService;
+import com.example.fashionstore_system.service.ProductService;
 import com.example.fashionstore_system.service.UserService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,6 +33,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private OrderDetailService orderDetailService;
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/myorder")
     public String listorder(Model model){
@@ -44,13 +50,20 @@ public class OrderController {
     @RequestMapping("/myorder/{id}")
     public String vieworderdetails(@PathVariable("id") Integer id, Model model){
         model.addAttribute("orderdetail",orderDetailService.getOrderDetailsByOrderId(id));
+        model.addAttribute("order",orderService.findOrderbyOrderId(id));
+
         return "order_detail";
     }
     @RequestMapping("/myorder/cancel/{id}")
     public String CancelOrders(@PathVariable("id") Integer id, Model model){
         List<OrderDetail> orderDetails= orderDetailService.getOrderDetailsByOrderId(id);
-        orderDetailService.deleteorderdetail(orderDetails);
-        orderService.deleteOrder(id);
-        return "user_order";
+        for(OrderDetail orderDetail:orderDetails){
+            Product product= productService.getProduct(orderDetail.getProduct().getId());
+            product.setQuantity(product.getQuantity()+orderDetail.getQuantity());
+        }
+        Order order= orderService.findOrderbyOrderId(id);
+        order.setStatus(3);
+        orderService.saveOrder(order);
+        return "redirect:/myorder";
     }
 }
