@@ -596,14 +596,7 @@ public class AdminController {
                 + sortDir + "&keyword=" + keyword);
         return "listOrderAdmin";
     }
-    // functions show list Order
-//    @RequestMapping("/order")
-//    public String viewOrderAdmin(Model model, @Param("keyword") String keyword) {
-//        List<Order> orderList = orderService.listAll(keyword);
-//        model.addAttribute("orderList", orderList);
-//        model.addAttribute("keyword", keyword);
-//        return "listOrderAdmin";
-//    }
+
     //function OrderDetail
     @RequestMapping("/orderDetail/{id}")
     public ModelAndView showOrderDetailPage(@PathVariable(name = "id") int id) {
