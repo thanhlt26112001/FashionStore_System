@@ -49,12 +49,15 @@ public class ProductService {
 
     //product management
     //search product by name
-    public Page<Product> listAll(int currentPage, String keyword) {
-        Pageable pageable = PageRequest.of(currentPage - 1, 100);
-        if (keyword != null) {
-            return productRepository.searchProductByName(keyword, pageable);
-        }
-        return productRepository.findAll(pageable);
+    public Page<Product> listAllProduct(int currentPage, String sortField, String sortDirection, String keyword) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(currentPage - 1, 10, sort);
+        return productRepository.findProductByName(keyword, pageable);
+    }
+
+    public Product findByName(String name) {
+        return productRepository.findProductByName(name);
     }
 
     public void saveProduct(Product product) {
