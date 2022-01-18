@@ -60,21 +60,34 @@ public class AdminController {
 
     //function show list product
     @RequestMapping("/product")
-
     public String listProductAdmin(Model model,
-                                   @RequestParam(value = "keyword", defaultValue = "") String keyword) {
-        return listProductAdminByPage(1, keyword, model);
+                                   @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                   @RequestParam(value = "sortField", defaultValue = "id") String sortField,
+                                   @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir) {
+        return listProductAdminByPage(1, sortField, sortDir, keyword, model);
     }
 
     //function show list product by page
-    @RequestMapping("/product/{Pagenumber}")
+    @RequestMapping("/product/{pageNumber}")
     public String listProductAdminByPage(@PathVariable(name = "pageNumber") int currentPage,
-                                         @Param("keyword") String keyword,
+                                         @RequestParam("sortField") String sortField,
+                                         @RequestParam("sortDir") String sortDir,
+                                         @RequestParam("keyword") String keyword,
                                          Model model) {
-        Page<Product> listProducts = productService.listAll(currentPage, keyword);
-        model.addAttribute("listProducts", listProducts);
+        Page<Product> page = productService.listAllProduct(currentPage, sortField, sortDir, keyword);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+        List<Product> listproduct = page.getContent();
+        model.addAttribute("listproduct", listproduct);
         model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("keyword", keyword);
+        model.addAttribute("query", "?sortField=" + sortField + "&sortDir="
+                + sortDir + "&keyword=" + keyword);
         return "listProductAdmin";
     }
 
@@ -133,12 +146,35 @@ public class AdminController {
         return "redirect:/admin/product";
     }
 
-    //function show list customer
-    @RequestMapping("/customer")
-    public String viewCustomerAdmin(Model model, @Param("keyword") String keyword) {
-        List<Customer> listCustomers = customerService.listAll(keyword);
-        model.addAttribute("listCustomers", listCustomers);
+    //function show customer list
+    @GetMapping("/customer")
+    public String viewCustomer(Model model,
+                               @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                               @RequestParam(value = "sortField", defaultValue = "id") String sortField,
+                               @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir) {
+        return listByPagesCustomer(1, sortField, sortDir, keyword, model);
+    }
+
+    @GetMapping("/customer/{pageNumber}")
+    public String listByPagesCustomer(@PathVariable(name = "pageNumber") int currentPage,
+                                      @RequestParam(value = "sortField", defaultValue = "id") String sortField,
+                                      @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
+                                      @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                      Model model) {
+        Page<Customer> page = customerService.listAllCustomer(currentPage, sortField, sortDir, keyword);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+        List<Customer> listcustomer = page.getContent();
+        model.addAttribute("listcustomer", listcustomer);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("keyword", keyword);
+        model.addAttribute("query", "?sortField=" + sortField + "&sortDir="
+                + sortDir + "&keyword=" + keyword);
         return "listCustomerAdmin";
     }
 
@@ -152,8 +188,10 @@ public class AdminController {
 
     //function save customer
     @RequestMapping(value = "/customer/save", method = RequestMethod.POST)
-    public String saveCustomerAdmin(@ModelAttribute("user") User user) {
-        user.setPassword(user.getPassword());
+    public RedirectView saveCustomerAdmin(@Valid User user, RedirectAttributes model) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPassword = encoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         user.setUsername(user.getUsername());
         user.setRole(roleRepository.getById(1));
         Customer customer = user.getCustomer();
@@ -163,20 +201,27 @@ public class AdminController {
         customer.setAddress(user.getCustomer().getAddress());
         customer.setBirthday(user.getCustomer().getBirthday());
         customer.setAvatar(user.getCustomer().getAvatar());
+        customer.setPoint(0);
+        if (userRepository.findByUsername(user.getUsername()) != null) {
+            model.addFlashAttribute("alert_Username", "Username is exited!");
+            return new RedirectView("/admin/customer/new");
+        } else if (customerService.findByEmail(user.getCustomer().getEmail()) != null) {
+            model.addFlashAttribute("alert_Email", "Email is exited!");
+            return new RedirectView("/admin/customer/new");
+        }
         customerService.saveCustomer(customer);
         user.setCustomer(customer);
         userService.saveUser(user);
-        return "redirect:/admin/customer";
+        return new RedirectView("/admin/customer");
     }
+
 
     //function save customerEdit
     @RequestMapping(value = "/customer/saveEdit", method = RequestMethod.POST)
-    public String saveCustomerEdit(@ModelAttribute("user") User user) {
+    public RedirectView saveCustomerEdit(@ModelAttribute("user") User user, RedirectAttributes model) {
         //user
         User userSave = userService.getById(user.getId());
         userSave.setUsername(user.getUsername());
-        userSave.setPassword(user.getPassword());
-        userSave.setRole(roleRepository.getById(user.getRole().getId()));
         //customer
         Customer customerSave = customerService.getById(user.getCustomer().getId());
         customerSave.setName(user.getCustomer().getName());
@@ -187,7 +232,7 @@ public class AdminController {
         customerSave.setAvatar(user.getCustomer().getAvatar());
         customerService.saveCustomer(customerSave);
         userService.saveUser(userSave);
-        return "redirect:/admin/customer";
+        return new RedirectView("redirect:/admin/customer");
     }
 
     //function edit customer by id
@@ -521,6 +566,7 @@ public class AdminController {
             model.addFlashAttribute("alert", "Category name is existed!!!");
             return new RedirectView("/admin/category/listCategory/add");
         }
+
         categoriesService.save(category);
         return new RedirectView("/admin/category/listCategory");
     }
@@ -570,3 +616,4 @@ public class AdminController {
         return "list_category_Admin";
     }
 }
+

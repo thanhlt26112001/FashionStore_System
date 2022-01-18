@@ -1,52 +1,145 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"></html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8"/>
-  <title>Product Manager</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>List Product Admin</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+  <link th:href="@{/css/prettyPhoto.css}" rel="stylesheet">
+  <link th:href="@{/css/price-range.css}" rel="stylesheet">
+  <link th:href="@{/css/animate.css}" rel="stylesheet">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link th:href="@{/css/responsive.css}" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script th:src="@{/js/html5shiv.js}"></script>
+  <script th:src="@{/js/respond.min.js}"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="images/ico/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head>
 <body>
-<div align="center">
+<div align="center" class="container">
   <h1>Product List</h1>
-  <a href="/admin/product/new">Create New Product</a>
-  <br/><br/>
-  <div align="center">
-    <form th:action="@{'/admin/product'}">
-      <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
-      <!--                                <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>-->
-      <input type="submit" value="Search"/>
-    </form>
+  <div style="display: flex; justify-content: space-between">
+    <p>
+      <a class="btn btn-primary" href="/admin/product/new">ADD PRODUCT</a>
+    </p>
+    <div class="search_box pull-right">
+      <div class="input-group">
+        <form th:action="@{'/admin/product'}">
+          Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
+        </form>
+      </div>
+    </div>
   </div>
-  <table border="1" cellpadding="10">
+  <table class="table table-bordered">
     <thead>
-    <tr>
-      <th>Product ID</th>
-      <th>Name</th>
-      <th>Desciption</th>
-      <th>Category</th>
-      <th>Image</th>
-      <th>Price</th>
-      <th>Quantity</th>
+    <tr style="text-align: center">
+      <th style="text-align: center">Product ID</th>
+      <th style="text-align: center">Name</th>
+      <th style="text-align: center">Description</th>
+      <th style="text-align: center">Category</th>
+      <th style="text-align: center">Image</th>
+      <th style="text-align: center"><a style="color: black" th:href="@{'/admin/product/'+${currentPage}
+                                    +'?sortField=price&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
+        Price</a></th>
+      <th style="text-align: center">Quantity</th>
+      <th style="text-align: center">Action</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="product : ${listProducts}">
-      <!--/*@thymesVar id="id" type="aj"*/-->
+
+    <tr th:each="product : ${listproduct}">
       <td th:text="${product.id}">Product ID</td>
       <td th:text="${product.name}">Name</td>
       <td th:text="${product.description}">Description</td>
       <td th:text="${product.category.name}">Category</td>
-      <td th:text="${product.image}">Image</td>
+      <td ><img style="width: 100px" th:src="${product.image}"/></td>
       <td th:text="${product.price}">Price</td>
       <td th:text="${product.quantity}">Quantity</td>
-      <td>
-        <a th:href="@{'/admin/product/edit/' + ${product.id}}">Edit</a>
-        &nbsp;&nbsp;&nbsp;
-        <a th:href="@{'/admin/product/delete/' + ${product.id}}">Delete</a>
+      <td style="text-align: center">
+        <a th:href="@{'/admin/product/edit/' + ${product.id} }" class="btn btn-primary btn-sm"
+           href="#" style="margin-top: 0">Edit</a>
+        <a th:href="@{'/admin/product/delete/' + ${product.id}}" class="btn btn-danger btn-sm" href="#">Delete</a>
       </td>
     </tr>
     </tbody>
   </table>
+  <div class="text-center">
+    <div class="text-center">
+      <span>Total Items: [[${totalItems}]] - Page: [[${currentPage}]] of [[${totalPages}]] </span>
+    </div>
+    <nav class="pagination justify-content-center flex-wrap">
+      <th:block th:if="${totalItems > 0 && totalPages>1}">
+        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+          <a th:href="@{'/admin/product/1'+ ${query}}"
+
+             class="page-link">First</a>
+        </li>
+        <li th:if="${currentPage>1}" th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+          <a th:href="@{'/admin/product/'+${currentPage - 1}+ ${query}}"
+             class="page-link">Previous</a>
+        </li>
+        <th:block th:if="${totalPages <= 10}">
+          <li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
+            <a th:href="@{'/admin/product/'+${i}+ ${query}}"
+               class="page-link"> [[${i}]]</a>
+          </li>
+        </th:block>
+        <th:block th:if="${totalPages > 10}">
+          <th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
+            <li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
+              <a th:href="@{'/admin/product/'+${i}+ ${query}}"
+                 class="page-link"> [[${i}]]</a>
+            </li>
+            <li>
+              <a th:href="@{'/admin/product/4' }"
+                 class="page-link">...</a>
+            </li>
+            <li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
+              <a th:href="@{'/admin/product/'+${i}+ ${query}}"
+                 class="page-link"> [[${i}]]</a>
+            </li>
+          </th:block>
+          <th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
+            <li>
+              <a th:href="@{'/admin/product/'+${currentPage - 3}+ ${query}}"
+                 class="page-link">...</a>
+            </li>
+            <li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}" class="page-item">
+              <a th:href="@{'/admin/product/'+${i}+ ${query}}"
+                 class="page-link"> [[${i}]]</a>
+            </li>
+            <li>
+              <a th:href="@{'/admin/product/'+${currentPage + 3}+ ${query}}"
+                 class="page-link">...</a>
+            </li>
+          </th:block>
+        </th:block>
+        <li th:if="${currentPage<totalPages}" th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+          <a th:href="@{'/admin/product/'+${currentPage + 1}+ ${query}}"
+             class="page-link">Next</a>
+        </li>
+        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+          <a th:href="@{'/admin/product/'+${totalPages}+ ${query}}"
+             class="page-link">Last</a>
+        </li>
+      </th:block>
+    </nav>
+  </div>
 </div>
 </body>
+<script type="text/javascript">
+  function clearSearch() {
+    window.location = "[[@{/admin/product}]]";
+  }
+</script>
 </html>
+

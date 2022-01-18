@@ -1,6 +1,7 @@
 package com.example.fashionstore_system.service;
 
 import com.example.fashionstore_system.entity.Category;
+import com.example.fashionstore_system.entity.Customer;
 import com.example.fashionstore_system.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,5 +49,6 @@ public class CategoriesService {
     public Category findById(int id){
         return categoryRepository.findById(id);
     }
+
 
 }

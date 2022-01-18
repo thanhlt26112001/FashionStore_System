@@ -1,5 +1,6 @@
 package com.example.fashionstore_system.repository;
 
+import com.example.fashionstore_system.entity.Customer;
 import com.example.fashionstore_system.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,4 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p WHERE p.name LIKE %?1% AND p.category.id=?2")
     public Page<Product> searchProductByNameAndCategory(String keyword,int categoryId, Pageable pageable);
+
+    public Page<Product> findByNameContaining(String keyword, Pageable pageable);
 }
