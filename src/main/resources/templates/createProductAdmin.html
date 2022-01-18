@@ -35,8 +35,8 @@
         <div class="form-group">
           <label>Product Name</label>
           <input th:field="*{name}" type="text" class="form-control"
-                 name="name" placeholder="Enter name" id="name" value="" required
-                 pattern="[A-Za-z]{1,255}$" title="Must enter character word length less than 255">
+                 name="name" placeholder="Enter name" id="name" value="" required>
+          <input type="hidden" th:field="*{status}" value="1">
         </div>
         <div class="form-group">
           <label>Desciption</label>

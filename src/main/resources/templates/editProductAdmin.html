@@ -62,13 +62,19 @@
         <div class="form-group">
           <label>Image</label>
           <input th:field="*{image}" type="text" class="form-control"
-                 name="name" placeholder="Enter name" id="image" value="" required
-                 pattern="[A-Za-z]{1,255}$" title="Must enter character word length less than 255">
+                 name="name" placeholder="Enter name" id="image" value="" required>
         </div>
         <div class="form-group">
           <label>Price</label>
           <input th:field="*{price}" type="text" class="form-control"
                  name="name" placeholder="Enter name" id="price" value="" required>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select th:field="*{status}">
+            <option th:value='0' th:text="Disable"></option>
+            <option th:value='1' th:text="Enable"></option>
+          </select>
         </div>
         <div class="form-group">
           <label>Quantity</label>
@@ -100,11 +106,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td th:text="${product.id}"></td>
-          <td th:text="${product.image}"></td>
-          <td style="text-align: center" th:href="@{'/admin/product/edit/'+${product.id}}">
-            <a  class="btn btn-danger btn-sm" >Delete</a>
+        <tr th:each="image:${productImageList}">
+          <td th:text="${image.id}"></td>
+          <td><a th:text="${image.image}" th:href="@{${image.image}}"></a></td>
+          <td style="text-align: center">
+            <a th:href="@{'/admin/product/deleteImage/'+${image.id}}" class="btn btn-danger btn-sm" >Delete</a>
           </td>
         </tr>
 

@@ -142,7 +142,9 @@ public class AdminController {
     //function delete product by id
     @RequestMapping("/product/delete/{id}")
     public String deleteProduct(@PathVariable(name = "id") int id) {
-        productService.deleteProduct(id);
+        Product product = productService.getProduct(id);
+        product.setStatus(0);
+        productService.saveProduct(product);
         return "redirect:/admin/product";
     }
 
@@ -218,7 +220,7 @@ public class AdminController {
 
     //function save customerEdit
     @RequestMapping(value = "/customer/saveEdit", method = RequestMethod.POST)
-    public RedirectView saveCustomerEdit(@ModelAttribute("user") User user, RedirectAttributes model) {
+    public String saveCustomerEdit(@ModelAttribute("user") User user) {
         //user
         User userSave = userService.getById(user.getId());
         userSave.setUsername(user.getUsername());
@@ -232,7 +234,7 @@ public class AdminController {
         customerSave.setAvatar(user.getCustomer().getAvatar());
         customerService.saveCustomer(customerSave);
         userService.saveUser(userSave);
-        return new RedirectView("redirect:/admin/customer");
+        return "redirect:/admin/customer";
     }
 
     //function edit customer by id

@@ -51,18 +51,20 @@
                                     +'?sortField=price&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
         Price</a></th>
       <th style="text-align: center">Quantity</th>
+      <th style="text-align: center">Status</th>
       <th style="text-align: center">Action</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="product : ${listproduct}">
-      <td th:text="${product.id}">Product ID</td>
-      <td th:text="${product.name}">Name</td>
-      <td th:text="${product.description}">Description</td>
-      <td th:text="${product.category.name}">Category</td>
+      <td th:text="${product.id}"></td>
+      <td th:text="${product.name}"></td>
+      <td th:text="${product.description}"></td>
+      <td th:text="${product.category.name}"></td>
       <td ><img style="width: 100px" th:src="${product.image}"/></td>
-      <td th:text="${product.price}">Price</td>
-      <td th:text="${product.quantity}">Quantity</td>
+      <td th:text="${product.price}"></td>
+      <td th:text="${product.quantity}"></td>
+      <td th:text="${product.status==0? 'Disable':'Enable'}"></td>
       <td style="text-align: center">
         <a th:href="@{'/admin/product/edit/' + ${product.id} }" class="btn btn-primary btn-sm"
            href="#" style="margin-top: 0">Edit</a>
@@ -100,7 +102,7 @@
                  class="page-link"> [[${i}]]</a>
             </li>
             <li>
-              <a th:href="@{'/admin/product/4' }"
+              <a th:href="@{'/admin/product/4' + ${query}}"
                  class="page-link">...</a>
             </li>
             <li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">

@@ -63,7 +63,7 @@
       <td style="text-align: center">
         <a th:href="@{'/admin/customer/edit/' + ${customer.user.id} }" class="btn btn-primary btn-sm"
            href="#" style="margin-top: 0">Edit</a>
-        <a th:href="@{'/admin/customer/delete/' + ${customer.user.id}}" class="btn btn-danger btn-sm" href="#">Delete</a>
+<!--        <a th:href="@{'/admin/customer/delete/' + ${customer.user.id}}" class="btn btn-danger btn-sm" href="#">Delete</a>-->
       </td>
     </tr>
     </tbody>
@@ -96,7 +96,7 @@
                  class="page-link"> [[${i}]]</a>
             </li>
             <li>
-              <a th:href="@{'/admin/customer/4' }"
+              <a th:href="@{'/admin/customer/4' + ${query}}"
                  class="page-link">...</a>
             </li>
             <li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
