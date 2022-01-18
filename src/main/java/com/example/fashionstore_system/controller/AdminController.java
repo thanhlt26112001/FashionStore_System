@@ -256,11 +256,40 @@ public class AdminController {
 
     //Admin Staff Manager
     // functions show list Staff
-    @RequestMapping("/staff")
-    public String viewStaffAdmin(Model model, @Param("keyword") String keyword) {
-        List<Staff> listStaffs = staffService.listAll(keyword);
-        model.addAttribute("listStaffs", listStaffs);
+//    @RequestMapping("/staff")
+//    public String viewStaffAdmin(Model model, @Param("keyword") String keyword) {
+//        List<Staff> listStaffs = staffService.listAll(keyword);
+//        model.addAttribute("listStaffs", listStaffs);
+//        model.addAttribute("keyword", keyword);
+//        return "listStaffAdmin";
+//    }
+    @GetMapping("/staff")
+    public String viewStaff(Model model,
+                            @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                            @RequestParam(value = "sortField", defaultValue = "id") String sortField,
+                            @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir) {
+        return listByPagesStaff(1, sortField, sortDir, keyword, model);
+    }
+    @GetMapping("/staff/{pageNumber}")
+    public String listByPagesStaff(@PathVariable(name = "pageNumber") int currentPage,
+                                   @RequestParam(value = "sortField", defaultValue = "id") String sortField,
+                                   @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
+                                   @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                   Model model) {
+        Page<Staff> page = staffService.listAllStaff(currentPage, sortField, sortDir, keyword);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+        List<Staff> StaffList = page.getContent();
+        model.addAttribute("StaffList", StaffList);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("keyword", keyword);
+        model.addAttribute("query", "?sortField=" + sortField + "&sortDir="
+                + sortDir + "&keyword=" + keyword);
         return "listStaffAdmin";
     }
 

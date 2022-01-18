@@ -26,13 +26,20 @@
 </head>
 <body>
 <div align="center" class="container">
-    <h1>Staff List</h1>
-    <a href="/admin/newStaff" class="btn btn-primary">Add Staff</a> <br/> <br/>
-    <form th:action="@{'/admin/staff'}">
-        Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
-        <input type="submit" value="Search"/>
-        <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>
-    </form>
+    <h1 style="font-family: cursive;
+    color: orange;">Staff List</h1>
+    <div style="display: flex; justify-content: space-between">
+        <p>
+            <a class="btn btn-primary" href="/admin/newStaff">ADD Staff</a>
+        </p>
+        <div class="search_box pull-right">
+            <div class="input-group">
+                <form th:action="@{'/admin/staff'}">
+                    Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
+                </form>
+            </div>
+        </div>
+    </div>
     <table class="table table-bordered">
         <thead>
         <tr style="text-align: center">
@@ -46,7 +53,7 @@
         </thead>
         <tbody>
 
-        <tr th:each="staff : ${listStaffs}">
+        <tr th:each="staff : ${StaffList}">
             <td th:text="${staff.id}">Staff ID</td>
             <td th:text="${staff.name}">Name</td>
             <td th:text="${staff.email}">Email</td>
@@ -58,9 +65,70 @@
                 <a th:href="@{'/admin/deleteStaff/' + ${staff.user.id}}" class="btn btn-danger btn-sm" href="#">Delete</a>
             </td>
         </tr>
-
         </tbody>
     </table>
+    <div class="text-center">
+        <div class="text-center">
+            <span>Total Items: [[${totalItems}]] - Page: [[${currentPage}]] of [[${totalPages}]] </span>
+        </div>
+        <nav class="pagination justify-content-center flex-wrap">
+            <th:block th:if="${totalItems > 0 && totalPages>1}">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:href="@{'/admin/staff/1'+ ${query}}"
+
+                       class="page-link">First</a>
+                </li>
+                <li th:if="${currentPage>1}" th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:href="@{'/admin/staff/'+${currentPage - 1}+ ${query}}"
+                       class="page-link">Previous</a>
+                </li>
+                <th:block th:if="${totalPages <= 10}">
+                    <li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
+                        <a th:href="@{'/admin/staff/'+${i}+ ${query}}"
+                           class="page-link"> [[${i}]]</a>
+                    </li>
+                </th:block>
+                <th:block th:if="${totalPages > 10}">
+                    <th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
+                        <li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
+                            <a th:href="@{'/admin/staff/'+${i}+ ${query}}"
+                               class="page-link"> [[${i}]]</a>
+                        </li>
+                        <li>
+                            <a th:href="@{'/admin/staff/4'+ ${query} }"
+                               class="page-link">...</a>
+                        </li>
+                        <li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
+                            <a th:href="@{'/admin/staff/'+${i}+ ${query}}"
+                               class="page-link"> [[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
+                        <li>
+                            <a th:href="@{'/admin/staff/'+${currentPage - 3}+ ${query}}"
+                               class="page-link">...</a>
+                        </li>
+                        <li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}" class="page-item">
+                            <a th:href="@{'/admin/staff/'+${i}+ ${query}}"
+                               class="page-link"> [[${i}]]</a>
+                        </li>
+                        <li>
+                            <a th:href="@{'/admin/staff/'+${currentPage + 3}+ ${query}}"
+                               class="page-link">...</a>
+                        </li>
+                    </th:block>
+                </th:block>
+                <li th:if="${currentPage<totalPages}" th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:href="@{'/admin/staff/'+${currentPage + 1}+ ${query}}"
+                       class="page-link">Next</a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:href="@{'/admin/staff/'+${totalPages}+ ${query}}"
+                       class="page-link">Last</a>
+                </li>
+            </th:block>
+        </nav>
+    </div>
 </div>
 </body>
 <script type="text/javascript">
