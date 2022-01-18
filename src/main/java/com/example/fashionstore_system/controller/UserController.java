@@ -1,6 +1,7 @@
 package com.example.fashionstore_system.controller;
 
 import com.example.fashionstore_system.config.Utility;
+import com.example.fashionstore_system.entity.Category;
 import com.example.fashionstore_system.entity.Customer;
 import com.example.fashionstore_system.entity.User;
 import com.example.fashionstore_system.jwt.JwtAuthenticationFilter;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -204,6 +206,24 @@ public class UserController {
         return new RedirectView("/login");
     }
 
+    //function edit customer by id
+    @RequestMapping("/customeruser/edit/")
+    public String showEditCustomerUser(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "redirect:/login";
+        }
+        User user = userService.findByUsername(authentication.getName());
+        model.addAttribute("user", user);
+        return "edit_CustomerUser_Admin";
+    }
+    //function save customer by id
+    @PostMapping("/customeruser/save")
+    public RedirectView saveCustomerUser(@ModelAttribute("customer") Customer customer,
+                                        RedirectAttributes model) {
+        customerService.saveCustomer(customer);
+        return new RedirectView("/product/listproducts");
+    }
 
 }
 
