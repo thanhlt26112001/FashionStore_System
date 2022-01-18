@@ -12,4 +12,5 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     public List<OrderDetail> findAllByOrderId(int orderId);
     public void deleteByOrderId(int orderId);
     public Set<OrderDetail> findAllByProduct_Id(int productId);
+
 }

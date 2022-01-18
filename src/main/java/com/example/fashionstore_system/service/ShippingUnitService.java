@@ -12,7 +12,8 @@ public class ShippingUnitService {
     @Autowired
     private ShippingUnitRepository shippingUnitRepository;
 
-    public List<ShippingUnit> getAllShippingUnits(){
+    public List<ShippingUnit> getAllShippingUnits() {
         return shippingUnitRepository.findAll();
+
     }
 }

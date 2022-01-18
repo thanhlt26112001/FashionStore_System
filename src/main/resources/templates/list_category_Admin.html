@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -25,7 +24,6 @@
 	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 <body>
-
 	<div class="container">
 		<h2>LIST CATEGORY</h2>
 		<div style="display: flex; justify-content: space-between">
@@ -65,8 +63,6 @@
 						<th:block th:if="${category.products.size()==0}">|<a class="btn btn-danger btn-sm" th:href="@{'/admin/category/delete/'+${category.id}}">Delete</a></th:block>
 						</td>
 				</tr>
-
-				
 			</tbody>
 		</table>
 		<div class="text-center">

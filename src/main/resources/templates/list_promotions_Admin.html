@@ -26,8 +26,9 @@
 </head><!--/head-->
 <body>
 
-	<div class="container">
-		<h2>LIST PROMOTIONS</h2>
+<div align="center" class="container">
+	<h1 style="font-family: cursive;
+    color: orange;">Promotion List</h1>
 		<div style="display: flex; justify-content: space-between">
 			<p>
 				<a class="btn btn-primary" href="/admin/listPromotions/add">ADD PROMOTIONS</a>
@@ -75,60 +76,61 @@
 				<span>Total Items: [[${totalItems}]] - Page: [[${currentPage}]] of [[${totalPages}]] </span>
 			</div>
 			<nav class="pagination justify-content-center flex-wrap">
-				<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-					<a th:href="@{'/admin/listPromotions/1'+ ${query}}"
+				<th:block th:if="${totalItems > 0 && totalPages>1}">
+					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+						<a th:href="@{'/admin/listPromotions/1'+ ${query}}"
 
-					   class="page-link">First</a>
-				</li>
-				<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-					<a th:href="@{'/admin/listPromotions/'+${currentPage - 1}+ ${query}}"
-					   class="page-link">Previous</a>
-				</li>
-
-				<th:block th:if="${totalPages <= 10}">
-					<li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
-						<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
-						   class="page-link"> [[${i}]]</a>
+						   class="page-link">First</a>
+					</li>
+					<li th:if="${currentPage>1}" th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+						<a th:href="@{'/admin/listPromotions/'+${currentPage - 1}+ ${query}}"
+						   class="page-link">Previous</a>
+					</li>
+					<th:block th:if="${totalPages <= 10}">
+						<li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
+							<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
+							   class="page-link"> [[${i}]]</a>
+						</li>
+					</th:block>
+					<th:block th:if="${totalPages > 10}">
+						<th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
+							<li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
+								<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
+								   class="page-link"> [[${i}]]</a>
+							</li>
+							<li>
+								<a th:href="@{'/admin/listPromotions/4' + ${query}}"
+								   class="page-link">...</a>
+							</li>
+							<li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
+								<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
+								   class="page-link"> [[${i}]]</a>
+							</li>
+						</th:block>
+						<th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
+							<li>
+								<a th:href="@{'/admin/listPromotions/'+${currentPage - 3}+ ${query}}"
+								   class="page-link">...</a>
+							</li>
+							<li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}" class="page-item">
+								<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
+								   class="page-link"> [[${i}]]</a>
+							</li>
+							<li>
+								<a th:href="@{'/admin/listPromotions/'+${currentPage + 3}+ ${query}}"
+								   class="page-link">...</a>
+							</li>
+						</th:block>
+					</th:block>
+					<li th:if="${currentPage<totalPages}" th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+						<a th:href="@{'/admin/listPromotions/'+${currentPage + 1}+ ${query}}"
+						   class="page-link">Next</a>
+					</li>
+					<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+						<a th:href="@{'/admin/listPromotions/'+${totalPages}+ ${query}}"
+						   class="page-link">Last</a>
 					</li>
 				</th:block>
-				<th:block th:if="${totalPages > 10}">
-					<th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
-						<li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
-							<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
-							   class="page-link"> [[${i}]]</a>
-						</li>
-						<li>
-							<a th:href="@{'/admin/listPromotions/4' }"
-							   class="page-link">...</a>
-						</li>
-						<li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
-							<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
-							   class="page-link"> [[${i}]]</a>
-						</li>
-					</th:block>
-					<th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
-						<li>
-							<a th:href="@{'/admin/listPromotions/'+${currentPage - 3}+ ${query}}"
-							   class="page-link">...</a>
-						</li>
-						<li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}" class="page-item">
-							<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
-							   class="page-link"> [[${i}]]</a>
-						</li>
-						<li>
-							<a th:href="@{'/admin/listPromotions/'+${currentPage + 3}+ ${query}}"
-							   class="page-link">...</a>
-						</li>
-					</th:block>
-				</th:block>
-				<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-					<a th:href="@{'/admin/listPromotions/'+${currentPage + 1}+ ${query}}"
-					   class="page-link">Next</a>
-				</li>
-				<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-					<a th:href="@{'/admin/listPromotions/'+${totalPages}+ ${query}}"
-					   class="page-link">Last</a>
-				</li>
 			</nav>
 		</div>
 	</div>
