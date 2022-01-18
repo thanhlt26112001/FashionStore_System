@@ -43,7 +43,7 @@
 		<table class="table table-bordered">
 			<thead>
 				<tr style="text-align: center">
-					<th><a style="color: black" th:href="@{'/admin/category/listCategory/'+${currentPage}
+					<th ><a style="color: black" th:href="@{'/admin/category/listCategory/'+${currentPage}
                                     +'?sortField=id&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
 						Id</a></th>
 					<th>Name</th>
@@ -65,6 +65,7 @@
 						<th:block th:if="${category.products.size()==0}">|<a class="btn btn-danger btn-sm" th:href="@{'/admin/category/delete/'+${category.id}}">Delete</a></th:block>
 						</td>
 				</tr>
+
 				
 			</tbody>
 		</table>
