@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"></html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +55,6 @@
     </tr>
     </thead>
     <tbody>
-
     <tr th:each="product : ${listproduct}">
       <td th:text="${product.id}">Product ID</td>
       <td th:text="${product.name}">Name</td>
@@ -70,6 +69,7 @@
         <a th:href="@{'/admin/product/delete/' + ${product.id}}" class="btn btn-danger btn-sm" href="#">Delete</a>
       </td>
     </tr>
+
     </tbody>
   </table>
   <div class="text-center">
@@ -142,4 +142,5 @@
   }
 </script>
 </html>
+
 
