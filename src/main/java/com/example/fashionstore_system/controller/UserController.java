@@ -71,6 +71,11 @@ public class UserController {
         return new RedirectView("/login");
     }
 
+    @RequestMapping("/404")
+    public String notFoundPage(){
+        return "404";
+    }
+
     @PostMapping("/login")
     public LoginResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         // Xác thực thông tin người dùng Request lên

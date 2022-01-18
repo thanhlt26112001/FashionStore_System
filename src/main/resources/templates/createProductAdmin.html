@@ -1,75 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title>Shop | E-Shopper</title>
-  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-  <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
-  <link th:href="@{/css/prettyPhoto.css}" rel="stylesheet">
-  <link th:href="@{/css/price-range.css}" rel="stylesheet">
-  <link th:href="@{/css/animate.css}" rel="stylesheet">
-  <link th:href="@{/css/main.css}" rel="stylesheet">
-  <link th:href="@{/css/responsive.css}" rel="stylesheet">
-  <!--[if lt IE 9]>
-  <script th:src="@{/js/html5shiv.js}"></script>
-  <script th:src="@{/js/respond.min.js}"></script>
-  <![endif]-->
-  <link rel="shortcut icon" href="images/ico/favicon.ico">
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+    <meta charset="utf-8">
+    <title>Admin - Add Product</title>
+    <th:block th:replace="layout_admin/meta_head :: meta_head"></th:block>
 </head><!--/head-->
 <body>
-<div class="container" style="margin-top: 10px;">
-  <div class="row"
-       style="border: 1px darkgrey solid; border-radius: 10px; width: 50%; margin: 0 auto; padding: 20px;">
-    <div class="col-sm-12">
-
-      <h2 class="myclass">Add Product</h2>
-      <form th:action="@{/admin/product/save}" th:object="${product}" method="post"
-            enctype="multipart/form-data">
-        <div class="form-group">
-          <label>Product Name</label>
-          <input th:field="*{name}" type="text" class="form-control"
-                 name="name" placeholder="Enter name" id="name" value="" required>
-          <input type="hidden" th:field="*{status}" value="1">
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <div style="display: flex">
+        <div th:include="layout_admin/nav_bar:: nav_bar"></div>
+        <div class="container" style="padding: 0">
+            <div th:include="layout_admin/navi_bar:: navi_bar"></div>
+            <div class="container">
+                <div class="row"
+                     style="border: 1px darkgrey solid; border-radius: 10px; width: 50%; margin: 0 auto; padding: 20px;">
+                    <div class="col-sm-12">
+                        <h2 class="myclass">Add Product</h2>
+                        <form th:action="@{/admin/product/save}" th:object="${product}" method="post"
+                              enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label>Product Name</label>
+                                <input th:field="*{name}" type="text" class="form-control"
+                                       name="name" placeholder="Enter name" id="name" value="" required>
+                                <input type="hidden" th:field="*{status}" value="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Desciption</label>
+                                <input th:field="*{description}" type="text" class="form-control"
+                                       name="name" placeholder="Enter name" id="description" value="" required>
+                            </div>
+                            <tr>
+                                <td>Category</td>
+                                <td><select th:field="*{category}" class="form-select"
+                                            aria-label="Default select example">
+                                    <option th:each="cate :${listCategory}" th:value="${cate.id}"
+                                            th:text="${cate.name}"></option>
+                                </select></td>
+                            </tr>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input th:field="*{image}" type="text" class="form-control"
+                                       name="name" placeholder="Enter name" id="image" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input th:field="*{price}" type="text" class="form-control"
+                                       name="name" placeholder="Enter name" id="price" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input th:field="*{quantity}" type="text" class="form-control"
+                                       name="name" placeholder="Enter name" id="quantity" value="" required>
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a class="btn btn-primary" href="/admin/product">Display List Product</a>
+                        </form>
+                    </div>
+                </div>
+                <th:block th:replace="layout_admin/footer :: footer"></th:block>
+            </div>
         </div>
-        <div class="form-group">
-          <label>Desciption</label>
-          <input th:field="*{description}" type="text" class="form-control"
-                 name="name" placeholder="Enter name" id="description" value="" required>
-        </div>
-        <tr>
-          <td>Category</td>
-          <td><select th:field="*{category}" class="form-select" aria-label="Default select example">
-            <option th:each="cate :${listCategory}" th:value="${cate.id}" th:text="${cate.name}"></option>
-          </select></td>
-        </tr>
-        <div class="form-group">
-          <label>Image</label>
-          <input th:field="*{image}" type="text" class="form-control"
-                 name="name" placeholder="Enter name" id="image" value="" required>
-        </div>
-        <div class="form-group">
-          <label>Price</label>
-          <input th:field="*{price}" type="text" class="form-control"
-                 name="name" placeholder="Enter name" id="price" value="" required>
-        </div>
-        <div class="form-group">
-          <label>Quantity</label>
-          <input th:field="*{quantity}" type="text" class="form-control"
-                 name="name" placeholder="Enter name" id="quantity" value="" required>
-        </div>
-        <br>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a class="btn btn-primary" href="/admin/product">Display List Product</a>
-      </form>
     </div>
-  </div>
 </div>
+<th:block th:replace="layout_admin/js_lib :: js_lib"></th:block>
 </body>
 </html>

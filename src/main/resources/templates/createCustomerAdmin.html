@@ -1,78 +1,82 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <title>Create New Customer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
-</head>
+    <meta charset="utf-8">
+    <title>Admin - Add Category</title>
+    <th:block th:replace="layout_admin/meta_head :: meta_head"></th:block>
+</head><!--/head-->
 <body>
-<div >
-    <div class="container" style="margin-top: 10px;">
-        <div class="row"
-             style="border: 1px darkgrey solid; border-radius: 10px; width: 50%; margin: 0 auto; padding: 20px;">
-            <h1>Create New Customer</h1>
-            <div class="col-sm-12">
-                <form th:action="@{/admin/customer/save}" th:object="${user}" method="post"
-                      enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label style="font-weight: bold">Customer Name</label>
-                        <input th:field="*{customer.name}" type="text" class="form-control"
-                               name="name" placeholder="Enter name" id="customerName" required/>
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight: bold">Username</label>
-                        <input th:field="*{username}" type="text" class="form-control"
-                               name="username" placeholder="Enter username" id="username"
-                               pattern=".{6,}"  title="Six or more characters" required/>
-                        <span style="color: red" th:text="${alert_Username}"></span>
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight: bold">Password</label>
-                        <input th:field="*{password}" type="password" class="form-control"
-                               name="password" placeholder="Enter password" id="password"
-                               pattern=".{6,}"  title="Six or more characters" required/>
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight: bold">Email</label>
-                        <input th:field="*{customer.email}" type="email" class="form-control"
-                               name="email" placeholder="Enter email" id="email"
-                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                               title="(characters followed: character@characters.domain " required/>
-                        <span style="color: red" th:text="${alert_Email}"></span>
-                    </div>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <div style="display: flex">
+        <div th:include="layout_admin/nav_bar:: nav_bar"></div>
+        <div class="container" style="padding: 0">
+            <div th:include="layout_admin/navi_bar:: navi_bar"></div>
+            <div class="container">
+                <div class="row"
+                     style="border: 1px darkgrey solid; border-radius: 10px; width: 50%; margin: 0 auto; padding: 20px;">
+                    <div class="col-sm-12">
+                        <h2 class="myclass">Add Customer</h2>
+                        <form th:action="@{/admin/customer/save}" th:object="${user}" method="post"
+                              enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label style="font-weight: bold">Customer Name</label>
+                                <input th:field="*{customer.name}" type="text" class="form-control"
+                                       name="name" placeholder="Enter name" id="customerName" required/>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold">Username</label>
+                                <input th:field="*{username}" type="text" class="form-control"
+                                       name="username" placeholder="Enter username" id="username"
+                                       pattern=".{6,}" title="Six or more characters" required/>
+                                <span style="color: red" th:text="${alert_Username}"></span>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold">Password</label>
+                                <input th:field="*{password}" type="password" class="form-control"
+                                       name="password" placeholder="Enter password" id="password"
+                                       pattern=".{6,}" title="Six or more characters" required/>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold">Email</label>
+                                <input th:field="*{customer.email}" type="email" class="form-control"
+                                       name="email" placeholder="Enter email" id="email"
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                       title="(characters followed: character@characters.domain " required/>
+                                <span style="color: red" th:text="${alert_Email}"></span>
+                            </div>
 
-                    <div class="form-group">
-                        <label style="font-weight: bold">Phone</label>
-                        <input th:field="*{customer.phone}" type="text" class="form-control"
-                               name="email" id="phone" placeholder="Enter phone" pattern="^[0-9]{10,11}$" title="Input [10-11] Number "/>
+                            <div class="form-group">
+                                <label style="font-weight: bold">Phone</label>
+                                <input th:field="*{customer.phone}" type="text" class="form-control"
+                                       name="email" id="phone" placeholder="Enter phone" pattern="^[0-9]{10,11}$"
+                                       title="Input [10-11] Number "/>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold">Avatar</label>
+                                <input th:field="*{customer.avatar}" type="text" class="form-control"
+                                       name="avatar" placeholder="Enter avatar" id="avatar"/>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold">Address</label>
+                                <input th:field="*{customer.address}" type="text" class="form-control"
+                                       name="name" placeholder="Enter Adrdress" id="address">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight: bold">birthday</label>
+                                <input th:field="*{customer.birthday}" type="date" class="form-control"
+                                       name="name" id="birthday" placeholder="Enter birthday " required/>
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                            <a class="btn btn-primary" href="/admin/customer">Display List Customer</a>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label style="font-weight: bold">Avatar</label>
-                        <input th:field="*{customer.avatar}" type="text" class="form-control"
-                               name="avatar" placeholder="Enter avatar" id="avatar"/>
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight: bold">Address</label>
-                        <input th:field="*{customer.address}" type="text" class="form-control"
-                               name="name" placeholder="Enter Adrdress" id="address">
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight: bold">birthday</label>
-                        <input th:field="*{customer.birthday}" type="date" class="form-control"
-                               name="name" id="birthday" placeholder="Enter birthday "required/>
-                    </div>
-                    <br>
-                    <button type="submit" class="btn btn-primary">Create</button>
-                    <a class="btn btn-primary" href="/admin/customer">Display List Customer</a>
-                </form>
+                </div>
+                <th:block th:replace="layout_admin/footer :: footer"></th:block>
             </div>
         </div>
     </div>
+</div>
+<th:block th:replace="layout_admin/js_lib :: js_lib"></th:block>
 </body>
 </html>

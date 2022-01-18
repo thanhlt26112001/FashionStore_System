@@ -1,85 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>OrderDetail</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
-    <link th:href="@{/css/prettyPhoto.css}" rel="stylesheet">
-    <link th:href="@{/css/price-range.css}" rel="stylesheet">
-    <link th:href="@{/css/animate.css}" rel="stylesheet">
-    <link th:href="@{/css/main.css}" rel="stylesheet">
-    <link th:href="@{/css/responsive.css}" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script th:src="@{/js/html5shiv.js}"></script>
-    <script th:src="@{/js/respond.min.js}"></script>
-    <![endif]-->
-    <link rel="shortcut icon" href="images/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-</head>
+    <meta charset="utf-8">
+    <title>Admin - Order details</title>
+    <th:block th:replace="layout_admin/meta_head :: meta_head"></th:block>
+</head><!--/head-->
 <body>
-<div class="container">
-    <h2>Order details</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <label th:text="'Order: '+${order.id}"></label><br>
-            <label th:text="'Created At: '+${order.createdAt}"></label><br>
-            <label th:text="'Customer: '+${order.customer.name}"></label><br>
-            <!--0:ship cod, 1:banking-->
-            <label class="col-6" th:text="'Payment Method: '+${order.paymentMethod==1?'banking':'ship cod'}"></label><br>
-        </div>
-        <div class="col-md-4">
-            <label th:text="'Receiver Name: '+${order.receiverName}"></label><br>
-            <label th:text="'Phone: '+${order.receiverPhone}"></label><br>
-            <label th:text="'Address: '+${order.receiverAddress}"></label><br>
-            <label th:text="'Price: '+${order.price}"></label><br>
-        </div>
-        <div class="col-md-4">
-            <label th:text="'Promotion: '+${order.promotion.name}+'-'+${order.promotion.discount}+'%'"></label><br>
-            <label th:text="'ShippingUnit: '+${order.shippingUnit.name}"></label><br>
-            <form th:action="@{/admin/saveOrderEdit}" th:object="${order}" method="post" enctype="multipart/form-data">
-                <label class="col-md-6" style="padding: 0px">Payment Status: </label>
-                <select class="col-md-6"  th:field="*{paymentStatus}">
-                    <option th:value='0' th:text="Unpaid"></option>
-                    <option th:value='1' th:text="Paid"></option>
-                </select>
-                <label class="col-md-6"style="padding: 0px">Status: </label>
-                <select class="col-md-6"  th:field="*{status}">
-                    <option th:value='0' th:text="Processing"></option>
-                    <option th:value='1' th:text="Shipping"></option>
-                    <option th:value='2' th:text="Finished"></option>
-                    <option th:value='3' th:text="Canceled"></option>
-                </select>
-                <input type="hidden" th:field="*{id}">
-                <input type="submit" value="OK" class="btn btn-success col-1"/>
-            </form>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <div style="display: flex">
+        <div th:include="layout_admin/nav_bar:: nav_bar"></div>
+        <div class="container" style="padding: 0">
+            <div th:include="layout_admin/navi_bar:: navi_bar"></div>
+            <div class="container">
+                <h2>Order details</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label th:text="'Order: '+${order.id}"></label><br>
+                        <label th:text="'Created At: '+${order.createdAt}"></label><br>
+                        <label th:text="'Customer: '+${order.customer.name}"></label><br>
+                        <!--0:ship cod, 1:banking-->
+                        <label class="col-6"
+                               th:text="'Payment Method: '+${order.paymentMethod==1?'banking':'ship cod'}"></label><br>
+                    </div>
+                    <div class="col-md-4">
+                        <label th:text="'Receiver Name: '+${order.receiverName}"></label><br>
+                        <label th:text="'Phone: '+${order.receiverPhone}"></label><br>
+                        <label th:text="'Address: '+${order.receiverAddress}"></label><br>
+                        <label th:text="'Price: '+${order.price}"></label><br>
+                    </div>
+                    <div class="col-md-4">
+                        <label th:text="'Promotion: '+${order.promotion.name}+'-'+${order.promotion.discount}+'%'"></label><br>
+                        <label th:text="'ShippingUnit: '+${order.shippingUnit.name}"></label><br>
+                        <form th:action="@{/admin/saveOrderEdit}" th:object="${order}" method="post"
+                              enctype="multipart/form-data">
+                            <label class="col-md-6" style="padding: 0px">Payment Status: </label>
+                            <select class="col-md-6" th:field="*{paymentStatus}">
+                                <option th:value='0' th:text="Unpaid"></option>
+                                <option th:value='1' th:text="Paid"></option>
+                            </select>
+                            <label class="col-md-6" style="padding: 0px">Status: </label>
+                            <select class="col-md-6" th:field="*{status}">
+                                <option th:value='0' th:text="Processing"></option>
+                                <option th:value='1' th:text="Shipping"></option>
+                                <option th:value='2' th:text="Finished"></option>
+                                <option th:value='3' th:text="Canceled"></option>
+                            </select>
+                            <input type="hidden" th:field="*{id}">
+                            <input type="submit" value="OK" class="btn btn-success col-2"/>
+                        </form>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr style="text-align: center; background-color: orange; color: #fff">
+                        <th>Product Name</th>
+                        <th>Image</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="orderDetail : ${orderDetailList}">
+                        <td th:text="${orderDetail.product.name}"></td>
+                        <td><img th:src="@{orderDetail.product.image}" style="width: 50px"></td>
+                        <td th:text="${orderDetail.quantity}"></td>
+                        <td th:text="${orderDetail.price}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <th:block th:replace="layout_admin/footer :: footer"></th:block>
+            </div>
         </div>
     </div>
-    <table class="table table-bordered">
-        <thead>
-        <tr style="text-align: center; background-color: orange; color: #fff">
-            <th>Product Name</th>
-            <th>Image</th>
-            <th>Quantity</th>
-            <th>Price</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="orderDetail : ${orderDetailList}">
-            <td th:text="${orderDetail.product.name}"></td>
-            <td><img th:src="@{orderDetail.product.image}" style="width: 50px"></td>
-            <td th:text="${orderDetail.quantity}"></td>
-            <td th:text="${orderDetail.price}"></td>
-        </tr>
-        </tbody>
-    </table>
 </div>
-<br/>
+<th:block th:replace="layout_admin/js_lib :: js_lib"></th:block>
 </body>
 </html>
