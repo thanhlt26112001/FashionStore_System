@@ -97,7 +97,7 @@
 								   class="page-link"> [[${i}]]</a>
 							</li>
 							<li>
-								<a th:href="@{'/admin/category/listCategory/4' }"
+								<a th:href="@{'/admin/category/listCategory/4' + ${query}}"
 								   class="page-link">...</a>
 							</li>
 							<li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">

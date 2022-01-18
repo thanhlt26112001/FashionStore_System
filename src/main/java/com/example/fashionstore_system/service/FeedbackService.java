@@ -24,8 +24,8 @@ public class FeedbackService {
 //        return feedbackRepository.findAll();
 //    }
 
-    public void saveFeedback(Feedback feedback) {
-        feedbackRepository.save(feedback);
+    public Feedback saveFeedback(Feedback feedback) {
+        return feedbackRepository.save(feedback);
     }
 
     public Feedback getFeedback(int id) {
@@ -37,9 +37,10 @@ public class FeedbackService {
         feedbackRepository.deleteById(id);
     }
     //phân trang
-    public Page<Feedback> listAllFeedback(int productId, int currentPage) {
-
-        Pageable pageable = PageRequest.of(currentPage - 1, 6);
+    public Page<Feedback> listAllFeedback(int productId, int currentPage, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by("createdAt").ascending() :
+                Sort.by("createdAt").descending();
+        Pageable pageable = PageRequest.of(currentPage - 1, 3,sort);
         return feedbackRepository.findAllByProductId(productId, pageable);
     }
     public List<Feedback> finAllCustomerFeedback(int customerId) {

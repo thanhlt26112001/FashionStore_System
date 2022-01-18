@@ -37,4 +37,11 @@ public class Feedback implements Serializable {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Timestamp updatedAt;
+
+    @Transient
+    public String getFeedbackImage(){
+        if(image==null||id==null) return null;
+//        return "/src/main/resources/static/feedback_image/"+id+"/"+image;
+        return "/feedback_image/" + id + "/" + image;
+    }
 }
