@@ -1,6 +1,5 @@
 package com.example.fashionstore_system.service;
 
-import com.example.fashionstore_system.dto.OrderDTO;
 import com.example.fashionstore_system.entity.*;
 import com.example.fashionstore_system.repository.OrderDetailRepository;
 import com.example.fashionstore_system.repository.OrderRepository;
@@ -10,8 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -60,7 +57,7 @@ public class OrderService {
     }
 
 //    public Order findByName(String name) {
-//        return orderRepository.findByName(name);
+//        return orderRepository.findByName(name);M
 //    }
 //phân trang
     public List<Order> listAll(String keyword) {
@@ -70,23 +67,18 @@ public class OrderService {
         }
         return orderRepository.findAll();
     }
-    //revenua
-//    public  List<OrderDTO> getDataRevenueOfMonth(){
-//        return orderRepository.getRevenueformonth();
-//    }
-    public Double getDataRevenueByMonthOfYear(int month, int year){
+
+    public Integer getDataRevenueByMonthOfYear(int month, int year){
         List<Order> orderList = orderRepository.findAll();
-        Double revenue = 0.0;
+        Integer revenue = 0;
         for (Order order: orderList) {
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(order.getCreatedAt());
             if((calendar.get(Calendar.MONTH)+1)==month && calendar.get(Calendar.YEAR)==year){
-                revenue += Double.parseDouble(order.getPrice().toString());
+                revenue += order.getPrice().intValue();
             }
         }
         return revenue;
     }
-
-
 }
 

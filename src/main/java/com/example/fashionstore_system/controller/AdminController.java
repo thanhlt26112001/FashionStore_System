@@ -693,24 +693,5 @@ public class AdminController {
         orderService.saveOrder(orderSave);
         return "redirect:/admin/order" ;
     }
-    // Admin revenua
-    @RequestMapping("/revenue")
-    public String viewHomeRevenua(Model model,@RequestParam(name = "year",defaultValue = "2022") int year) {
-
-        model.addAttribute("year", year);
-        model.addAttribute("january", orderService.getDataRevenueByMonthOfYear(1,year));
-        model.addAttribute("February", orderService.getDataRevenueByMonthOfYear(2,year));
-        model.addAttribute("March", orderService.getDataRevenueByMonthOfYear(3,year));
-        model.addAttribute("April", orderService.getDataRevenueByMonthOfYear(4,year));
-        model.addAttribute("May", orderService.getDataRevenueByMonthOfYear(5,year));
-        model.addAttribute("June", orderService.getDataRevenueByMonthOfYear(6,year));
-        model.addAttribute("July", orderService.getDataRevenueByMonthOfYear(7,year));
-        model.addAttribute("August", orderService.getDataRevenueByMonthOfYear(8,year));
-        model.addAttribute("September", orderService.getDataRevenueByMonthOfYear(9,year));
-        model.addAttribute("October", orderService.getDataRevenueByMonthOfYear(10,year));
-        model.addAttribute("November", orderService.getDataRevenueByMonthOfYear(11,year));
-        model.addAttribute("December", orderService.getDataRevenueByMonthOfYear(12,year));
-        return "revenue_Admin";
-    }
 }
 
