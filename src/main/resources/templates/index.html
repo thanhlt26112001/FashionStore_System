@@ -218,21 +218,25 @@
             <div class="category-tab col-sm-12"><!--category-tab-->
                 <div class="col-sm-12">
                     <ul class="nav nav-tabs">
-                        <th:block th:each="category : ${listCategories}">
-                            <li><a href="" data-toggle="tab" th:text="${category.name}"></a></li>
-                        </th:block>
+                        <li class="active"><a href="#tshirt" data-toggle="tab" th:text="${listCategories.get(0).name}"></a></li>
+                        <li><a href="#blazers" data-toggle="tab" th:text="${listCategories.get(1).name}"></a></li>
+                        <li><a href="#sunglass" data-toggle="tab" th:text="${listCategories.get(2).name}"></a></li>
+                        <li><a href="#kids" data-toggle="tab" th:text="${listCategories.get(3).name}"></a></li>
+                        <li><a href="#poloshirt" data-toggle="tab" th:text="${listCategories.get(4).name}"></a></li>
                     </ul>
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade active in" id="tshirt">
-                        <th:block th:each="product : ${listProductsbyCategory}">
+                        <th:block th:each="product : ${listProductsbyCategory1}">
                             <div class="col-sm-3">
                                 <div class="product-image-wrapper">
                                     <div class="single-products">
                                         <div class="productinfo text-center">
                                             <img th:src="${product.image}"/>
                                             <h2 th:text="${product.price}"></h2>
-                                            <p th:text="${product.name}"></p>
+                                            <a th:href="@{'/product/productdetail/'+${product.id}}">
+                                                <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
+                                                    th:text="${product.name}"></h4></a>
                                             <a th:href="@{'/cart/addtoCart/'+${product.id}}"
                                                class="btn btn-default add-to-cart"><i
                                                     class="fa fa-shopping-cart"></i>Add to cart</a>
@@ -242,6 +246,86 @@
                             </div>
                         </th:block>
                     </div>
+                    <div class="tab-pane fade" id="blazers" >
+                        <th:block th:each="product : ${listProductsbyCategory2}">
+                            <div class="col-sm-3">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img th:src="${product.image}"/>
+                                            <h2 th:text="${product.price}"></h2>
+                                            <a th:href="@{'/product/productdetail/'+${product.id}}">
+                                                <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
+                                                    th:text="${product.name}"></h4></a>
+                                            <a th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                               class="btn btn-default add-to-cart"><i
+                                                    class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                    <div class="tab-pane fade" id="sunglass" >
+                        <th:block th:each="product : ${listProductsbyCategory3}">
+                            <div class="col-sm-3">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img th:src="${product.image}"/>
+                                            <h2 th:text="${product.price}"></h2>
+                                            <a th:href="@{'/product/productdetail/'+${product.id}}">
+                                                <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
+                                                    th:text="${product.name}"></h4></a>
+                                            <a th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                               class="btn btn-default add-to-cart"><i
+                                                    class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="kids" >
+                    <th:block th:each="product : ${listProductsbyCategory4}">
+                        <div class="col-sm-3">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img th:src="${product.image}"/>
+                                        <h2 th:text="${product.price}"></h2>
+                                        <a th:href="@{'/product/productdetail/'+${product.id}}">
+                                            <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
+                                                th:text="${product.name}"></h4></a>
+                                        <a th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                           class="btn btn-default add-to-cart"><i
+                                                class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+                <div class="tab-pane fade" id="poloshirt" >
+                    <th:block th:each="product : ${listProductsbyCategory5}">
+                        <div class="col-sm-3">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img th:src="${product.image}"/>
+                                        <h2 th:text="${product.price}"></h2>
+                                        <a th:href="@{'/product/productdetail/'+${product.id}}">
+                                            <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
+                                                th:text="${product.name}"></h4></a>
+                                        <a th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                           class="btn btn-default add-to-cart"><i
+                                                class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
                 </div>
             </div><!--/category-tab-->
         </div>

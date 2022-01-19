@@ -25,7 +25,12 @@ public class HomeController {
         List<Product> allProducts = productService.getFeaturedProducts();
         model.addAttribute("listCategories",categoriesService.listAll());
         model.addAttribute("listProducts",allProducts);
-        model.addAttribute("listProductsbyCategory",productService.getProductbyCategoryId(1));
+        model.addAttribute("listProductsbyCategory1",productService.getProductbyCategoryId(1));
+        model.addAttribute("listProductsbyCategory2",productService.getProductbyCategoryId(2));
+        model.addAttribute("listProductsbyCategory3",productService.getProductbyCategoryId(3));
+        model.addAttribute("listProductsbyCategory4",productService.getProductbyCategoryId(4));
+        model.addAttribute("listProductsbyCategory5",productService.getProductbyCategoryId(5));
+
         return "index";
     }
 
