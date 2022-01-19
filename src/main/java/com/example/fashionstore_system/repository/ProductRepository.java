@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
@@ -22,4 +24,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     public Product findProductByName(String name);
 
+    @Query(value = "SELECT * FROM Products order by id desc limit 6",nativeQuery = true)
+    public List<Product> featuredProduct();
+    @Query(value = "SELECT * FROM Products where category_id = ? limit 4",nativeQuery = true)
+    public List<Product> getProductByCategoryId(int CategoryId);
 }

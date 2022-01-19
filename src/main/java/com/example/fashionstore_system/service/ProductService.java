@@ -93,4 +93,13 @@ public class ProductService {
         Pageable pageable = PageRequest.of(currentPage - 1, 6, sort);
         return productRepository.findByNameContaining(keyword, pageable);
     }
+    public List<Product>getAllProducts(){
+        return productRepository.findAll();
+    }
+    public List<Product>getFeaturedProducts(){
+        return productRepository.featuredProduct();
+    }
+    public List<Product>getProductbyCategoryId(int categoryId){
+        return productRepository.getProductByCategoryId(categoryId);
+    }
 }
