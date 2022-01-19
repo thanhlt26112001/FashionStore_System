@@ -48,7 +48,7 @@
                             <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
                             <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
                             <th:block sec:authorize="isAuthenticated()">
-                            <li><a th:href="@{/logout}"><i ></i> Logout</a></li>
+                                <li><a th:href="@{/logout}"><i></i> Logout</a></li>
                             </th:block>
                             <th:block sec:authorize="!isAuthenticated()">
                                 <li><a th:href="@{/login}"><i class="fa fa-lock"></i> Login</a></li>
@@ -158,14 +158,21 @@
             <div class="col-sm-3">
                 <div class="left-sidebar">
                     <h2>Category</h2>
-                    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
-                        <th:block th:each="category:${listCategories}">
+                    <div class="panel-group category-products" id="accordian">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#" th:text="${category.name}"></a></h4>
+                                <h4 class="panel-title">
+                                    <a th:href="@{'/product/listproducts/1?categoryId=-1&sortField=id&sortDir=asc&keyword= '}">
+                                        AllProduct</a></h4>
                             </div>
                         </div>
-                        </th:block>
+                        <div th:each="category:${listCategories}" class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a th:href="@{'/product/listproducts/1?categoryId='+${category.getId()}+
+                                    '&sortField=id&sortDir=asc&keyword= '}" th:text="${category.getName()}"></a></h4>
+                            </div>
+                        </div>
                     </div><!--/category-products-->
                     <div class="shipping text-center"><!--shipping-->
                         <img th:src="@{/images/home/shipping.jpg}"/>
@@ -173,68 +180,67 @@
 
                 </div>
             </div>
-
             <div class="col-sm-9 padding-right">
                 <div class="features_items">
                     <h2 class="title text-center">Features Items</h2>
                     <th:block th:each="product : ${listProducts}">
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img th:src="${product.image}" />
-                                    <h2 th:text="${product.price}+' VND'"></h2>
-                                    <p th:text="${product.name}"></p>
-                                    <a th:href="@{'/cart/addtoCart/'+${product.id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                        to cart</a>
-                                </div>
-                                <div class="product-overlay">
-                                    <div class="overlay-content">
+                        <div class="col-sm-3">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img th:src="${product.image}"/>
                                         <h2 th:text="${product.price}+' VND'"></h2>
-                                        <p th:text="${product.name}"></p>
-                                        <a th:href="@{'/cart/addtoCart/'+${product.id}}" class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        <a th:href="@{'/product/productdetail/'+${product.id}}">
+                                            <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
+                                                th:text="${product.name}"></h4></a>
+                                        <a th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                           class="btn btn-default add-to-cart">
+                                            <i class="fa fa-shopping-cart"></i>Addto cart</a>
+                                    </div>
+                                    <div class="product-overlay">
+                                        <div class="overlay-content">
+                                            <h2 th:text="${product.price}+' VND'"></h2>
+                                            <a th:href="@{'/product/productdetail/'+${product.id}}">
+                                                <h4 style="color: white; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
+                                                    th:text="${product.name}"></h4></a>
+                                            <a th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                               class="btn btn-default add-to-cart"><i
+                                                    class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                    </div>
                     </th:block>
-
-
-
                 </div><!--features_items-->
-
 
             </div>
             <div class="category-tab col-sm-12"><!--category-tab-->
                 <div class="col-sm-12">
                     <ul class="nav nav-tabs">
                         <th:block th:each="category : ${listCategories}">
-                        <li><a href="" data-toggle="tab" th:text="${category.name}"></a></li>
+                            <li><a href="" data-toggle="tab" th:text="${category.name}"></a></li>
                         </th:block>
                     </ul>
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade active in" id="tshirt">
-                        <th:block th:each="product : ${listProductsbyCategory}" >
-                        <div class="col-sm-3">
-                            <div class="product-image-wrapper">
-                                <div class="single-products">
-                                    <div class="productinfo text-center">
-                                        <img th:src="${product.image}"/>
-                                        <h2 th:text="${product.price}"></h2>
-                                        <p th:text="${product.name}"></p>
-                                        <a th:href="@{'/cart/addtoCart/'+${product.id}}"
-                                           class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
+                        <th:block th:each="product : ${listProductsbyCategory}">
+                            <div class="col-sm-3">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img th:src="${product.image}"/>
+                                            <h2 th:text="${product.price}"></h2>
+                                            <p th:text="${product.name}"></p>
+                                            <a th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                               class="btn btn-default add-to-cart"><i
+                                                    class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         </th:block>
-
                     </div>
                 </div>
             </div><!--/category-tab-->

@@ -24,7 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     public Product findProductByName(String name);
 
-    @Query(value = "SELECT * FROM Products order by id desc limit 6",nativeQuery = true)
+    @Query(value = "SELECT * FROM Products where status = 1 order by id desc limit 8",nativeQuery = true)
     public List<Product> featuredProduct();
     @Query(value = "SELECT * FROM Products where category_id = ? limit 4",nativeQuery = true)
     public List<Product> getProductByCategoryId(int CategoryId);
