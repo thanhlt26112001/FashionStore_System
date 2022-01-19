@@ -37,6 +37,7 @@ public class ProductController {
     @Autowired
     private OrderDetailService orderDetailService;
 
+
     @GetMapping("/listproducts")
     public String viewProduct(Model model,
                              @RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -144,4 +145,5 @@ public class ProductController {
         }
         return new RedirectView("/product/productdetail/"+productId);
     }
+
 }

@@ -14,7 +14,6 @@ import com.example.fashionstore_system.repository.RoleRepository;
 import com.example.fashionstore_system.entity.Staff;
 import com.example.fashionstore_system.repository.StaffRepository;
 import com.example.fashionstore_system.repository.UserRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,7 +23,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/admin")
 @Controller
@@ -694,6 +692,25 @@ public class AdminController {
         orderSave.setStatus(order.getStatus());
         orderService.saveOrder(orderSave);
         return "redirect:/admin/order" ;
+    }
+    // Admin revenua
+    @RequestMapping("/revenue")
+    public String viewHomeRevenua(Model model,@RequestParam(name = "year",defaultValue = "2022") int year) {
+
+        model.addAttribute("year", year);
+        model.addAttribute("january", orderService.getDataRevenueByMonthOfYear(1,year));
+        model.addAttribute("February", orderService.getDataRevenueByMonthOfYear(2,year));
+        model.addAttribute("March", orderService.getDataRevenueByMonthOfYear(3,year));
+        model.addAttribute("April", orderService.getDataRevenueByMonthOfYear(4,year));
+        model.addAttribute("May", orderService.getDataRevenueByMonthOfYear(5,year));
+        model.addAttribute("June", orderService.getDataRevenueByMonthOfYear(6,year));
+        model.addAttribute("July", orderService.getDataRevenueByMonthOfYear(7,year));
+        model.addAttribute("August", orderService.getDataRevenueByMonthOfYear(8,year));
+        model.addAttribute("September", orderService.getDataRevenueByMonthOfYear(9,year));
+        model.addAttribute("October", orderService.getDataRevenueByMonthOfYear(10,year));
+        model.addAttribute("November", orderService.getDataRevenueByMonthOfYear(11,year));
+        model.addAttribute("December", orderService.getDataRevenueByMonthOfYear(12,year));
+        return "revenue_Admin";
     }
 }
 

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Admin - Revenue </title>
+        <th:block th:replace="layout_admin/meta_head :: meta_head"></th:block>
+</head>
+<body>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <div style="display: flex">
+        <div th:include="layout_admin/nav_bar:: nav_bar"></div>
+        <div class="container" style="padding: 0">
+            <div th:include="layout_admin/navi_bar:: navi_bar"></div>
+            <div class="container">
+                <h1 style="font-family: cursive; color: orange;">Revenue</h1>
+                <form th:action="@{/admin/revenue}"  method="post" enctype="multipart/form-data">
+                    <select name="year" th:object="${year}">
+                        <option th:value='2021' th:selected="${year==2021}">2021</option>
+                        <option th:value='2022' th:selected="${year==2022}">2022</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Input year</button>
+                </form>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr style="text-align: center">
+                        <th style="text-align: center">january</th>
+                        <th style="text-align: center">February</th>
+                        <th style="text-align: center">March</th>
+                        <th style="text-align: center">April</th>
+                        <th style="text-align: center">May</th>
+                        <th style="text-align: center">June</th>
+                        <th style="text-align: center">July</th>
+                        <th style="text-align: center">August</th>
+                        <th style="text-align: center">September</th>
+                        <th style="text-align: center">October</th>
+                        <th style="text-align: center">November</th>
+                        <th style="text-align: center">December</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td th:text="${january}"></td>
+                        <td th:text="${February}"></td>
+                        <td th:text="${March}"></td>
+                        <td th:text="${April}"></td>
+                        <td th:text="${May}"></td>
+                        <td th:text="${June}"></td>
+                        <td th:text="${July}"></td>
+                        <td th:text="${August}"></td>
+                        <td th:text="${September}"></td>
+                        <td th:text="${October}"></td>
+                        <td th:text="${November}"></td>
+                        <td th:text="${December}"></td>
+
+                    </tr>
+<!--                    <tr th:each="order : ${orderRevenuaList}">-->
+<!--                        <td th:text="${order.id}"></td>-->
+<!--                        <td th:text="${order.name}"></td>-->
+<!--                        <td th:text="${order.totalOrder}"></td>-->
+<!--                        <td th:text="${order.price}"></td>-->
+<!--                        <td th:text="${order.createdAt}"></td>-->
+
+<!--                    </tr>-->
+                    </tbody>
+
+                </table>
+
+                <th:block th:replace="layout_admin/footer :: footer"></th:block>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:replace="layout_admin/js_lib :: js_lib"></th:block>
+</body>
+</html>
+
