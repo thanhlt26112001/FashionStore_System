@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <title>Admin - Edit Staff</title>
@@ -79,7 +81,8 @@
                                 </select>
                             </div>
                             <br>
-                            <button type="submit" class="btn btn-primary">Save Edit</button>
+                            <button sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                                    type="submit" class="btn btn-primary">Save Edit</button>
                             <a class="btn btn-primary" href="/admin/staff">Display List Staff</a>
                         </form>
                     </div>

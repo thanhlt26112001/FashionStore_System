@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <title>Admin - Order details</title>
@@ -46,7 +48,9 @@
                                 <option th:value='3' th:text="Canceled"></option>
                             </select>
                             <input type="hidden" th:field="*{id}">
+                            <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
                             <input type="submit" value="OK" class="btn btn-success col-2"/>
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
 
     <title>Shop</title>
-    <    <th:block th:replace="layout_customer/head :: head"></th:block>
+      <th:block th:replace="layout_customer/head :: head"></th:block>
 
 
 </head><!--/head-->
@@ -117,7 +117,12 @@
                                     <a th:href="@{'/product/productdetail/'+${product.id}}">
                                         <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
                                             th:text="${product.name}"></h4></a>
-                                    <a th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                    <a sec:authorize="hasRole('CUSTOMER')"
+                                       th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                       class="btn btn-default add-to-cart">
+                                        <i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    <a sec:authorize="!isAuthenticated()"
+                                       th:href="@{'/cart/addtoCart/'+${product.id}}"
                                        class="btn btn-default add-to-cart">
                                         <i class="fa fa-shopping-cart"></i>Add to cart</a>
                                 </div>
@@ -127,15 +132,19 @@
                                         <a th:href="@{'/product/productdetail/'+${product.id}}">
                                             <h4 style="color: white; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
                                                 th:text="${product.name}"></h4></a>
-                                        <a th:href="@{'/cart/addtoCart/'+${product.id}}"
-                                           class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        <a sec:authorize="hasRole('CUSTOMER')"
+                                           th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                           class="btn btn-default add-to-cart">
+                                            <i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        <a sec:authorize="!isAuthenticated()"
+                                           th:href="@{'/cart/addtoCart/'+${product.id}}"
+                                           class="btn btn-default add-to-cart">
+                                            <i class="fa fa-shopping-cart"></i>Add to cart</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
 
                 </div><!--features_items-->
 

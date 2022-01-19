@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <title>Admin - Edit Category</title>
@@ -70,13 +72,15 @@
                                        name="name" placeholder="Enter name" id="quantity" value="" required>
                             </div>
                             <br>
-                            <button type="submit" class="btn btn-primary">Save Edit</button>
+                            <button sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                                    type="submit" class="btn btn-primary">Save Edit</button>
                             <a class="btn btn-primary" href="/admin/product">Display List Product</a>
                         </form>
                     </div>
                 </div>
                 <div style="text-align: center">
                     <h2>Add Image Product</h2>
+                    <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
                     <form th:action="@{'/admin/product/saveImage/'+${product.id}}" th:object="${productImage}"
                           method="post"
                           style="margin: 20px 0">
@@ -88,6 +92,7 @@
                             </td>
                         </tr>
                     </form>
+                    </div>
                     <div style="text-align: center">
                         <table class="table table-bordered">
                             <thead>

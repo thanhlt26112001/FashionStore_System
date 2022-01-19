@@ -27,14 +27,14 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a href="index.html"><img src="images/home/logo.png" alt=""/></a>
+                        <a th:href="@{/}"><img src="images/home/logo.png" alt=""/></a>
                     </div>
                 </div>
                 <div class="col-sm-8">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-                            <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                            <li><a th:href="@{/customeruser/edit/}"><i class="fa fa-user"></i> Account</a></li>
+                            <li><a th:href="@{/cart/}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
                             <th:block sec:authorize="isAuthenticated()">
                                 <li><a th:href="@{/logout}"><i></i> Logout</a></li>
                             </th:block>
@@ -63,8 +63,8 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="#">Shop</a></li>
+                            <li><a th:href="@{/}">Home</a></li>
+                            <li><a th:href="@{/product/listproducts}">Shop</a></li>
                             <li class="dropdown"><a href="#">Category<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="blog.html">Blog List</a></li>

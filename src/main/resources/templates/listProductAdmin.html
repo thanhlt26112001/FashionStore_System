@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <title>Admin - Product List</title>
@@ -14,9 +16,11 @@
             <div class="container">
                 <h1 style="font-family: cursive; color: orange;">List Product</h1>
                 <div style="display: flex; justify-content: space-between">
+                    <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
                     <p>
                         <a class="btn btn-primary" href="/admin/product/new">ADD PRODUCT</a>
                     </p>
+                    </div>
                     <div class="search_box pull-right">
                         <div class="input-group">
                             <form th:action="@{'/admin/product'}">
@@ -52,10 +56,17 @@
                         <td th:text="${product.quantity}"></td>
                         <td th:text="${product.status==0? 'Disable':'Enable'}"></td>
                         <td style="text-align: center">
-                            <a th:href="@{'/admin/product/edit/' + ${product.id} }" class="btn btn-primary btn-sm"
+                            <a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                               th:href="@{'/admin/product/edit/' + ${product.id} }" class="btn btn-primary btn-sm"
                                href="#" style="margin-top: 0">Edit</a>
-                            <a th:href="@{'/admin/product/delete/' + ${product.id}}" class="btn btn-danger btn-sm"
+                            <a sec:authorize="hasRole('STAFF')"
+                               th:href="@{'/admin/product/edit/' + ${product.id} }" class="btn btn-primary btn-sm"
+                               href="#" style="margin-top: 0">Details</a>
+
+                            <a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                               th:href="@{'/admin/product/delete/' + ${product.id}}" class="btn btn-danger btn-sm"
                                href="#">Delete</a>
+
                         </td>
                     </tr>
 

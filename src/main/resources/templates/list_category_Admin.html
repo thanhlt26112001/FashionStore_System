@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <title>Admin - Category List</title>
@@ -14,9 +16,11 @@
             <div class="container">
                 <h1 style="font-family: cursive; color: orange;">List Category</h1>
                 <div style="display: flex; justify-content: space-between">
+                    <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
                     <p>
                         <a class="btn btn-primary" href="/admin/category/listCategory/add">ADD CATEGORY</a>
                     </p>
+                </div>
                     <div class="search_box pull-right">
                         <div class="input-group">
                             <form th:action="@{'/admin/category/listCategory'}">
@@ -45,6 +49,7 @@
                         <td th:text="${category.createdAt}"></td>
                         <td th:text="${category.updatedAt}"></td>
                         <td th:text="${category.products.size()}"></td>
+
                         <td style="text-align: center"><a class="btn btn-primary btn-sm"
                                                           th:href="@{'/admin/category/edit/'+${category.id}}"
                                                           style="margin-top: 0">Detail

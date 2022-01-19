@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <title>Admin - Promotion List</title>
@@ -14,9 +16,11 @@
             <div class="container">
                 <h1 style="font-family: cursive; color: orange;">List Promotion</h1>
                 <div style="display: flex; justify-content: space-between">
+                    <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
                     <p>
                         <a class="btn btn-primary" href="/admin/listPromotions/add">ADD PROMOTIONS</a>
                     </p>
+                    </div>
                     <div class="search_box pull-right">
                         <div class="input-group">
                             <form th:action="@{'/admin/listPromotions'}">
@@ -47,11 +51,12 @@
                         <td th:text="${promotion.discount}+'%'"></td>
                         <td th:text="${promotion.applyDay}"></td>
                         <td th:text="${promotion.orders.size()}"></td>
-                        <td style="text-align: center"><a class="btn btn-primary btn-sm"
+                        <td style="text-align: center"><a  class="btn btn-primary btn-sm"
                                                           th:href="@{'/admin/edit/'+${promotion.id}}"
                                                           style="margin-top: 0">Detail
                             & Edit</a>
-                            <th:block th:if="${promotion.orders.size()==0}">|<a class="btn btn-danger btn-sm"
+                            <th:block th:if="${promotion.orders.size()==0}">|<a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                                                                                class="btn btn-danger btn-sm"
                                                                                 th:href="@{'/admin/delete/'+${promotion.id}}">Delete</a>
                             </th:block>
                         </td>

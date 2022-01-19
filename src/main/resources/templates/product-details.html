@@ -193,7 +193,13 @@
 								<h3 th:text="${product.getPrice()+' VNĐ'}"></h3>
                                 <p th:text="'Category:'+${product.category.name}"></p>
                                 <a th:href="@{'/cart/addtoCart/'+${product.id}}">
-                                <button th:if="${product.getQuantity() > 0}" style="margin: 0"
+                                <button sec:authorize="hasRole('CUSTOMER')"
+                                        th:if="${product.getQuantity() > 0}" style="margin: 0"
+                                        type="button" class="btn btn-fefault cart">
+								    <i class="fa fa-shopping-cart"></i>Add to cart
+								</button></a>
+                                <button sec:authorize="!isAuthenticated()"
+                                        th:if="${product.getQuantity() > 0}" style="margin: 0"
                                         type="button" class="btn btn-fefault cart">
 								    <i class="fa fa-shopping-cart"></i>Add to cart
 								</button></a>
@@ -211,7 +217,6 @@
                 <div class="category-tab shop-details-tab"><!--Review-->
                     <div class="col-sm-12">
                         <ul class="nav nav-tabs">
-
                             <li >
                                 <button style="margin-top: 0" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort Review
                                     <span class="caret"></span></button>
