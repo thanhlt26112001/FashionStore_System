@@ -4,9 +4,6 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
     <title>Home Page</title>
     <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{css/font-awesome.min.css}" rel="stylesheet">
@@ -137,7 +134,6 @@
                                 <img th:src="@{/images/home/style.jpg}" class="girl img-responsive" alt=""/>
                             </div>
                         </div>
-
                     </div>
 
                     <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
@@ -188,14 +184,14 @@
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
-                                        <img th:src="${product.image}"/>
+                                        <img style="height: 100%" th:src="${product.image}"/>
                                         <h2 th:text="${product.price}+' VND'"></h2>
                                         <a th:href="@{'/product/productdetail/'+${product.id}}">
                                             <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
                                                 th:text="${product.name}"></h4></a>
                                         <a th:href="@{'/cart/addtoCart/'+${product.id}}"
                                            class="btn btn-default add-to-cart">
-                                            <i class="fa fa-shopping-cart"></i>Addto cart</a>
+                                            <i class="fa fa-shopping-cart"></i>Add to cart</a>
                                     </div>
                                     <div class="product-overlay">
                                         <div class="overlay-content">
@@ -378,8 +374,6 @@
 <script th:src="@{js/price-range.js}"></script>
 <script th:src="@{js/jquery.prettyPhoto.js}"></script>
 <script th:src="@{js/main.js}"></script>
-<script>
-    document.getElementById('autoplay').play();
-</script>
+
 </body>
 </html>
