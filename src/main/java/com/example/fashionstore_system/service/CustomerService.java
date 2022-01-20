@@ -54,5 +54,8 @@ public class CustomerService {
         Pageable pageable = PageRequest.of(currentPage - 1, 6, sort);
         return customerRepository.findByNameContaining(keyword, pageable);
     }
+    public List<Customer> getAllCustomer(){
+        return customerRepository.findAll();
+    }
 
 }

@@ -27,7 +27,7 @@ public class ProductService {
                                  String sortDirection, String keyword, int categoryId) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
-        Pageable pageable = PageRequest.of(currentPage - 1, 6, sort);
+        Pageable pageable = PageRequest.of(currentPage - 1, 9, sort);
         if (categoryId == -1) {
             return productRepository.searchProductByName(keyword, pageable);
         }
@@ -46,15 +46,6 @@ public class ProductService {
     public List<ProductImage> findImageProduct() {
         return productImageRepository.findAll();
     }
-
-    //product management
-    //search product by name
-//    public Page<Product> listAllProduct(int currentPage, String sortField, String sortDirection, String keyword) {
-//        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-//                Sort.by(sortField).descending();
-//        Pageable pageable = PageRequest.of(currentPage - 1, 10, sort);
-//        return productRepository.findProductByName(keyword, pageable);
-//    }
 
     public Product findByName(String name) {
         return productRepository.findProductByName(name);
@@ -104,5 +95,9 @@ public class ProductService {
     }
     public List<Product>getProductbyCategoryId(int categoryId){
         return productRepository.getProductByCategoryId(categoryId);
+    }
+
+    public void saveAllProduct(List<Product> productList){
+        productRepository.saveAll(productList);
     }
 }

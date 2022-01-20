@@ -13,9 +13,9 @@
         <div th:include="layout_admin/nav_bar:: nav_bar"></div>
         <div class="container" style="padding: 0; position: relative">
             <div th:include="layout_admin/navi_bar:: navi_bar"></div>
-            <div class="container">
-                <div class="row"
-                     style="border: 1px darkgrey solid; border-radius: 10px; width: 50%; margin: 0 auto; padding: 20px;">
+            <div class="container row">
+                <div class="row col-sm-6"
+                     style="border: 1px darkgrey solid; border-radius: 10px; margin: 0; padding: 20px;">
                     <div class="col-sm-12">
                         <div style="display: flex; justify-content: space-between;">
                             <h2 class="myclass">Edit Product</h2>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Status</label>
-                                <select th:field="*{status}">
+                                <select th:field="*{status}" class="form-select">
                                     <option th:value='0' th:text="Disable"></option>
                                     <option th:value='1' th:text="Enable"></option>
                                 </select>
@@ -78,7 +78,7 @@
                         </form>
                     </div>
                 </div>
-                <div style="text-align: center">
+                <div style="text-align: center" class="col-sm-6">
                     <h2>Add Image Product</h2>
                     <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
                     <form th:action="@{'/admin/product/saveImage/'+${product.id}}" th:object="${productImage}"
@@ -93,19 +93,17 @@
                         </tr>
                     </form>
                     </div>
-                    <div style="text-align: center">
+                    <div style="text-align: center; max-height: 700px; overflow-y: scroll;">
                         <table class="table table-bordered">
                             <thead>
                             <tr style="text-align: center; background-color: orange; color: #fff">
-                                <th>Product Id</th>
                                 <th style="text-align: center">Image</th>
                                 <th style="text-align: center">Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="image:${productImageList}">
-                                <td th:text="${image.id}"></td>
-                                <td><a th:text="${image.image}" th:href="@{${image.image}}"></a></td>
+                                <td><a th:href="@{${image.image}}"> <img th:src="@{${image.image}}" width="30px"></a></td>
                                 <td style="text-align: center">
                                     <a th:href="@{'/admin/product/deleteImage/'+${image.id}}"
                                        class="btn btn-danger btn-sm">Delete</a>

@@ -1,18 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-
-    <title> Checkout</title>
+    <title>Checkout</title>
      <th:block th:replace="layout_customer/head :: head"></th:block>
-
 </head><!--/head-->
-
 <body>
 <div th:include="layout_customer/navbar:: navbar"></div>
-
 <section id="cart_items">
     <div class="container">
         <div class="breadcrumbs">
@@ -21,27 +16,27 @@
                 <li class="active">Check out</li>
             </ol>
         </div><!--/breadcrums-->
-
-
-        <div class="shopper-informations">
-            <div class="row">
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-8 clearfix">
-                    <div class="bill-to">
-                        <p>Bill To</p>
-                        <div class="form-one">
+        <div class="shopper-informations" >
+            <div  >
+                <div class="clearfix" style="border: 1px solid rgba(0, 0, 0, 0.1); width: 50%; margin: 0 auto;
+                 border-radius: 15px; padding: 20px; box-shadow: 5px 3px 5px rgb(0 0 0 / 10%);">
+                    <div class="bill-to" style="width: 100%">
+                        <p style="font-weight: bold; color: orange; text-align: center">Receiver Information</p>
+                        <div class="form-one" style="width: 100%">
                             <form th:action="@{/cart/saveOrder}" th:object="${order}" method="post">
+                                <label>Name</label>
                                 <input type="text" placeholder="Receiver Name" th:field="*{receiverName}" required>
+                                <label>Phone</label>
                                 <input type="text" placeholder="Phone" th:field="*{receiverPhone}" required>
+                                <label>Address</label>
                                 <input type="text" placeholder="Address" th:field="*{receiverAddress}" required>
                                 <label>Payment Method </label>
-                                <select th:field="*{paymentMethod}">
-                                    <option value="1">Cash</option>
-                                    <option value="2">Internet Banking</option>
+                                <select th:field="*{paymentMethod}" style="height: 40px">
+                                    <option value="0">Ship Cod</option>
+                                    <option value="1">Internet Banking</option>
                                 </select>
-                                <label>Payment Method </label>
-                                <select th:field="*{shippingUnit}" >
+                                <label style="margin-top: 10px">Shipping Unit</label>
+                                <select th:field="*{shippingUnit}" style="height: 40px">
                                     <option th:each="shippingunit:${shippingUnitlist}"
                                             th:value="${shippingunit.id}"
                                             th:utext="${shippingunit.name}">

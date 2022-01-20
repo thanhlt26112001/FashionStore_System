@@ -1,6 +1,8 @@
 package com.example.fashionstore_system.security;
 
+import com.example.fashionstore_system.entity.User;
 import com.example.fashionstore_system.jwt.JwtAuthenticationFilter;
+import com.example.fashionstore_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +13,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+
+import java.io.IOException;
 
 import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.CACHE;
 import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.COOKIES;
@@ -28,7 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailServiceImpl userService;
     @Autowired
-    private DataSource dataSource;
+    UserService userServices;
+
+//    @Autowired
+//    private DataSource dataSource;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -109,6 +122,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .passwordParameter("password")
                     .loginProcessingUrl("/doLogin")
                     .failureUrl("/loginFail")
+                .successHandler(new AuthenticationSuccessHandler() {
+
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                                        Authentication authentication) throws IOException, ServletException {
+                        // run custom logics upon successful login
+                        User user = userServices.findByUsername(authentication.getName());
+                        if(user.getRole().getName().equals("ROLE_ADMIN") || user.getRole().getName().equals("ROLE_STAFF")
+                            ||user.getRole().getName().equals("ROLE_MANAGER")){
+                            response.sendRedirect("/admin/home");
+                        }else{
+                            response.sendRedirect("/");
+                        }
+                    }
+                })
                 .and()
                     .logout()
                     .permitAll()

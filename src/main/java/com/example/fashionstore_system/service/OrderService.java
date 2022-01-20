@@ -80,5 +80,14 @@ public class OrderService {
         }
         return revenue;
     }
+    public List<Order> getLastestOrders(){
+    return orderRepository.getRecentOrder();
+
+    }
+    public List<Order> getAllOrders(){
+        return orderRepository.findAll();
+
+    }
+
 }
 

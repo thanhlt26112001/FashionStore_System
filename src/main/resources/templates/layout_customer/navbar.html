@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a th:href="@{/}"><img th:src="@{/images/home/logo.png}"/></a>
+                        <a th:href="@{/}"><img style="width: 140px" th:src="@{/images/home/logo.png}"/></a>
                     </div>
                 </div>
                 <div class="col-sm-8">
@@ -39,7 +39,7 @@
                                 <li><a th:href="@{/myorder}"><i class="fa fa-shopping-cart"></i> Order History</a></li>
                                 </th:block>
                                 <th:block sec:authorize="hasAnyRole('ADMIN','MANAGER','STAFF')">
-                                <li><a th:href="@{/admin}"><i class="fa fa-user"></i> Admin Page</a></li>
+                                <li><a th:href="@{/admin/home}"><i class="fa fa-user"></i> Admin Page</a></li>
                                 </th:block>
                                 <li><a th:href="@{/logout}"><i class="fa fa-lock"></i> Logout</a></li>
                             </th:block>
