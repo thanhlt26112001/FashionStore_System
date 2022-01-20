@@ -26,9 +26,10 @@
                         <a class="nav-link disabled"></a>
                     </li>
                 </ul>
-                <a class="navbar-brand">Hello,</a>
+                <a class="navbar-brand" style="margin-right: 2px">Hello,</a>
                 <a class="navbar-brand" sec:authentication="name"></a>
-                <a th:href="@{/logout}"><button class="btn btn-outline-danger">Logout</button></a>
+                <a th:href="@{/}"><button class="btn btn-warning" style="margin-right: 3px;: ">Shop</button></a>
+                <a th:href="@{/logout}"><button class="btn btn-danger">Logout</button></a>
             </div>
         </div>
     </nav>

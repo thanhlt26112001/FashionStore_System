@@ -9,17 +9,18 @@
 <div class="wrapper row-offcanvas row-offcanvas-left">
     <div style="display: flex">
         <div th:include="layout_admin/nav_bar:: nav_bar"></div>
-        <div class="container" style="padding: 0">
+        <div class="container" style="padding: 0; position: relative">
             <div th:include="layout_admin/navi_bar:: navi_bar"></div>
             <div class="container" >
                 <h1 style="font-family: cursive; color: orange;">Revenue</h1>
-                <form th:action="@{/admin/revenue}" method="post" >
-                    <select name="Year" th:object="${Year}" style="height: 38px;">
+                <form th:action="@{/admin/revenue}" method="post" class="row">
+                    <div class="col-2"></div>
+                    <select name="Year" th:object="${Year}" style="height: 38px;" class="col-6">
                         <option th:value='2020' th:selected="${Year==2020}">2020</option>
                         <option th:value='2021' th:selected="${Year==2021}">2021</option>
                         <option th:value='2022' th:selected="${Year==2022}">2022</option>
                     </select>
-                    <button style="vertical-align: unset" type="submit" class="btn btn-primary">OK</button>
+                    <button style="vertical-align: unset" type="submit" class="btn btn-primary col-2">OK</button>
                 </form><br>
                 <div align="center" style="width: 100%;">
                     <div id="chart_div"></div>

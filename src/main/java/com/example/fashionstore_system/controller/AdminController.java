@@ -340,13 +340,7 @@ public class AdminController {
         User userSave = userService.getById(user.getId());
         userSave.setUsername(user.getUsername());
         userSave.setRole(roleRepository.getById(user.getRole().getId()));
-        //customer
         Customer customerSave = customerService.getById(user.getCustomer().getId());
-//        customerSave.setName(user.getCustomer().getName());
-//        customerSave.setEmail(user.getCustomer().getEmail());
-//        customerSave.setPhone(user.getCustomer().getPhone());
-//        customerSave.setAddress(user.getCustomer().getAddress());
-//        customerSave.setBirthday(user.getCustomer().getBirthday());
         //Staff
         Staff staffSave = staffService.getById(user.getStaff().getId());
         staffSave.setAvatar(user.getStaff().getAvatar());
@@ -375,12 +369,12 @@ public class AdminController {
     public String deleteStaff(@PathVariable(name = "id") int id) {
         User user = userService.getById(id);
         int staffId = user.getStaff().getId();
+        int customerId = user.getCustomer().getId();
         user.setStaff(null);
-        user.setRole(roleRepository.getById(1));
-        // int staffId = user.getStaff().getId();
-        userService.saveUser(user);
+        user.setCustomer(null);
+        userService.deleteUser(user.getId());
+        customerService.deleteCustomer(customerId);
         staffService.delete(staffId);
-        // staffService.delete(staffId);
         return "redirect:/admin/staff";
     }
 
@@ -465,6 +459,9 @@ public class AdminController {
         String applyDay = promotion.getApplyDay();
         if (applyDay.equals("AllWeek")) {
             mav.addObject("AllWeek", true);
+        }
+        if (applyDay.contains("Monday")) {
+            mav.addObject("Monday", true);
         }
         if (applyDay.contains("Tuesday")) {
             mav.addObject("Tuesday", true);
