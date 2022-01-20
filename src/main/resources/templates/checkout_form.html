@@ -1,18 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-
-    <title> Checkout</title>
+    <title>Checkout</title>
      <th:block th:replace="layout_customer/head :: head"></th:block>
-
 </head><!--/head-->
-
 <body>
 <div th:include="layout_customer/navbar:: navbar"></div>
-
 <section id="cart_items">
     <div class="container">
         <div class="breadcrumbs">
@@ -21,16 +16,12 @@
                 <li class="active">Check out</li>
             </ol>
         </div><!--/breadcrums-->
-
-
-        <div class="shopper-informations">
-            <div class="row">
-                <div class="col-sm-4">
-                </div>
-                <div class="col-sm-8 clearfix">
-                    <div class="bill-to">
-                        <p>Bill To</p>
-                        <div class="form-one">
+        <div class="shopper-informations" style="margin: 0 auto">
+            <div  >
+                <div class="clearfix" style="border: 1px solid #494847; width: 50%">
+                    <div class="bill-to" style="width: 100%">
+                        <p>Receiver Information</p>
+                        <div class="form-one" style="width: 100%">
                             <form th:action="@{/cart/saveOrder}" th:object="${order}" method="post">
                                 <input type="text" placeholder="Receiver Name" th:field="*{receiverName}" required>
                                 <input type="text" placeholder="Phone" th:field="*{receiverPhone}" required>
