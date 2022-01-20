@@ -2,6 +2,10 @@ package com.example.fashionstore_system.controller;
 
 import com.example.fashionstore_system.entity.*;
 import com.example.fashionstore_system.service.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -21,6 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -712,6 +718,58 @@ public class AdminController {
         model.addAttribute("income",price);
         model.addAttribute("listorder",orderService.getLastestOrders());
         return ("admin_home");
+    }
+    @RequestMapping("/exportproducts")
+    public String ExportProductsToExcel(){
+        List<Product> allProducts = productService.getAllProducts();
+        try
+        {
+            XSSFWorkbook workbook = new XSSFWorkbook();
+
+            XSSFSheet sheet = workbook.createSheet("sheet1");// creating a blank sheet
+            int rownum = 0;
+            for (Product product : allProducts)
+            {
+                Row row = sheet.createRow(rownum++);
+                createList(product, row);
+
+            }
+
+            FileOutputStream out = new FileOutputStream(new File("D://Product.xlsx")); // file name with path
+            workbook.write(out);
+            out.close();
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return "admin_home";
+    }
+    private static void createList(Product product, Row row) // creating cells for each row
+    {
+        Cell cell = row.createCell(0);
+        cell.setCellValue(product.getId());
+        cell = row.createCell(1);
+        cell.setCellValue(product.getName());
+        cell = row.createCell(2);
+        cell.setCellValue(product.getName());
+        cell = row.createCell(3);
+        cell.setCellValue(product.getDescription());
+        cell = row.createCell(4);
+        cell.setCellValue(product.getCategory().getName());
+        cell = row.createCell(5);
+        cell.setCellValue(product.getImage());
+        cell = row.createCell(6);
+        cell.setCellValue(product.getPrice().toString());
+        cell = row.createCell(7);
+        cell.setCellValue(product.getQuantity());
+        cell = row.createCell(8);
+        cell.setCellValue(product.getStatus());
+        cell = row.createCell(9);
+        cell.setCellValue(product.getCreatedAt());
+        cell = row.createCell(10);
+        cell.setCellValue(product.getUpdatedAt());
     }
 }
 
