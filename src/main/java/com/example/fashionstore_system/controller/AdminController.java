@@ -2,8 +2,13 @@ package com.example.fashionstore_system.controller;
 
 import com.example.fashionstore_system.entity.*;
 import com.example.fashionstore_system.service.*;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.fashionstore_system.entity.Customer;
@@ -16,13 +21,22 @@ import com.example.fashionstore_system.repository.StaffRepository;
 import com.example.fashionstore_system.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @RequestMapping("/admin")
 @Controller
@@ -48,6 +62,9 @@ public class AdminController {
     private StaffRepository staffRepository;
     @Autowired
     private  ShippingUnitService shippingUnitService;
+    @Autowired
+    private ExcelService excelService;
+
     //anhht made this
     //product management
     //show list product
@@ -339,13 +356,7 @@ public class AdminController {
         User userSave = userService.getById(user.getId());
         userSave.setUsername(user.getUsername());
         userSave.setRole(roleRepository.getById(user.getRole().getId()));
-        //customer
         Customer customerSave = customerService.getById(user.getCustomer().getId());
-//        customerSave.setName(user.getCustomer().getName());
-//        customerSave.setEmail(user.getCustomer().getEmail());
-//        customerSave.setPhone(user.getCustomer().getPhone());
-//        customerSave.setAddress(user.getCustomer().getAddress());
-//        customerSave.setBirthday(user.getCustomer().getBirthday());
         //Staff
         Staff staffSave = staffService.getById(user.getStaff().getId());
         staffSave.setAvatar(user.getStaff().getAvatar());
@@ -374,12 +385,12 @@ public class AdminController {
     public String deleteStaff(@PathVariable(name = "id") int id) {
         User user = userService.getById(id);
         int staffId = user.getStaff().getId();
+        int customerId = user.getCustomer().getId();
         user.setStaff(null);
-        user.setRole(roleRepository.getById(1));
-        // int staffId = user.getStaff().getId();
-        userService.saveUser(user);
+        user.setCustomer(null);
+        userService.deleteUser(user.getId());
+        customerService.deleteCustomer(customerId);
         staffService.delete(staffId);
-        // staffService.delete(staffId);
         return "redirect:/admin/staff";
     }
 
@@ -464,6 +475,9 @@ public class AdminController {
         String applyDay = promotion.getApplyDay();
         if (applyDay.equals("AllWeek")) {
             mav.addObject("AllWeek", true);
+        }
+        if (applyDay.contains("Monday")) {
+            mav.addObject("Monday", true);
         }
         if (applyDay.contains("Tuesday")) {
             mav.addObject("Tuesday", true);
@@ -692,6 +706,72 @@ public class AdminController {
         orderSave.setStatus(order.getStatus());
         orderService.saveOrder(orderSave);
         return "redirect:/admin/order" ;
+    }
+    @GetMapping("/home")
+    public String AdminHomePage(Model model){
+
+        List<Order> allorders = orderService.getAllOrders();
+        double price=0.0;
+        int count=0;
+        for (Order order:allorders){
+            if(order.getStatus()==2){
+                price+=Double.parseDouble(order.getPrice().toString());
+                Set<OrderDetail> orderDetailSet=order.getOrderDetails();
+                for (OrderDetail orderDetail:orderDetailSet){
+                    count+=orderDetail.getQuantity();
+                }
+            }
+        }
+        model.addAttribute("numberofcustomers",customerService.getAllCustomer().size());
+        model.addAttribute("sales",count);
+        model.addAttribute("income",price);
+        model.addAttribute("listorder",orderService.getLastestOrders());
+        return ("admin_home");
+    }
+
+
+    @RequestMapping("/exportproducts")
+    public RedirectView ExportProductsToExcel(RedirectAttributes model){
+        List<Product> allProducts = productService.getAllProducts();
+        Path uploadPath =  Paths.get("excel_export");
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy--HH-mm-ss");
+        String path = uploadPath.toAbsolutePath().toString()+"\\productList"+sdf.format(date).toString()+".xlsx";
+        try
+        {
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("Product List");
+            Row row0 = sheet.createRow(0);
+            excelService.createHeader(row0);
+            int rownum = 1;
+            for (Product product : allProducts)
+            {
+                Row row = sheet.createRow(rownum++);
+                excelService.createList(product, row);
+            }
+            FileOutputStream out = new FileOutputStream(new File(path)); // path + file name
+            workbook.write(out);
+            out.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        model.addFlashAttribute("alert", "Exported excel file at: " + path);
+        return new RedirectView("/admin/product");
+    }
+
+    @RequestMapping("/readExcel")
+    public RedirectView getUserByUserName(@RequestParam(value = "excelFile",required = false) MultipartFile excelFile,
+                                          RedirectAttributes model) throws IOException {
+        try{
+            List<Product> productList = excelService.readExcel(excelFile);
+        productService.saveAllProduct(productList);
+            model.addFlashAttribute("alert", "Add products succesfully!");
+        }catch (Exception e){
+            model.addFlashAttribute("alert", "Add products fail!");
+        }
+        return new RedirectView("/admin/product");
     }
 }
 

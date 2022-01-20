@@ -19,25 +19,25 @@
                         <form th:action="@{/admin/saveStaff}" th:object="${user}" method="post"
                               enctype="multipart/form-data">
                             <div class="form-group">
-                                <label style="font-weight: bold">Staff Name</label>
+                                <label>Staff Name</label>
                                 <input th:field="*{staff.name}" type="text" class="form-control"
                                        name="name" placeholder="Enter name" id="staffName" required/>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight: bold">Username</label>
+                                <label>Username</label>
                                 <input th:field="*{username}" type="text" class="form-control"
                                        name="username" placeholder="Enter username" id="username"
                                        pattern=".{6,}" title="Six or more characters" required/>
                                 <span style="color: red" th:text="${alert_Username}"></span>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight: bold">Password</label>
+                                <label>Password</label>
                                 <input th:field="*{password}" type="password" class="form-control"
                                        name="password" placeholder="Enter password" id="password"
                                        pattern=".{6,}" title="Six or more characters" required/>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight: bold">Email</label>
+                                <label>Email</label>
                                 <input th:field="*{staff.email}" type="email" class="form-control"
                                        name="email" placeholder="Enter email" id="email"
                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -46,29 +46,29 @@
                             </div>
 
                             <div class="form-group">
-                                <label style="font-weight: bold">Phone</label>
+                                <label>Phone</label>
                                 <input th:field="*{staff.phone}" type="text" class="form-control"
                                        name="email" id="phone" placeholder="Enter phone" pattern="^[0-9]{10,11}$"
                                        title="Input [10-11] Number "/>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight: bold">Avatar</label>
+                                <label>Avatar</label>
                                 <input th:field="*{staff.avatar}" type="text" class="form-control"
                                        name="avatar" placeholder="Enter avatar" id="avatar"/>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight: bold">Address</label>
+                                <label>Address</label>
                                 <input th:field="*{customer.address}" type="text" class="form-control"
                                        name="name" placeholder="Enter Adrdress" id="address">
                             </div>
                             <div class="form-group">
-                                <label style="font-weight: bold">birthday</label>
+                                <label>Birthday</label>
                                 <input th:field="*{customer.birthday}" type="date" class="form-control"
                                        name="name" id="birthday" placeholder="Enter birthday " required/>
                             </div>
                             <div class="form-group">
-                                <label style="font-weight: bold">Role:</label>
-                                <select th:field="*{role.id}">
+                                <label>Role:</label>
+                                <select th:field="*{role.id}" class="form-select">
                                     <option th:value='2' th:text="STAFF"></option>
                                     <option th:value='3' th:text="MANAGER"></option>
                                 </select>

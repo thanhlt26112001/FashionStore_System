@@ -6,7 +6,7 @@
 </head>
 <body>
 <th:block th:fragment="nav_bar">
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 140vh;">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 145vh;">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <svg class="bi me-2" width="40" height="32">
                 <use xlink:href="#bootstrap" />
@@ -15,6 +15,12 @@
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a th:href="@{/admin/home}" class="nav-link text-white">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/admin/revenue}" class="nav-link text-white">Revenue</a>
+            </li>
             <li class="nav-item">
                 <a th:href="@{/admin/product}" class="nav-link text-white">Products</a>
             </li>

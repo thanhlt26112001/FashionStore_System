@@ -6,6 +6,14 @@
     <meta charset="utf-8">
     <title>Admin - Product List</title>
     <th:block th:replace="layout_admin/meta_head :: meta_head"></th:block>
+    <style>
+        td > div {
+            width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
 </head>
 <body>
 <div class="wrapper row-offcanvas row-offcanvas-left">
@@ -17,10 +25,20 @@
                 <h1 style="font-family: cursive; color: orange;">List Product</h1>
                 <div style="display: flex; justify-content: space-between">
                     <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
-                    <p>
-                        <a class="btn btn-primary" href="/admin/product/new">ADD PRODUCT</a>
-                    </p>
+                        <p>
+                            <a class="btn btn-primary" th:href="@{/admin/product/new}">ADD PRODUCT</a>
+                        </p>
+                        <p>
+                            <a class="btn btn-success" th:href="@{/admin/exportproducts}">EXPORT TO EXCEL</a>
+                        </p>
                     </div>
+                    <form th:action="@{/admin/readExcel}" method="post" enctype="multipart/form-data" class="pull-right"
+                          sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+                        <input type="file" name="excelFile" id="excelFile"
+                               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                               class="btn btn-default pull-left form-">
+                        <button type="submit" class="btn btn-success pull-right">ADD</button>
+                    </form>
                     <div class="search_box pull-right">
                         <div class="input-group">
                             <form th:action="@{'/admin/product'}">
@@ -29,6 +47,7 @@
                         </div>
                     </div>
                 </div>
+                <span th:text="${alert}"></span>
                 <table class="table table-bordered">
                     <thead>
                     <tr style="text-align: center">
@@ -48,11 +67,11 @@
                     <tbody>
                     <tr th:each="product : ${listproduct}">
                         <td th:text="${product.id}"></td>
-                        <td th:text="${product.name}"></td>
-                        <td th:text="${product.description}"></td>
+                        <td><div th:text="${product.name}"></div></td>
+                        <td><div th:text="${product.description}"></div></td>
                         <td th:text="${product.category.name}"></td>
                         <td><img style="width: 50px" th:src="${product.image}"/></td>
-                        <td th:text="${product.price}"></td>
+                        <td><div th:text="${product.price.longValue()}"></div></td>
                         <td th:text="${product.quantity}"></td>
                         <td th:text="${product.status==0? 'Disable':'Enable'}"></td>
                         <td style="text-align: center">

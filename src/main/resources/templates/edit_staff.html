@@ -22,7 +22,7 @@
                             <div style="display: flex ; justify-content: space-between">
                                 <h2 class="myclass">Edit Staff</h2>
                                 <div>
-                                    <img style="width: 100px" th:src="*{staff.avatar} ">
+                                    <img class="img-thumbnail" style="width: 100px" th:src="*{staff.avatar} ">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -33,9 +33,11 @@
                                 <input type="hidden" th:field="*{customer.id}"/>
                             </div>
                             <div class="form-group">
-                                <label>Staff Name</label>
-                                <input th:field="*{staff.name}" type="text" class="form-control"
-                                       name="name" placeholder="Enter name" id="staffName">
+                                <label>Username</label>
+                                <input th:field="*{username}" type="text" class="form-control"
+                                       name="username" placeholder="Enter username" id="username"
+                                       pattern=".{6,}"
+                                       title="Six or more characters" readonly/>
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
@@ -43,6 +45,11 @@
                                        name="email" placeholder="Enter email" id="email"
                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                        title="(characters followed: character@characters.domain " readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label>Staff Name</label>
+                                <input th:field="*{staff.name}" type="text" class="form-control"
+                                       name="name" placeholder="Enter name" id="staffName">
                             </div>
                             <div class="form-group">
                                 <label>Phone</label>
@@ -56,26 +63,10 @@
                                 <input th:field="*{staff.avatar}" type="text" class="form-control"
                                        name="name" placeholder="Enter name" id="avatar">
                             </div>
-                            <div class="form-group">
-                                <label>Username</label>
-                                <input th:field="*{username}" type="text" class="form-control"
-                                       name="username" placeholder="Enter username" id="username"
-                                       pattern=".{6,}"
-                                       title="Six or more characters" readonly/>
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <input th:field="*{customer.address}" type="text" class="form-control"
-                                       name="address" placeholder="Enter Adrdress" id="address">
-                            </div>
-                            <div class="form-group">
-                                <label>birthday</label>
-                                <input th:field="*{customer.birthday}" type="date" class="form-control"
-                                       name="birthday" id="birthday">
-                            </div>
+
                             <div class="form-group">
                                 <label>Role:</label>
-                                <select th:field="*{role.id}">
+                                <select class="form-select" th:field="*{role.id}">
                                     <option th:value='2' th:text="STAFF"></option>
                                     <option th:value='3' th:text="MANAGER"></option>
                                 </select>

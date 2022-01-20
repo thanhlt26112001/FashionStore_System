@@ -4,6 +4,7 @@ package com.example.fashionstore_system.repository;
 import com.example.fashionstore_system.dto.OrderDTO;
 import com.example.fashionstore_system.entity.Category;
 import com.example.fashionstore_system.entity.Order;
+import com.example.fashionstore_system.entity.Product;
 import com.example.fashionstore_system.entity.Staff;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,5 +37,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 //    @Query( value = "SELECT new sum(o.price)" +
 //            "FROM Order o where  month(o.createdAt) = ?1 and year(o.createdAt)=?2 ")
 //    public List<OrderDTO> getRevenuaByMonthOfYear(int month, int year);
+@Query(value = "SELECT * FROM Orders where status = 2 order by id desc limit 7",nativeQuery = true)
+public List<Order> getRecentOrder();
 
 }
