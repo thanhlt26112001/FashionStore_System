@@ -121,8 +121,7 @@ public class CartController {
     }
 
     @RequestMapping("/deleteCart/{id}")
-    public RedirectView deleteCart(@PathVariable("id") Integer id, RedirectAttributes model) {
-        String alert = "Delete " + cartService.getCartById(id).getProduct().getName() + " from cart successfully!";
+    public RedirectView deleteCart(@PathVariable("id") Integer id) {
         cartService.deleteCart(cartService.getCartById(id));
         return new RedirectView("/cart/");
     }
@@ -135,24 +134,26 @@ public class CartController {
         }
         User user = userService.findByUsername(authentication.getName());
         Product product = productService.getProduct(id);
-        int count = 0;
-        List<Cart> customerCart = cartService.getCustomerCart(user.getCustomer().getId());
-        for (Cart cart : customerCart) {
-            if (cart.getProduct().equals(product) && cart.getQuantity()<product.getQuantity()) {
-                cart.setQuantity(cart.getQuantity() + 1);
-                cartService.saveCart(cart);
-                count++;
-            }else if (cart.getProduct().equals(product) && cart.getQuantity()==product.getQuantity()){
-                model.addFlashAttribute("alert", "Out of max quantity");
-                return new RedirectView("/cart/show");
+        if(product.getStatus()==1){
+            int count = 0;
+            List<Cart> customerCart = cartService.getCustomerCart(user.getCustomer().getId());
+            for (Cart cart : customerCart) {
+                if (cart.getProduct().equals(product) && cart.getQuantity()<product.getQuantity()) {
+                    cart.setQuantity(cart.getQuantity() + 1);
+                    cartService.saveCart(cart);
+                    count++;
+                }else if (cart.getProduct().equals(product) && cart.getQuantity()==product.getQuantity()){
+                    model.addFlashAttribute("alert", "Out of max quantity");
+                    return new RedirectView("/cart/show");
+                }
             }
-        }
-        if (count == 0) {
-            Cart cart = new Cart();
-            cart.setQuantity(1);
-            cart.setCustomer(user.getCustomer());
-            cart.setProduct(product);
-            cartService.saveCart(cart);
+            if (count == 0) {
+                Cart cart = new Cart();
+                cart.setQuantity(1);
+                cart.setCustomer(user.getCustomer());
+                cart.setProduct(product);
+                cartService.saveCart(cart);
+            }
         }
         return new RedirectView("/cart/show");
     }
