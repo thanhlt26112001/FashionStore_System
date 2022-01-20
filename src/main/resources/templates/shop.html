@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Shop</title>
     <th:block th:replace="layout_customer/head :: head"></th:block>
+
 </head><!--/head-->
 <body>
 <div th:include="layout_customer/navbar:: navbar"></div>
@@ -22,7 +23,7 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown"
                                     style="width: 200%">
-                                Sắp xếp
+                                Sorted
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
@@ -188,6 +189,7 @@
 
 <th:block th:replace="layout_customer/footer :: footer_customer"></th:block>
 <th:block th:replace="layout_customer/js :: js"></th:block>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>
