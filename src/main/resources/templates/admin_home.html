@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="layout_admin/meta_head :: meta_head"></th:block>
+</head>
+<body>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <div style="display: flex">
+        <div th:include="layout_admin/nav_bar:: nav_bar"></div>
+        <div class="container" style="padding: 0; position: relative" >
+            <div th:include="layout_admin/navi_bar:: navi_bar"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title" style="font-family: cursive; color: orange;text-align: center">Total Sales</h3>
+                            <h4 style="text-align: center" th:text="${sales}"></h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title" style="font-family: cursive; color: orange;text-align: center">Total Income</h3>
+                            <h4 style="text-align: center" th:text="${income}+' VND'"></h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title" style="font-family: cursive; color: orange;text-align: center">Total Customers</h3>
+                            <h4 style="text-align: center" th:text="${numberofcustomers}"></h4>
+                        </div>
+                    </div>
+                </div>                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3">
+                                <h3 class="box-title mb-0">Recent sales</h3>
+
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <thead>
+                                    <tr>
+                                        <th class="border-top-0">Customer Name</th>
+                                        <th class="border-top-0">Status</th>
+                                        <th class="border-top-0">Date</th>
+                                        <th class="border-top-0">Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr th:each="order : ${listorder}">
+                                        <td class="txt-oflo" th:text="${order.customer.name}">Elite admin</td>
+                                        <td>Finished</td>
+                                        <td class="txt-oflo" th:text="${#calendars.format(order.createdAt, 'dd/MM/yyyy')}"></td>
+                                        <td><span class="text-success" th:text="${order.price}+' VND'"></span></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div><th:block th:replace="layout_admin/footer :: footer"></th:block>
+            </div>
+
+        </div>
+    </div>
+
+
+
+<th:block th:replace="layout_admin/js_lib :: js_lib"></th:block>
+</body>
+</html>

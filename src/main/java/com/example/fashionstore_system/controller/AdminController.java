@@ -23,6 +23,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RequestMapping("/admin")
 @Controller
@@ -692,6 +693,28 @@ public class AdminController {
         orderSave.setStatus(order.getStatus());
         orderService.saveOrder(orderSave);
         return "redirect:/admin/order" ;
+    }
+    @GetMapping("/home")
+    public String AdminHomePage(Model model){
+
+        List<Order> allorders = orderService.getAllOrders();
+        double price=0.0;
+        int count=0;
+        for (Order order:allorders){
+            if(order.getStatus()==2){
+                price+=Double.parseDouble(order.getPrice().toString());
+                Set<OrderDetail> orderDetailSet=order.getOrderDetails();
+                for (OrderDetail orderDetail:orderDetailSet){
+                    count+=orderDetail.getQuantity();
+                }
+            }
+        }
+
+        model.addAttribute("numberofcustomers",customerService.getAllCustomer().size());
+        model.addAttribute("sales",count);
+        model.addAttribute("income",price);
+        model.addAttribute("listorder",orderService.getLastestOrders());
+        return ("admin_home");
     }
 }
 

@@ -14,13 +14,13 @@
             <div class="container" >
                 <h1 style="font-family: cursive; color: orange;">Revenue</h1>
                 <form th:action="@{/admin/revenue}" method="post" >
-                    <select name="Year" th:object="${Year}">
+                    <select name="Year" th:object="${Year}" style="height: 38px;">
                         <option th:value='2020' th:selected="${Year==2020}">2020</option>
                         <option th:value='2021' th:selected="${Year==2021}">2021</option>
                         <option th:value='2022' th:selected="${Year==2022}">2022</option>
                     </select>
-                    <button type="submit" class="btn btn-primary">Input year</button>
-                </form>
+                    <button style="vertical-align: unset" type="submit" class="btn btn-primary">OK</button>
+                </form><br>
                 <div align="center" style="width: 100%;">
                     <div id="chart_div"></div>
                 </div>
