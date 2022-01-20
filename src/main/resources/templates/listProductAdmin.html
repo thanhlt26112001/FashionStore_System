@@ -26,9 +26,19 @@
                 <div style="display: flex; justify-content: space-between">
                     <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
                         <p>
-                            <a class="btn btn-primary" href="/admin/product/new">ADD PRODUCT</a>
+                            <a class="btn btn-primary" th:href="@{/admin/product/new}">ADD PRODUCT</a>
+                        </p>
+                        <p>
+                            <a class="btn btn-success" th:href="@{/admin/exportproducts}">EXPORT TO EXCEL</a>
                         </p>
                     </div>
+                    <form th:action="@{/admin/readExcel}" method="post" enctype="multipart/form-data" class="pull-right"
+                          sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+                        <input type="file" name="excelFile" id="excelFile"
+                               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                               class="btn btn-default pull-left form-">
+                        <button type="submit" class="btn btn-success pull-right">ADD</button>
+                    </form>
                     <div class="search_box pull-right">
                         <div class="input-group">
                             <form th:action="@{'/admin/product'}">
@@ -37,6 +47,7 @@
                         </div>
                     </div>
                 </div>
+                <span th:text="${alert}"></span>
                 <table class="table table-bordered">
                     <thead>
                     <tr style="text-align: center">

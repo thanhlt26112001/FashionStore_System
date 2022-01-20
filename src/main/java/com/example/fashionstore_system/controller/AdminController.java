@@ -2,12 +2,13 @@ package com.example.fashionstore_system.controller;
 
 import com.example.fashionstore_system.entity.*;
 import com.example.fashionstore_system.service.*;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.fashionstore_system.entity.Customer;
@@ -20,6 +21,7 @@ import com.example.fashionstore_system.repository.StaffRepository;
 import com.example.fashionstore_system.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -27,7 +29,12 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -55,6 +62,9 @@ public class AdminController {
     private StaffRepository staffRepository;
     @Autowired
     private  ShippingUnitService shippingUnitService;
+    @Autowired
+    private ExcelService excelService;
+
     //anhht made this
     //product management
     //show list product
@@ -712,64 +722,56 @@ public class AdminController {
                 }
             }
         }
-
         model.addAttribute("numberofcustomers",customerService.getAllCustomer().size());
         model.addAttribute("sales",count);
         model.addAttribute("income",price);
         model.addAttribute("listorder",orderService.getLastestOrders());
         return ("admin_home");
     }
+
+
     @RequestMapping("/exportproducts")
-    public String ExportProductsToExcel(){
+    public RedirectView ExportProductsToExcel(RedirectAttributes model){
         List<Product> allProducts = productService.getAllProducts();
+        Path uploadPath =  Paths.get("excel_export");
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy--HH-mm-ss");
+        String path = uploadPath.toAbsolutePath().toString()+"\\productList"+sdf.format(date).toString()+".xlsx";
         try
         {
             XSSFWorkbook workbook = new XSSFWorkbook();
-
-            XSSFSheet sheet = workbook.createSheet("sheet1");// creating a blank sheet
-            int rownum = 0;
+            XSSFSheet sheet = workbook.createSheet("Product List");
+            Row row0 = sheet.createRow(0);
+            excelService.createHeader(row0);
+            int rownum = 1;
             for (Product product : allProducts)
             {
                 Row row = sheet.createRow(rownum++);
-                createList(product, row);
-
+                excelService.createList(product, row);
             }
-
-            FileOutputStream out = new FileOutputStream(new File("D://Product.xlsx")); // file name with path
+            FileOutputStream out = new FileOutputStream(new File(path)); // path + file name
             workbook.write(out);
             out.close();
-
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-        return "admin_home";
+        model.addFlashAttribute("alert", "Exported excel file at: " + path);
+        return new RedirectView("/admin/product");
     }
-    private static void createList(Product product, Row row) // creating cells for each row
-    {
-        Cell cell = row.createCell(0);
-        cell.setCellValue(product.getId());
-        cell = row.createCell(1);
-        cell.setCellValue(product.getName());
-        cell = row.createCell(2);
-        cell.setCellValue(product.getName());
-        cell = row.createCell(3);
-        cell.setCellValue(product.getDescription());
-        cell = row.createCell(4);
-        cell.setCellValue(product.getCategory().getName());
-        cell = row.createCell(5);
-        cell.setCellValue(product.getImage());
-        cell = row.createCell(6);
-        cell.setCellValue(product.getPrice().toString());
-        cell = row.createCell(7);
-        cell.setCellValue(product.getQuantity());
-        cell = row.createCell(8);
-        cell.setCellValue(product.getStatus());
-        cell = row.createCell(9);
-        cell.setCellValue(product.getCreatedAt());
-        cell = row.createCell(10);
-        cell.setCellValue(product.getUpdatedAt());
+
+    @RequestMapping("/readExcel")
+    public RedirectView getUserByUserName(@RequestParam(value = "excelFile",required = false) MultipartFile excelFile,
+                                          RedirectAttributes model) throws IOException {
+        try{
+            List<Product> productList = excelService.readExcel(excelFile);
+        productService.saveAllProduct(productList);
+            model.addFlashAttribute("alert", "Add products succesfully!");
+        }catch (Exception e){
+            model.addFlashAttribute("alert", "Add products fail!");
+        }
+        return new RedirectView("/admin/product");
     }
 }
 
