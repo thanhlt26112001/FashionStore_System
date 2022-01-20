@@ -155,34 +155,39 @@
                         </div>
                     </div>
                     <div class="col-sm-7">
-                        <div class="product-information" style="padding: 0"><!--/product-information-->
-                            <h1 th:text="${product.getName()}" style="color: #FE980F;"></h1>
-                            <span style="margin-top: 5px">
-								<h3 th:text="${product.getPrice()+' VNĐ'}"></h3>
-                                <p th:text="'Category:'+${product.category.name}"></p>
-                                <th:block th:if="${product.status==1}">
-                                    <a th:href="@{'/cart/addtoCart/'+${product.id}}">
-                                <button sec:authorize="hasRole('CUSTOMER')"
-                                        th:if="${product.getQuantity() > 0}" style="margin: 0"
-                                        type="button" class="btn btn-fefault cart">
-								    <i class="fa fa-shopping-cart"></i>Add to cart
-								</button></a >
-                                <a th:href="@{'/cart/addtoCart/'+${product.id}}">
-                                <button sec:authorize="!isAuthenticated()"
-                                        th:if="${product.getQuantity() > 0}" style="margin: 0"
-                                        type="button" class="btn btn-fefault cart">
-								    <i class="fa fa-shopping-cart"></i>Add to cart
-								</button></a>
-                                    <h3 style="color: red"
-                                        th:text="${product.getQuantity() > 0 ? '' : 'Out of stock'}"> </h3>
-                                </th:block>
-                                <h5 style="color: red"
-                                    th:text="${product.status != 1 ? 'Stop Business' : ''}"> </h5>
-                                <h4>Description:</h4>
-                                <h5 th:text="${product.getDescription()}"> </h5>
+                        <div class="product-information" ><!--/product-information-->
+                            <h1 th:text="${product.getName()}" style="color: #FE980F;margin-top: 0px"></h1>
+                            <span style="margin-top: 5px; width: 100%">
+                                <p th:text="'Category - '+${product.category.name}" style="border-bottom:
+                                2px solid rgba(0, 0, 0, 0.1); opacity: 0.6"></p>
+                                <div style="border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+                                display: flex;justify-content: space-between;margin-bottom: 5px">
+                                    <h3 style="opacity: 0.6;">Price</h3>
+                                    <h3 th:text="${product.getPrice()+' VNĐ'}" ></h3>
+                                </div>
+                                <h4 style="opacity: 0.6">Description:</h4>
+                                <p th:text="${product.getDescription()}" style="border-bottom: 2px solid rgba(0, 0, 0, 0.1); padding-bottom: 5px"> </p>
 							</span>
                             <img th:src="@{/images/product-details/product_detail_deco.jpg}"
                                  width="100%"/>
+                            <h5 style="color: red"
+                                th:text="${product.status != 1 ? 'Stop Business' : ''}"> </h5>
+                            <th:block th:if="${product.status==1}">
+                                <a th:href="@{'/cart/addtoCart/'+${product.id}}">
+                                    <button sec:authorize="hasRole('CUSTOMER')"
+                                            th:if="${product.getQuantity() > 0}" style="margin: 7px 0"
+                                            type="button" class="btn btn-fefault cart">
+                                        <i class="fa fa-shopping-cart"></i>Add to cart
+                                    </button></a >
+                                <a th:href="@{'/cart/addtoCart/'+${product.id}}">
+                                    <button sec:authorize="!isAuthenticated()"
+                                            th:if="${product.getQuantity() > 0}" style="margin: 0"
+                                            type="button" class="btn btn-fefault cart">
+                                        <i class="fa fa-shopping-cart"></i>Add to cart
+                                    </button></a>
+                                <h3 style="color: red"
+                                    th:text="${product.getQuantity() > 0 ? '' : 'Out of stock'}"> </h3>
+                            </th:block>
                         </div><!--/product-information-->
                     </div>
                 </div><!--/product-details-->
