@@ -846,7 +846,7 @@ h2.title {
 }
 
 .product-image-wrapper{
-	border:1px solid #F7F7F5;
+	border:1px solid rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 	margin-bottom:30px;
 }
@@ -1215,11 +1215,12 @@ h2.title {
 }
 
 .product-information {
-  border: 1px solid #F7F7F0;
+  padding: 0 20px;
+  /*border: 1px solid rgba(0, 0, 0, 0.1);*/
   overflow: hidden;
-  padding-bottom: 60px;
-  padding-left: 60px;
-  padding-top: 60px;
+  /*padding-bottom: 60px;*/
+  /*padding-left: 60px;*/
+  /*padding-top: 60px;*/
   position: relative;
 }
 
