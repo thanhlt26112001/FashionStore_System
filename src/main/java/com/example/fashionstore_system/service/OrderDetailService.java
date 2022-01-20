@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OrderDetailService {
@@ -14,6 +15,10 @@ public class OrderDetailService {
 
     public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
         return orderDetailRepository.findAllByOrderId(orderId);
+    }
+
+    public Set<OrderDetail> getOrderDetailsByProductId(int productId) {
+        return orderDetailRepository.findAllByProduct_Id(productId);
     }
 
     public void deleteorderdetail(OrderDetail orderDetail) {

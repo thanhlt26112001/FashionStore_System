@@ -2,113 +2,104 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Shop | E-Shopper</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
-    <link th:href="@{/css/prettyPhoto.css}" rel="stylesheet">
-    <link th:href="@{/css/price-range.css}" rel="stylesheet">
-    <link th:href="@{/css/animate.css}" rel="stylesheet">
-    <link th:href="@{/css/main.css}" rel="stylesheet">
-    <link th:href="@{/css/responsive.css}" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script th:src="@{/js/html5shiv.js}"></script>
-    <script th:src="@{/js/respond.min.js}"></script>
-    <![endif]-->
-    <link rel="shortcut icon" href="images/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+    <title>Admin - Add Promotion</title>
+    <th:block th:replace="layout_admin/meta_head :: meta_head"></th:block>
 </head><!--/head-->
 <body>
-<div class="container" style="margin-top: 10px;">
-    <div class="row"
-         style="border: 1px darkgrey solid; border-radius: 10px; width: 50%; margin: 0 auto; padding: 20px;">
-        <div class="col-sm-12">
-
-            <h2 class="myclass">Add Promotion</h2>
-            <form th:action="${addpromotions}" th:object="${PROMOTION}" method="post"
-                  enctype="multipart/form-data">
-                <div class="form-group">
-                    <label>Promotion Name</label>
-                    <input th:field="*{name}" type="text" class="form-control"
-                           name="name" placeholder="Enter name" id="name" value="" required>
-                </div>
-                <div class="form-group">
-                    <label>Start date</label>
-                    <input th:field="*{startDate}" type="date" class="form-control"
-                           name="name" placeholder="Enter Start date" id="startDate" value="">
-                </div>
-                <div class="form-group">
-                    <label>End date</label>
-                    <input th:field="*{endDate}" type="date" class="form-control"
-                           name="name" placeholder="Enter End date" id="endDate" value="">
-                </div>
-                <div class="form-group">
-                    <label>Apply day</label>
-                    <div style="display: flex">
-                        <div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="Monday"
-                                       name="Monday" value="Monday">
-                                <label class="form-check-label" for="Monday">Monday</label>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <div style="display: flex">
+        <div th:include="layout_admin/nav_bar:: nav_bar"></div>
+        <div class="container" style="padding: 0; position: relative">
+            <div th:include="layout_admin/navi_bar:: navi_bar"></div>
+            <div class="container">
+                <div class="row"
+                     style="border: 1px darkgrey solid; border-radius: 10px; width: 50%; margin: 0 auto; padding: 20px;">
+                    <div class="col-sm-12">
+                        <h2 class="myclass">Add Promotion</h2>
+                        <form th:action="${addpromotions}" th:object="${PROMOTION}" method="post"
+                              enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label>Promotion Name</label>
+                                <input th:field="*{name}" type="text" class="form-control"
+                                       name="name" placeholder="Enter name" id="name" value="" required>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="Tuesday"
-                                       name="Tuesday" value="Tuesday">
-                                <label class="form-check-label" for="Monday">Tuesday</label>
+                            <div class="form-group">
+                                <label>Start date</label>
+                                <input th:field="*{startDate}" type="date" class="form-control"
+                                       name="name" placeholder="Enter Start date" id="startDate" value="">
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="Wednesday"
-                                       name="Wednesday" value="Wednesday">
-                                <label class="form-check-label" for="Monday">Wednesday</label>
+                            <div class="form-group">
+                                <label>End date</label>
+                                <input th:field="*{endDate}" type="date" class="form-control"
+                                       name="name" placeholder="Enter End date" id="endDate" value="">
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="Thursday"
-                                       name="Thursday" value="Thursday">
-                                <label class="form-check-label" for="Monday">Thursday</label>
+                            <div class="form-group">
+                                <label>Apply day</label>
+                                <div style="display: flex">
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="Monday"
+                                                   name="Monday" value="Monday">
+                                            <label class="form-check-label" for="Monday">Monday</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="Tuesday"
+                                                   name="Tuesday" value="Tuesday">
+                                            <label class="form-check-label" for="Monday">Tuesday</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="Wednesday"
+                                                   name="Wednesday" value="Wednesday">
+                                            <label class="form-check-label" for="Monday">Wednesday</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="Thursday"
+                                                   name="Thursday" value="Thursday">
+                                            <label class="form-check-label" for="Monday">Thursday</label>
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 40px">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="Friday"
+                                                   name="Friday" value="Friday">
+                                            <label class="form-check-label" for="Monday">Friday</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="Saturday"
+                                                   name="Saturday" value="Saturday">
+                                            <label class="form-check-label" for="Monday">Saturday</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="Sunday"
+                                                   name="Sunday" value="Sunday">
+                                            <label class="form-check-label" for="Monday">Sunday</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="AllWeek"
+                                                   name="AllWeek" value="AllWeek">
+                                            <label class="form-check-label" for="Monday">All Week</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div style="margin-left: 40px">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="Friday"
-                                       name="Friday" value="Friday">
-                                <label class="form-check-label" for="Monday">Friday</label>
+                            <div class="form-group">
+                                <label>Discount (%)</label>
+                                <input th:field="*{discount}" type="text" class="form-control"
+                                       pattern="^[0-9]{1,3}$" title="Must enter from 0 to 100"
+                                       name="name" placeholder="Enter Discount" id="discount" value="" required>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="Saturday"
-                                       name="Saturday" value="Saturday">
-                                <label class="form-check-label" for="Monday">Saturday</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="Sunday"
-                                       name="Sunday" value="Sunday">
-                                <label class="form-check-label" for="Monday">Sunday</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="AllWeek"
-                                       name="AllWeek" value="AllWeek">
-                                <label class="form-check-label" for="Monday">All Week</label>
-                            </div>
-                        </div>
+                            <span th:text="${alert}" style="color:red"></span>
+                            <br>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a class="btn btn-primary" href="/admin/listPromotions">Display List Promotion</a>
+                        </form>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Discount (%)</label>
-                    <input th:field="*{discount}" type="text" class="form-control"
-                           pattern="^[0-9]{1,3}$" title="Must enter from 0 to 100"
-                           name="name" placeholder="Enter Discount" id="discount" value="" required>
-                </div>
-                <span th:text="${alert}" style="color:red"></span>
-                <br>
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a class="btn btn-primary" href="/admin/listPromotions">Display List Promotion</a>
-            </form>
+                <th:block th:replace="layout_admin/footer :: footer"></th:block>
+            </div>
         </div>
     </div>
 </div>
+<th:block th:replace="layout_admin/js_lib :: js_lib"></th:block>
 </body>
 </html>

@@ -1,136 +1,139 @@
-
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<title>Shop | E-Shopper</title>
-	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
-	<link th:href="@{/css/prettyPhoto.css}" rel="stylesheet">
-	<link th:href="@{/css/price-range.css}" rel="stylesheet">
-	<link th:href="@{/css/animate.css}" rel="stylesheet">
-	<link th:href="@{/css/main.css}" rel="stylesheet">
-	<link th:href="@{/css/responsive.css}" rel="stylesheet">
-	<!--[if lt IE 9]>
-	<script th:src="@{/js/html5shiv.js}"></script>
-	<script th:src="@{/js/respond.min.js}"></script>
-	<![endif]-->
-	<link rel="shortcut icon" href="images/ico/favicon.ico">
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-</head><!--/head-->
+    <meta charset="utf-8">
+    <title>Admin - Promotion List</title>
+    <th:block th:replace="layout_admin/meta_head :: meta_head"></th:block>
+</head>
 <body>
-
-	<div class="container">
-		<h2>LIST PROMOTIONS</h2>
-		<div style="display: flex; justify-content: space-between">
-			<p>
-				<a class="btn btn-primary" href="/admin/listPromotions/add">ADD PROMOTIONS</a>
-			</p>
-			<div class="search_box pull-right">
-				<div class="input-group">
-					<form th:action="@{'/admin/listPromotions'}">
-						Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
-					</form>
-				</div>
-			</div>
-		</div>
-		<table class="table table-bordered">
-			<thead>
-				<tr style="text-align: center">
-					<th><a style="color: black" th:href="@{'/admin/listPromotions/'+${currentPage}
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <div style="display: flex">
+        <div th:include="layout_admin/nav_bar:: nav_bar"></div>
+        <div class="container" style="padding: 0; position: relative" >
+            <div th:include="layout_admin/navi_bar:: navi_bar"></div>
+            <div class="container">
+                <h1 style="font-family: cursive; color: orange;">List Promotion</h1>
+                <div style="display: flex; justify-content: space-between">
+                    <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+                    <p>
+                        <a class="btn btn-primary" href="/admin/listPromotions/add">ADD PROMOTIONS</a>
+                    </p>
+                    </div>
+                    <div class="search_box pull-right">
+                        <div class="input-group">
+                            <form th:action="@{'/admin/listPromotions'}">
+                                Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr style="text-align: center">
+                        <th><a style="color: black" th:href="@{'/admin/listPromotions/'+${currentPage}
                                     +'?sortField=id&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
-						Id</a></th>
-					<th>Name</th>
-					<th><a style="color: black" th:href="@{'/admin/listPromotions/'+${currentPage}
+                            Id</a></th>
+                        <th>Name</th>
+                        <th><a style="color: black" th:href="@{'/admin/listPromotions/'+${currentPage}
                                     +'?sortField=discount&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
-						Discount</a></th>
-					<th>Apply day</th>
-					<th>Total usage</th>
-					<th style="text-align: center">Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="promotion : ${listpromotions}">
-					<td th:text="${promotion.id}"></td>
-					<td th:text="${promotion.name}"></td>
-					<td th:text="${promotion.discount}+'%'"></td>
-					<td th:text="${promotion.applyDay}"></td>
-					<td th:text="${promotion.orders.size()}"></td>
-					<td style="text-align: center"><a class="btn btn-primary btn-sm"
-						th:href="@{'/admin/edit/'+${promotion.id}}" style="margin-top: 0">Detail & Edit</a>
-						<th:block th:if="${promotion.orders.size()==0}">|<a class="btn btn-danger btn-sm" th:href="@{'/admin/delete/'+${promotion.id}}">Delete</a></th:block>
-					</td>
-				</tr>
-				
-			</tbody>
-		</table>
-		<div class="text-center">
-			<div class="text-center">
-				<span>Total Items: [[${totalItems}]] - Page: [[${currentPage}]] of [[${totalPages}]] </span>
-			</div>
-			<nav class="pagination justify-content-center flex-wrap">
-				<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-					<a th:href="@{'/admin/listPromotions/1'+ ${query}}"
+                            Discount</a></th>
+                        <th>Apply day</th>
+                        <th>Total usage</th>
+                        <th style="text-align: center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="promotion : ${listpromotions}">
+                        <td th:text="${promotion.id}"></td>
+                        <td th:text="${promotion.name}"></td>
+                        <td th:text="${promotion.discount}+'%'"></td>
+                        <td th:text="${promotion.applyDay}"></td>
+                        <td th:text="${promotion.orders.size()}"></td>
+                        <td style="text-align: center"><a  class="btn btn-primary btn-sm"
+                                                          th:href="@{'/admin/edit/'+${promotion.id}}"
+                                                          style="margin-top: 0">Detail
+                            & Edit</a>
+                            <th:block th:if="${promotion.orders.size()==0}">|<a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                                                                                class="btn btn-danger btn-sm"
+                                                                                th:href="@{'/admin/delete/'+${promotion.id}}">Delete</a>
+                            </th:block>
+                        </td>
+                    </tr>
 
-					   class="page-link">First</a>
-				</li>
-				<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-					<a th:href="@{'/admin/listPromotions/'+${currentPage - 1}+ ${query}}"
-					   class="page-link">Previous</a>
-				</li>
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <div class="text-center">
+                        <span>Total Items: [[${totalItems}]] - Page: [[${currentPage}]] of [[${totalPages}]] </span>
+                    </div>
+                    <nav class="pagination justify-content-center flex-wrap">
+                        <th:block th:if="${totalItems > 0 && totalPages>1}">
+                            <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                                <a th:href="@{'/admin/listPromotions/1'+ ${query}}"
 
-				<th:block th:if="${totalPages <= 10}">
-					<li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
-						<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
-						   class="page-link"> [[${i}]]</a>
-					</li>
-				</th:block>
-				<th:block th:if="${totalPages > 10}">
-					<th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
-						<li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
-							<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
-							   class="page-link"> [[${i}]]</a>
-						</li>
-						<li>
-							<a th:href="@{'/admin/listPromotions/4' }"
-							   class="page-link">...</a>
-						</li>
-						<li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
-							<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
-							   class="page-link"> [[${i}]]</a>
-						</li>
-					</th:block>
-					<th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
-						<li>
-							<a th:href="@{'/admin/listPromotions/'+${currentPage - 3}+ ${query}}"
-							   class="page-link">...</a>
-						</li>
-						<li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}" class="page-item">
-							<a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
-							   class="page-link"> [[${i}]]</a>
-						</li>
-						<li>
-							<a th:href="@{'/admin/listPromotions/'+${currentPage + 3}+ ${query}}"
-							   class="page-link">...</a>
-						</li>
-					</th:block>
-				</th:block>
-				<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-					<a th:href="@{'/admin/listPromotions/'+${currentPage + 1}+ ${query}}"
-					   class="page-link">Next</a>
-				</li>
-				<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-					<a th:href="@{'/admin/listPromotions/'+${totalPages}+ ${query}}"
-					   class="page-link">Last</a>
-				</li>
-			</nav>
-		</div>
-	</div>
+                                   class="page-link">First</a>
+                            </li>
+                            <li th:if="${currentPage>1}"
+                                th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                                <a th:href="@{'/admin/listPromotions/'+${currentPage - 1}+ ${query}}"
+                                   class="page-link">Previous</a>
+                            </li>
+                            <th:block th:if="${totalPages <= 10}">
+                                <li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
+                                    <a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
+                                       class="page-link"> [[${i}]]</a>
+                                </li>
+                            </th:block>
+                            <th:block th:if="${totalPages > 10}">
+                                <th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
+                                    <li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
+                                        <a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
+                                           class="page-link"> [[${i}]]</a>
+                                    </li>
+                                    <li>
+                                        <a th:href="@{'/admin/listPromotions/4' + ${query}}"
+                                           class="page-link">...</a>
+                                    </li>
+                                    <li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
+                                        <a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
+                                           class="page-link"> [[${i}]]</a>
+                                    </li>
+                                </th:block>
+                                <th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
+                                    <li>
+                                        <a th:href="@{'/admin/listPromotions/'+${currentPage - 3}+ ${query}}"
+                                           class="page-link">...</a>
+                                    </li>
+                                    <li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}"
+                                        class="page-item">
+                                        <a th:href="@{'/admin/listPromotions/'+${i}+ ${query}}"
+                                           class="page-link"> [[${i}]]</a>
+                                    </li>
+                                    <li>
+                                        <a th:href="@{'/admin/listPromotions/'+${currentPage + 3}+ ${query}}"
+                                           class="page-link">...</a>
+                                    </li>
+                                </th:block>
+                            </th:block>
+                            <li th:if="${currentPage<totalPages}"
+                                th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                                <a th:href="@{'/admin/listPromotions/'+${currentPage + 1}+ ${query}}"
+                                   class="page-link">Next</a>
+                            </li>
+                            <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                                <a th:href="@{'/admin/listPromotions/'+${totalPages}+ ${query}}"
+                                   class="page-link">Last</a>
+                            </li>
+                        </th:block>
+                    </nav>
+                </div>
+            </div>
+            <th:block th:replace="layout_admin/footer :: footer"></th:block>
+        </div>
+    </div>
+</div>
+<th:block th:replace="layout_admin/js_lib :: js_lib"></th:block>
 </body>
 </html>

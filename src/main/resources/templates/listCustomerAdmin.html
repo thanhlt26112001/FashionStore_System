@@ -1,50 +1,138 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"></html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-  <meta charset="utf-8"/>
-  <title> Customer Manager</title>
-  <!-- CSS only -->
-  <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css}" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <!-- JavaScript Bundle with Popper -->
-  <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js}"
-          integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-          crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <title>Admin - Customer List</title>
+    <th:block th:replace="layout_admin/meta_head :: meta_head"></th:block>
 </head>
 <body>
-<div align="center" class="container">
-  <h1>Customer List</h1>
-  <a href="/admin/customer/new">Create New Customer</a> <br/> <br/>
-  <form th:action="@{'/admin/customer'}">
-    <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
-    <input type="submit" value="Search"/>
-  </form>
-  <table class="table table-bordered border-primary">
-    <thead>
-    <tr>
-      <th style="text-align: center">Customer ID</th>
-      <th style="text-align: center">Name</th>
-      <th style="text-align: center">Email</th>
-      <th style="text-align: center">Phone</th>
-      <th style="text-align: center">UserName</th>
-      <th style="text-align: center">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="customer : ${listCustomers}">
-      <td th:text="${customer.id}">Customer ID</td>
-      <td th:text="${customer.name}">Name</td>
-      <td th:text="${customer.email}">Email</td>
-      <td th:text="${customer.phone}">Phone</td>
-      <td th:text="${customer.user.username}">User</td>
-      <td>
-        <a th:href="@{'/admin/customer/edit/' + ${customer.user.id}}">Edit</a>
-        <a th:href="@{'/admin/customer/delete/' + ${customer.user.id}}">Delete</a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <div style="display: flex">
+        <div th:include="layout_admin/nav_bar:: nav_bar"></div>
+        <div class="container" style="padding: 0; position: relative">
+            <div th:include="layout_admin/navi_bar:: navi_bar"></div>
+            <div class="container">
+                <h1 style="font-family: cursive; color: orange;">List Customer</h1>
+                <div style="display: flex; justify-content: space-between">
+                    <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+                    <p>
+                        <a class="btn btn-primary" href="/admin/customer/new">ADD CUSTOMER</a>
+                    </p>
+                    </div>
+                    <div class="search_box pull-right">
+                        <div class="input-group">
+                            <form th:action="@{'/admin/customer'}">
+                                Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr style="text-align: center">
+                        <th style="text-align: center"><a style="color: black" th:href="@{'/admin/customer/'+${currentPage}
+                                    +'?sortField=id&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
+                            Id</a></th>
+                        <th style="text-align: center">Name</th>
+                        <th style="text-align: center">Email</th>
+                        <th style="text-align: center">Phone</th>
+                        <th style="text-align: center">UserName</th>
+                        <th style="text-align: center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="customer : ${listcustomer}">
+                        <td th:text="${customer.id}">Customer ID</td>
+                        <td th:text="${customer.name}">Name</td>
+                        <td th:text="${customer.email}">Email</td>
+                        <td th:text="${customer.phone}">Phone</td>
+                        <td th:text="${customer.user.username}">User</td>
+                        <td style="text-align: center">
+                            <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" th:href="@{'/admin/customer/edit/' + ${customer.user.id} }"
+                               class="btn btn-primary btn-sm"
+                               href="#" style="margin-top: 0">Edit</a>
+                            <a sec:authorize="hasAnyRole('STAFF')" th:href="@{'/admin/customer/edit/' + ${customer.user.id} }"
+                                class="btn btn-primary btn-sm"
+                                href="#" style="margin-top: 0">Details</a>
+                            <!--        <a th:href="@{'/admin/customer/delete/' + ${customer.user.id}}" class="btn btn-danger btn-sm" href="#">Delete</a>-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <div class="text-center">
+                        <span>Total Items: [[${totalItems}]] - Page: [[${currentPage}]] of [[${totalPages}]] </span>
+                    </div>
+                    <nav class="pagination justify-content-center flex-wrap">
+                        <th:block th:if="${totalItems > 0 && totalPages>1}">
+                            <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                                <a th:href="@{'/admin/customer/1'+ ${query}}"
+
+                                   class="page-link">First</a>
+                            </li>
+                            <li th:if="${currentPage>1}"
+                                th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                                <a th:href="@{'/admin/customer/'+${currentPage - 1}+ ${query}}"
+                                   class="page-link">Previous</a>
+                            </li>
+                            <th:block th:if="${totalPages <= 10}">
+                                <li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item">
+                                    <a th:href="@{'/admin/customer/'+${i}+ ${query}}"
+                                       class="page-link"> [[${i}]]</a>
+                                </li>
+                            </th:block>
+                            <th:block th:if="${totalPages > 10}">
+                                <th:block th:if="${currentPage <= 3 ||currentPage > totalPages -3}">
+                                    <li th:each="i:${#numbers.sequence(1,3)}" class="page-item">
+                                        <a th:href="@{'/admin/customer/'+${i}+ ${query}}"
+                                           class="page-link"> [[${i}]]</a>
+                                    </li>
+                                    <li>
+                                        <a th:href="@{'/admin/customer/4' + ${query}}"
+                                           class="page-link">...</a>
+                                    </li>
+                                    <li th:each="i:${#numbers.sequence(totalPages - 2,totalPages)}" class="page-item">
+                                        <a th:href="@{'/admin/customer/'+${i}+ ${query}}"
+                                           class="page-link"> [[${i}]]</a>
+                                    </li>
+                                </th:block>
+                                <th:block th:if="${currentPage > 3 && currentPage <= totalPages -3}">
+                                    <li>
+                                        <a th:href="@{'/admin/customer/'+${currentPage - 3}+ ${query}}"
+                                           class="page-link">...</a>
+                                    </li>
+                                    <li th:each="i:${#numbers.sequence(currentPage - 2,currentPage + 2)}"
+                                        class="page-item">
+                                        <a th:href="@{'/admin/customer/'+${i}+ ${query}}"
+                                           class="page-link"> [[${i}]]</a>
+                                    </li>
+                                    <li>
+                                        <a th:href="@{'/admin/customer/'+${currentPage + 3}+ ${query}}"
+                                           class="page-link">...</a>
+                                    </li>
+                                </th:block>
+                            </th:block>
+                            <li th:if="${currentPage<totalPages}"
+                                th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                                <a th:href="@{'/admin/customer/'+${currentPage + 1}+ ${query}}"
+                                   class="page-link">Next</a>
+                            </li>
+                            <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                                <a th:href="@{'/admin/customer/'+${totalPages}+ ${query}}"
+                                   class="page-link">Last</a>
+                            </li>
+                        </th:block>
+                    </nav>
+                </div>
+            </div>
+            <th:block th:replace="layout_admin/footer :: footer"></th:block>
+        </div>
+    </div>
 </div>
+<th:block th:replace="layout_admin/js_lib :: js_lib"></th:block>
 </body>
 </html>
+

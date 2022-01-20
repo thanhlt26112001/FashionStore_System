@@ -2,6 +2,7 @@ package com.example.fashionstore_system.controller;
 
 import com.example.fashionstore_system.config.Utility;
 import com.example.fashionstore_system.entity.Customer;
+import com.example.fashionstore_system.entity.Staff;
 import com.example.fashionstore_system.entity.User;
 import com.example.fashionstore_system.jwt.JwtAuthenticationFilter;
 import com.example.fashionstore_system.jwt.JwtTokenProvider;
@@ -12,6 +13,7 @@ import com.example.fashionstore_system.repository.UserRepository;
 import com.example.fashionstore_system.security.MyUserDetail;
 import com.example.fashionstore_system.service.CustomerService;
 import com.example.fashionstore_system.service.MailService;
+import com.example.fashionstore_system.service.StaffService;
 import com.example.fashionstore_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -47,7 +49,7 @@ public class UserController {
     @Autowired
     private JwtTokenProvider tokenProvider;
     @Autowired
-    private UserRepository userRepository;
+    private StaffService staffService;
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
@@ -67,6 +69,11 @@ public class UserController {
     public RedirectView loginFail(RedirectAttributes model) {
         model.addFlashAttribute("alert", "Wrong Username or Password!");
         return new RedirectView("/login");
+    }
+
+    @RequestMapping("/404")
+    public String notFoundPage(){
+        return "404";
     }
 
     @PostMapping("/login")
@@ -202,6 +209,44 @@ public class UserController {
         mailService.sendSimpleMessage(user.getCustomer().getEmail(), "Reset password", "Your password has been changed successfully!!");
         new SecurityContextLogoutHandler().logout(request, response, authentication);
         return new RedirectView("/login");
+    }
+
+    //function edit customer by id
+    @RequestMapping("/customeruser/edit/")
+    public String showEditCustomerUser(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "redirect:/login";
+        }
+        User user = userService.findByUsername(authentication.getName());
+        model.addAttribute("user", user);
+        return "edit_Customer_Profile";
+    }
+    //function save customer by id
+    @PostMapping("/customeruser/save")
+    public RedirectView saveCustomerUser(@ModelAttribute("user") User user,
+                                        RedirectAttributes model) {
+        Customer customerSave = new Customer();
+        customerSave.setId(user.getCustomer().getId());
+        customerSave.setEmail(user.getCustomer().getEmail());
+        customerSave.setName(user.getCustomer().getName());
+        customerSave.setPhone(user.getCustomer().getPhone());
+        customerSave.setAddress(user.getCustomer().getAddress());
+        customerSave.setAvatar(user.getCustomer().getAvatar());
+        customerSave.setCreatedAt(user.getCustomer().getCreatedAt());
+        customerSave.setBirthday(user.getCustomer().getBirthday());
+        User userSave = new User();
+        userSave.setId(user.getId());
+        userSave.setUsername(user.getUsername());
+        userSave.setPassword(user.getPassword());
+        userSave.setRole(user.getRole());
+        userSave.setCreatedAt(user.getCreatedAt());
+        userSave.setCustomer(customerSave);
+        if(user.getStaff().getId()!=null){
+            userSave.setStaff(staffService.get(user.getStaff().getId()));
+        }
+        userService.saveUser(userSave);
+        return new RedirectView("/product/listproducts");
     }
 
 
