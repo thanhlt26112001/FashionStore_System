@@ -47,7 +47,7 @@
                         <td th:text="${order.receiverName}"></td>
                         <td th:text="${order.receiverAddress}"></td>
                         <td th:text="${order.receiverPhone}"></td>
-                        <td th:text="${order.promotion.discount}"></td>
+                        <td th:text="${order.promotion==null? 'None':order.promotion.discount}"></td>
                         <td th:text="${order.shippingUnit.name}"></td>
                         <td th:text="${order.price}"></td>
                         <td th:text="${order.paymentMethod}"></td>

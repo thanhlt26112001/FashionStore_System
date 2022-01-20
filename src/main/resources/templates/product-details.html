@@ -16,114 +16,23 @@
             <div class="col-sm-3">
                 <div class="left-sidebar">
                     <h2>Category</h2>
-                    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                    <div class="panel-group category-products" id="accordian">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        Sportswear
-                                    </a>
+                                <h4 class="panel-title"><a
+                                        th:href="@{'/product/listproducts/1?categoryId=-1&sortField=id&sortDir=desc&keyword= '}">AllProduct</a>
                                 </h4>
                             </div>
-                            <div id="sportswear" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="">Nike </a></li>
-                                        <li><a href="">Under Armour </a></li>
-                                        <li><a href="">Adidas </a></li>
-                                        <li><a href="">Puma</a></li>
-                                        <li><a href="">ASICS </a></li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div th:each="category:${categoryList}" class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#mens">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        Mens
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="mens" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="">Fendi</a></li>
-                                        <li><a href="">Guess</a></li>
-                                        <li><a href="">Valentino</a></li>
-                                        <li><a href="">Dior</a></li>
-                                        <li><a href="">Versace</a></li>
-                                        <li><a href="">Armani</a></li>
-                                        <li><a href="">Prada</a></li>
-                                        <li><a href="">Dolce and Gabbana</a></li>
-                                        <li><a href="">Chanel</a></li>
-                                        <li><a href="">Gucci</a></li>
-                                    </ul>
-                                </div>
+                                <h4 class="panel-title"><a th:href="@{'/product/listproducts/1?categoryId='+${category.getId()}
+                                +'&sortField=id&sortDir=desc&keyword= '}" th:text="${category.getName()}"></a></h4>
                             </div>
                         </div>
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#womens">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        Womens
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="womens" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="">Fendi</a></li>
-                                        <li><a href="">Guess</a></li>
-                                        <li><a href="">Valentino</a></li>
-                                        <li><a href="">Dior</a></li>
-                                        <li><a href="">Versace</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Kids</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Fashion</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Households</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Interiors</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Clothing</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Bags</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Shoes</a></h4>
-                            </div>
-                        </div>
-                    </div><!--/category-products-->
+                    </div><!--/category-productsr-->
                     <div class="shipping text-center"><!--shipping-->
-                        <img th:src="@{/images/home/shipping.jpg}" alt=""/>
+                        <img th:src="@{/images/home/shipping.jpg}"/>
                     </div><!--/shipping-->
                 </div>
             </div>
@@ -155,7 +64,7 @@
                         </div>
                     </div>
                     <div class="col-sm-7">
-                        <div class="product-information" ><!--/product-information-->
+                        <div class="product-information"><!--/product-information-->
                             <h1 th:text="${product.getName()}" style="color: #FE980F;margin-top: 0px"></h1>
                             <span style="margin-top: 5px; width: 100%">
                                 <p th:text="'Category - '+${product.category.name}" style="border-bottom:
@@ -163,30 +72,33 @@
                                 <div style="border-bottom: 2px solid rgba(0, 0, 0, 0.1);
                                 display: flex;justify-content: space-between;margin-bottom: 5px">
                                     <h3 style="opacity: 0.6;">Price</h3>
-                                    <h3 th:text="${product.getPrice()+' VNĐ'}" ></h3>
+                                    <h3 th:text="${product.getPrice()+' VNĐ'}"></h3>
                                 </div>
                                 <h4 style="opacity: 0.6">Description:</h4>
-                                <p th:text="${product.getDescription()}" style="border-bottom: 2px solid rgba(0, 0, 0, 0.1); padding-bottom: 5px"> </p>
+                                <p th:text="${product.getDescription()}"
+                                   style="border-bottom: 2px solid rgba(0, 0, 0, 0.1); padding-bottom: 5px"> </p>
 							</span>
                             <img th:src="@{/images/product-details/product_detail_deco.jpg}"
                                  width="100%"/>
                             <h5 style="color: red"
-                                th:text="${product.status != 1 ? 'Stop Business' : ''}"> </h5>
+                                th:text="${product.status != 1 ? 'Stop Business' : ''}"></h5>
                             <th:block th:if="${product.status==1}">
                                 <a th:href="@{'/cart/addtoCart/'+${product.id}}">
                                     <button sec:authorize="hasRole('CUSTOMER')"
                                             th:if="${product.getQuantity() > 0}" style="margin: 7px 0"
                                             type="button" class="btn btn-fefault cart">
                                         <i class="fa fa-shopping-cart"></i>Add to cart
-                                    </button></a >
+                                    </button>
+                                </a>
                                 <a th:href="@{'/cart/addtoCart/'+${product.id}}">
                                     <button sec:authorize="!isAuthenticated()"
                                             th:if="${product.getQuantity() > 0}" style="margin: 0"
                                             type="button" class="btn btn-fefault cart">
                                         <i class="fa fa-shopping-cart"></i>Add to cart
-                                    </button></a>
+                                    </button>
+                                </a>
                                 <h3 style="color: red"
-                                    th:text="${product.getQuantity() > 0 ? '' : 'Out of stock'}"> </h3>
+                                    th:text="${product.getQuantity() > 0 ? '' : 'Out of stock'}"></h3>
                             </th:block>
                         </div><!--/product-information-->
                     </div>
@@ -195,8 +107,9 @@
                 <div class="category-tab shop-details-tab"><!--Review-->
                     <div class="col-sm-12">
                         <ul class="nav nav-tabs">
-                            <li >
-                                <button style="margin-top: 0" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort Review
+                            <li>
+                                <button style="margin-top: 0" class="btn btn-primary dropdown-toggle" type="button"
+                                        data-toggle="dropdown">Sort Review
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -216,16 +129,18 @@
                             <div th:each="review:${feedbackList}">
                                 <div class="row" style="width: 99%">
                                     <div class="col-md-2">
-                                        <img class="img-rounded" style="width: 70%;" th:src="@{${review.customer.avatar}}"
-                                         alt="avatar">
+                                        <img class="img-rounded" style="width: 70%;"
+                                             th:src="@{${review.customer.avatar}}"
+                                             alt="avatar">
                                         <h4 style="word-wrap: break-word; white-space: -moz-pre-wrap; white-space: pre-wrap;"
-                                                th:text="${review.customer.name}"></h4>
+                                            th:text="${review.customer.name}"></h4>
                                         <span style="font-size: x-small" th:text="${review.createdAt}"></span>
                                     </div>
                                     <pre class="col-md-10">
                                         <p th:text="${review.content}"></p>
                                         <a th:href="@{${review.getFeedbackImage()}}">
-                                            <img th:src="@{${review.getFeedbackImage()}}" width="20%" alt="feedback_image">
+                                            <img th:src="@{${review.getFeedbackImage()}}" width="20%"
+                                                 alt="feedback_image">
                                         </a>
                                     </pre>
                                 </div>

@@ -134,7 +134,7 @@ public class CartController {
         }
         User user = userService.findByUsername(authentication.getName());
         Product product = productService.getProduct(id);
-        if(product.getStatus()==1){
+        if(product.getStatus()==1 && product.getQuantity()>0){
             int count = 0;
             List<Cart> customerCart = cartService.getCustomerCart(user.getCustomer().getId());
             for (Cart cart : customerCart) {

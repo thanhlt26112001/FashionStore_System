@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <title>Shop</title>
@@ -61,7 +62,7 @@
                         <div th:each="category:${categoryList}" class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title"><a th:href="@{'/product/listproducts/1?categoryId='+${category.getId()}+'&sortField='
-                                +${sortField}+'&sortDir='+ ${sortDir}+'&keyword='+ ${keyword}}"
+                                +${sortField}+'&sortDir='+ ${sortDir}+'&keyword= '}"
                                                            th:text="${category.getName()}"></a></h4>
                             </div>
                         </div>
@@ -188,8 +189,13 @@
 </section>
 
 <th:block th:replace="layout_customer/footer :: footer_customer"></th:block>
-<th:block th:replace="layout_customer/js :: js"></th:block>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!--<script th:src="@{/js/jquery.js}"></script>-->
+<!--<script th:src="@{/js/bootstrap.min.js}"></script>-->
+<!--<script th:src="@{/js/jquery.scrollUp.min.js}"></script>-->
+<!--<script th:src="@{/js/price-range.js}"></script>-->
+<!--<script th:src="@{/js/jquery.prettyPhoto.js}"></script>-->
+<!--<script th:src="@{/js/main.js}"></script>-->
 </body>
 </html>

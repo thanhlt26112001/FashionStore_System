@@ -81,6 +81,7 @@ public class ProductController {
     public String viewProductDetail(Model model,
                                @PathVariable(name = "id") int currentProduct,
                                @RequestParam(value = "sortDir", defaultValue = "desc") String sortDir) {
+        model.addAttribute("categoryList", productService.getCategoryList());
         return productDetail(1,sortDir,currentProduct, model);
     }
     @GetMapping("/productdetail/{id}/{pageNumber}")
@@ -114,6 +115,7 @@ public class ProductController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        model.addAttribute("categoryList", productService.getCategoryList());
         model.addAttribute("query", "?sortDir="
                 + sortDir);
         return "product-details";
