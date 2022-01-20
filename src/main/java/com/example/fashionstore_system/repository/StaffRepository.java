@@ -12,10 +12,6 @@ import java.util.List;
 
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, Integer> {
-    // sau mỗi trường thêm khoảng trắng để tránh lỗi khi nối chuỗi, đối với trường số thì nên có để so sánh với toán tử "LIKE"
-//    @Query("SELECT s FROM Staff s WHERE CONCAT(s.name, ' ', s.email, ' ', s.phone) LIKE %?1%")
-//    public List<Staff>  search(String keyword);
-
-    Page<Staff> findByNameContaining(String keyword, Pageable pageable);
+    public Page<Staff> findByNameContaining(String keyword, Pageable pageable);
     public Staff findByEmail(String email);
 }

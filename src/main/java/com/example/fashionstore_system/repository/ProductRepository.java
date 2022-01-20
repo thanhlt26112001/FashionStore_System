@@ -24,8 +24,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     public Product findProductByName(String name);
 
-    @Query(value = "SELECT * FROM Products where status = 1 order by id desc limit 8",nativeQuery = true)
-    public List<Product> featuredProduct();
+    public Page<Product> findByStatus(Integer status,Pageable pageable);
+
     @Query(value = "SELECT * FROM Products where category_id = ? limit 4",nativeQuery = true)
     public List<Product> getProductByCategoryId(int CategoryId);
 }

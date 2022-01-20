@@ -96,8 +96,11 @@ public class ProductService {
     public List<Product>getAllProducts(){
         return productRepository.findAll();
     }
-    public List<Product>getFeaturedProducts(){
-        return productRepository.featuredProduct();
+
+    public Page<Product> getFeaturedProducts(){
+        Sort sort = Sort.by("id").descending();
+        Pageable pageable = PageRequest.of(0, 8, sort);
+        return productRepository.findByStatus(1, pageable);
     }
     public List<Product>getProductbyCategoryId(int categoryId){
         return productRepository.getProductByCategoryId(categoryId);

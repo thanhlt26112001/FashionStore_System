@@ -6,7 +6,6 @@
 </head>
 <body>
 <th:block th:fragment="navbar">
-
 <header id="header">
     <div class="header_top">
         <div class="container">
@@ -14,8 +13,8 @@
                 <div class="col-sm-6">
                     <div class="contactinfo">
                         <ul class="nav nav-pills">
-                            <li><a href="#"><i class="fa fa-phone"></i>+84 9322462xx</a></li>
-                            <li><a href="#"><i class="fa fa-envelope"></i> fashion.store.mock@gmail.com</a></li>
+                            <li><a><i class="fa fa-phone"></i>+84 9322462xx</a></li>
+                            <li><a><i class="fa fa-envelope"></i> fashion.store.mock@gmail.com</a></li>
                         </ul>
                     </div>
                 </div>
@@ -27,16 +26,22 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a th:href="@{/}"><img src="images/home/logo.png" alt=""/></a>
+                        <a th:href="@{/}"><img th:src="@{/images/home/logo.png}"/></a>
                     </div>
                 </div>
                 <div class="col-sm-8">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a th:href="@{/customeruser/edit/}"><i class="fa fa-user"></i> Account</a></li>
-                            <li><a th:href="@{/cart/}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
                             <th:block sec:authorize="isAuthenticated()">
-                                <li><a th:href="@{/logout}"><i></i> Logout</a></li>
+                                <li><a th:href="@{/customeruser/edit/}"><i class="fa fa-user"></i> Account</a></li>
+                                <th:block sec:authorize="hasAnyRole('CUSTOMER')">
+                                <li><a th:href="@{/cart/}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                                <li><a th:href="@{/myorder}"><i class="fa fa-shopping-cart"></i> Order History</a></li>
+                                </th:block>
+                                <th:block sec:authorize="hasAnyRole('ADMIN','MANAGER','STAFF')">
+                                <li><a th:href="@{/admin}"><i class="fa fa-user"></i> Admin Page</a></li>
+                                </th:block>
+                                <li><a th:href="@{/logout}"><i class="fa fa-lock"></i> Logout</a></li>
                             </th:block>
                             <th:block sec:authorize="!isAuthenticated()">
                                 <li><a th:href="@{/login}"><i class="fa fa-lock"></i> Login</a></li>
@@ -53,8 +58,7 @@
             <div class="row">
                 <div class="col-sm-9">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse"
-                                data-target=".navbar-collapse">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -65,23 +69,23 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a th:href="@{/}">Home</a></li>
                             <li><a th:href="@{/product/listproducts}">Shop</a></li>
-                            <li class="dropdown"><a href="#">Category<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="blog.html">Blog List</a></li>
-                                </ul>
-                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="search_box pull-right">
-                        <input type="text" placeholder="Search"/>
+                        <div class="input-group">
+                            <form th:action="@{'/product/listproducts'}">
+                                <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" placeholder="Search"/>
+                                <input type="hidden" name="categoryId" th:value="${categoryId}"/>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div><!--/header-bottom-->
-</header><!--/header-->
+    </div>
+</header>
 </th:block>
 </body>
 </html>

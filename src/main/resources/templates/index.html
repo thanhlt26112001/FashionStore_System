@@ -5,92 +5,10 @@
 <head>
     <meta charset="utf-8">
     <title>Home Page</title>
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet">
-    <link th:href="@{css/prettyPhoto.css}" rel="stylesheet">
-    <link th:href="@{css/price-range.css}" rel="stylesheet">
-    <link th:href="@{css/animate.css}" rel="stylesheet">
-    <link th:href="@{css/main.css}" rel="stylesheet">
-    <link th:href="@{css/responsive.css}" rel="stylesheet">
-    <script th:src="@{js/html5shiv.js}"></script>
-    <script th:src="@{js/respond.min.js}"></script>
+    <th:block th:replace="layout_customer/head :: head"></th:block>
 </head>
 <body>
-<header id="header">
-    <div class="header_top">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="contactinfo">
-                        <ul class="nav nav-pills">
-                            <li><a href="#"><i class="fa fa-phone"></i>+84 9322462xx</a></li>
-                            <li><a href="#"><i class="fa fa-envelope"></i> fashion.store.mock@gmail.com</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="header-middle">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="logo pull-left">
-                        <a th:href="@{/}"><img src="images/home/logo.png" alt=""/></a>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="shop-menu pull-right">
-                        <ul class="nav navbar-nav">
-                            <li><a th:href="@{/customeruser/edit/}"><i class="fa fa-user"></i> Account</a></li>
-                            <li><a th:href="@{/cart/}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                            <th:block sec:authorize="isAuthenticated()">
-                                <li><a th:href="@{/logout}"><i></i> Logout</a></li>
-                            </th:block>
-                            <th:block sec:authorize="!isAuthenticated()">
-                                <li><a th:href="@{/login}"><i class="fa fa-lock"></i> Login</a></li>
-                            </th:block>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!--/header-middle-->
-
-    <div class="header-bottom"><!--header-bottom-->
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-9">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse"
-                                data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    </div>
-                    <div class="mainmenu pull-left">
-                        <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a th:href="@{/}">Home</a></li>
-                            <li><a th:href="@{/product/listproducts}">Shop</a></li>
-                            <li class="dropdown"><a href="#">Category<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-                                    <li><a href="blog.html">Blog List</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="search_box pull-right">
-                        <input type="text" placeholder="Search"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!--/header-bottom-->
-</header><!--/header-->
+<div th:include="layout_customer/navbar:: navbar"></div>
 <section id="slider"><!--slider-->
     <div class="container">
         <div class="row">
@@ -227,8 +145,6 @@
                         <li class="active"><a href="#tshirt" data-toggle="tab" th:text="${listCategories.get(0).name}"></a></li>
                         <li><a href="#blazers" data-toggle="tab" th:text="${listCategories.get(1).name}"></a></li>
                         <li><a href="#sunglass" data-toggle="tab" th:text="${listCategories.get(2).name}"></a></li>
-                        <li><a href="#kids" data-toggle="tab" th:text="${listCategories.get(3).name}"></a></li>
-                        <li><a href="#poloshirt" data-toggle="tab" th:text="${listCategories.get(4).name}"></a></li>
                     </ul>
                 </div>
                 <div class="tab-content">
@@ -307,56 +223,6 @@
                             </div>
                         </th:block>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="kids" >
-                    <th:block th:each="product : ${listProductsbyCategory4}">
-                        <div class="col-sm-3">
-                            <div class="product-image-wrapper">
-                                <div class="single-products">
-                                    <div class="productinfo text-center">
-                                        <img th:src="${product.image}"/>
-                                        <h2 th:text="${product.price}"></h2>
-                                        <a th:href="@{'/product/productdetail/'+${product.id}}">
-                                            <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
-                                                th:text="${product.name}"></h4></a>
-                                        <a sec:authorize="hasRole('CUSTOMER')"
-                                           th:href="@{'/cart/addtoCart/'+${product.id}}"
-                                           class="btn btn-default add-to-cart">
-                                            <i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        <a sec:authorize="!isAuthenticated()"
-                                           th:href="@{'/cart/addtoCart/'+${product.id}}"
-                                           class="btn btn-default add-to-cart">
-                                            <i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </th:block>
-                </div>
-                <div class="tab-pane fade" id="poloshirt" >
-                    <th:block th:each="product : ${listProductsbyCategory5}">
-                        <div class="col-sm-3">
-                            <div class="product-image-wrapper">
-                                <div class="single-products">
-                                    <div class="productinfo text-center">
-                                        <img th:src="${product.image}"/>
-                                        <h2 th:text="${product.price}"></h2>
-                                        <a th:href="@{'/product/productdetail/'+${product.id}}">
-                                            <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
-                                                th:text="${product.name}"></h4></a>
-                                        <a sec:authorize="hasRole('CUSTOMER')"
-                                           th:href="@{'/cart/addtoCart/'+${product.id}}"
-                                           class="btn btn-default add-to-cart">
-                                            <i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        <a sec:authorize="!isAuthenticated()"
-                                           th:href="@{'/cart/addtoCart/'+${product.id}}"
-                                           class="btn btn-default add-to-cart">
-                                            <i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </th:block>
                 </div>
             </div><!--/category-tab-->
         </div>
