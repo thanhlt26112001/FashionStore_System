@@ -9,9 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -59,10 +57,9 @@ public class OrderService {
     }
 
 //    public Order findByName(String name) {
-//        return orderRepository.findByName(name);
+//        return orderRepository.findByName(name);M
 //    }
 //phân trang
-
     public List<Order> listAll(String keyword) {
         if (keyword != null && keyword != "") {
             List<Order> orderList = orderRepository.search(keyword);
@@ -71,5 +68,17 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public Integer getDataRevenueByMonthOfYear(int month, int year){
+        List<Order> orderList = orderRepository.findAll();
+        Integer revenue = 0;
+        for (Order order: orderList) {
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(order.getCreatedAt());
+            if((calendar.get(Calendar.MONTH)+1)==month && calendar.get(Calendar.YEAR)==year){
+                revenue += order.getPrice().intValue();
+            }
+        }
+        return revenue;
+    }
 }
 

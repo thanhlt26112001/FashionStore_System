@@ -14,7 +14,6 @@ import com.example.fashionstore_system.repository.RoleRepository;
 import com.example.fashionstore_system.entity.Staff;
 import com.example.fashionstore_system.repository.StaffRepository;
 import com.example.fashionstore_system.repository.UserRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,7 +23,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/admin")
 @Controller
