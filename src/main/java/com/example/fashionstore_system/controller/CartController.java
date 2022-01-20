@@ -257,9 +257,9 @@ public class CartController {
         order.setPrice(BigDecimal.valueOf(totalprice));
         order.setStatus(0);
         if(order.getPaymentMethod()==1){
-            order.setPaymentStatus(0);
-        }else {
             order.setPaymentStatus(1);
+        }else {
+            order.setPaymentStatus(0);
         }
         orderService.saveOrder(order);
         for (Cart cart:cartList){

@@ -24,31 +24,30 @@
             <table class="table table-condensed">
                 <thead>
                 <tr class="cart_menu">
-                    <td class="Receiver Name">Receiver Name</td>
-                    <td class=" Phone">Phone</td>
-                    <td class="Address">Address</td>
-                    <td class="quantity">Date</td>
-                    <td class="quantity">Status</td>
-                    <td class="total">Total</td>
-                    <td></td>
+                    <td class="Receiver Name" style="text-align: center">Receiver Name</td>
+                    <td class=" Phone" style="text-align: center">Phone</td>
+                    <td class="Address" style="text-align: center">Address</td>
+                    <td class="quantity" style="text-align: center">Date</td>
+                    <td class="quantity" style="text-align: center">Status</td>
+                    <td class="total" style="text-align: center">Total</td>
                     <td></td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="order : ${orderlist}">
-                    <td class="cart_product">
+                    <td class="cart_price" style="text-align: center">
                         <p th:text="${order.receiverName}"></p>
                     </td>
-                    <td class="cart_description">
+                    <td class="cart_price" style="text-align: center">
                         <p th:text="${order.receiverPhone}"></p>
                     </td>
-                    <td class="cart_price">
+                    <td class="cart_price" style="text-align: center">
                         <p th:text="${order.receiverAddress}"></p>
                     </td>
-                    <td class="cart_quantity">
+                    <td class="cart_price" style="text-align: center">
                         <p th:text="${#calendars.format(order.createdAt, 'dd/MM/yyyy')}"></p>
                     </td>
-                    <td class="cart_total">
+                    <td class="cart_price" style="text-align: center">
                         <div th:switch="${order.status}">
                             <p th:case="'0'">Processing</p>
                             <p th:case="'1'">Shipping</p>
@@ -56,14 +55,18 @@
                             <p th:case="'3'">Canceled</p>
                         </div>
                     </td>
-                    <td class="cart_total">
-                        <p th:text="${order.price}"></p>
+                    <td class="cart_price" style="text-align: center">
+                        <p th:text="${order.price.longValue()+' VNĐ'}"></p>
                     </td>
-                    <td class="order-detail">
-                        <a class="cart_quantity_delete" th:href="@{'/myorder/'+${order.id}}">Details</a>
-                    </td>
-                    <td class="order-detail" th:if="${order.status==0}">
-                        <a class="cart_quantity_delete" th:href="@{'/myorder/cancel/'+${order.id}}">Cancel</a>
+                    <td class="order-detail" style="text-align: center">
+                        <a class="cart_quantity_delete" th:href="@{'/myorder/'+${order.id}}">
+                            <button class="btn btn-warning">Detail</button>
+                        </a>
+                        <a class="cart_quantity_delete" th:if="${order.status==0}"
+                           onclick="return confirm('Are you sure?')"
+                           th:href="@{'/myorder/cancel/'+${order.id}}">
+                            <button class="btn btn-danger">Cancel</button>
+                        </a>
                     </td>
                 </tr>
                 </tbody>

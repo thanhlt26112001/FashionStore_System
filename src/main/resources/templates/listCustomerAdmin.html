@@ -51,13 +51,15 @@
                         <td th:text="${customer.phone}">Phone</td>
                         <td th:text="${customer.user.username}">User</td>
                         <td style="text-align: center">
-                            <a sec:authorize="hasAnyRole('ADMIN','MANAGER')" th:href="@{'/admin/customer/edit/' + ${customer.user.id} }"
-                               class="btn btn-primary btn-sm"
-                               href="#" style="margin-top: 0">Edit</a>
-                            <a sec:authorize="hasAnyRole('STAFF')" th:href="@{'/admin/customer/edit/' + ${customer.user.id} }"
-                                class="btn btn-primary btn-sm"
-                                href="#" style="margin-top: 0">Details</a>
-                            <!--        <a th:href="@{'/admin/customer/delete/' + ${customer.user.id}}" class="btn btn-danger btn-sm" href="#">Delete</a>-->
+                            <th:block sec:authorize="hasAnyRole('MANAGER','STAFF')">
+                                <a th:if="${customer.user.role.getId()!=4}"
+                                   th:href="@{'/admin/editStaff/' + ${customer.user.id} }" class="btn btn-primary btn-sm"
+                                   href="#" style="margin-top: 0">Detail</a>
+                            </th:block>
+                            <th:block sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{'/admin/editStaff/' + ${customer.user.id} }" class="btn btn-primary btn-sm"
+                                   href="#" style="margin-top: 0">Detail</a>
+                            </th:block>
                         </td>
                     </tr>
                     </tbody>

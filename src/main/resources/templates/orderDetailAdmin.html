@@ -22,7 +22,7 @@
                         <label th:text="'Customer: '+${order.customer.name}"></label><br>
                         <!--0:ship cod, 1:banking-->
                         <label class="col-6"
-                               th:text="'Payment Method: '+${order.paymentMethod==1?'banking':'ship cod'}"></label><br>
+                               th:text="'Payment Method: '+${order.paymentMethod==1?'Banking':'Ship cod'}"></label><br>
                     </div>
                     <div class="col-md-4">
                         <label th:text="'Receiver Name: '+${order.receiverName}"></label><br>

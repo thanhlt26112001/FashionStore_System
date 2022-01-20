@@ -41,7 +41,6 @@ public class Feedback implements Serializable {
     @Transient
     public String getFeedbackImage(){
         if(image==null||id==null) return null;
-//        return "/src/main/resources/static/feedback_image/"+id+"/"+image;
         return "/feedback_image/" + id + "/" + image;
     }
 }
