@@ -18,7 +18,8 @@
         </div><!--/breadcrums-->
         <div class="shopper-informations" >
             <div  >
-                <div class="clearfix" style="border: 1px solid rgba(0, 0, 0, 0.1); width: 50%; margin: 0 auto; border-radius: 15px; padding: 20px">
+                <div class="clearfix" style="border: 1px solid rgba(0, 0, 0, 0.1); width: 50%; margin: 0 auto;
+                 border-radius: 15px; padding: 20px; box-shadow: 5px 3px 5px rgb(0 0 0 / 10%);">
                     <div class="bill-to" style="width: 100%">
                         <p style="font-weight: bold; color: orange; text-align: center">Receiver Information</p>
                         <div class="form-one" style="width: 100%">
@@ -34,7 +35,7 @@
                                     <option value="1">Cash</option>
                                     <option value="2">Internet Banking</option>
                                 </select>
-                                <label>Shipping Unit</label>
+                                <label style="margin-top: 10px">Shipping Unit</label>
                                 <select th:field="*{shippingUnit}" style="height: 40px">
                                     <option th:each="shippingunit:${shippingUnitlist}"
                                             th:value="${shippingunit.id}"

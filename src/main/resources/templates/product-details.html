@@ -160,7 +160,8 @@
                             <span style="margin-top: 5px">
 								<h3 th:text="${product.getPrice()+' VNĐ'}"></h3>
                                 <p th:text="'Category:'+${product.category.name}"></p>
-                                <a th:href="@{'/cart/addtoCart/'+${product.id}}">
+                                <th:block th:if="${product.status==1}">
+                                    <a th:href="@{'/cart/addtoCart/'+${product.id}}">
                                 <button sec:authorize="hasRole('CUSTOMER')"
                                         th:if="${product.getQuantity() > 0}" style="margin: 0"
                                         type="button" class="btn btn-fefault cart">
@@ -172,8 +173,11 @@
                                         type="button" class="btn btn-fefault cart">
 								    <i class="fa fa-shopping-cart"></i>Add to cart
 								</button></a>
+                                    <h3 style="color: red"
+                                        th:text="${product.getQuantity() > 0 ? '' : 'Out of stock'}"> </h3>
+                                </th:block>
                                 <h5 style="color: red"
-                                    th:text="${product.getQuantity() > 0 ? '' : 'Out of stock'}"> </h5>
+                                    th:text="${product.status != 1 ? 'Stop Business' : ''}"> </h5>
                                 <h4>Description:</h4>
                                 <h5 th:text="${product.getDescription()}"> </h5>
 							</span>

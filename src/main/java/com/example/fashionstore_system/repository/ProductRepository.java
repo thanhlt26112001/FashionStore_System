@@ -12,10 +12,10 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    @Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %?1% AND p.status = 1")
     public Page<Product> searchProductByName(String keyword, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.name LIKE %?1% AND p.category.id=?2")
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %?1% AND p.category.id=?2 AND p.status = 1")
     public Page<Product> searchProductByNameAndCategory(String keyword,int categoryId, Pageable pageable);
 
     public Page<Product> findByNameContaining(String keyword, Pageable pageable);
@@ -26,6 +26,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     public Page<Product> findByStatus(Integer status,Pageable pageable);
 
-    @Query(value = "SELECT * FROM Products where category_id = ? limit 4",nativeQuery = true)
+    @Query(value = "SELECT * FROM Products where status = 1 and category_id = ? limit 4",nativeQuery = true)
     public List<Product> getProductByCategoryId(int CategoryId);
 }
