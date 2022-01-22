@@ -53,11 +53,11 @@
                         <td style="text-align: center">
                             <th:block sec:authorize="hasAnyRole('MANAGER','STAFF')">
                                 <a th:if="${customer.user.role.getId()!=4}"
-                                   th:href="@{'/admin/editStaff/' + ${customer.user.id} }" class="btn btn-primary btn-sm"
+                                   th:href="@{'/admin/customer/edit/' + ${customer.user.id} }" class="btn btn-primary btn-sm"
                                    href="#" style="margin-top: 0">Detail</a>
                             </th:block>
                             <th:block sec:authorize="hasRole('ADMIN')">
-                                <a th:href="@{'/admin/editStaff/' + ${customer.user.id} }" class="btn btn-primary btn-sm"
+                                <a th:href="@{'/admin/customer/edit/' + ${customer.user.id} }" class="btn btn-primary btn-sm"
                                    href="#" style="margin-top: 0">Detail</a>
                             </th:block>
                         </td>
