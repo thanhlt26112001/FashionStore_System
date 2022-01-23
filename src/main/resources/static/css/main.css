@@ -569,7 +569,9 @@ ul.sub-menu {
 
 
 #slider {
+  background-color: #f8e5e8;
   padding-bottom: 45px;
+  margin-bottom: 50px;
 }
 
 .carousel-indicators li {
@@ -846,7 +848,7 @@ h2.title {
 }
 
 .product-image-wrapper{
-	border:1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 1px 15px #d7d5d5;
 	overflow: hidden;
 	margin-bottom:30px;
 }
@@ -862,10 +864,8 @@ h2.title {
 }
 
 .productinfo h2{
-	color: #FE980F;
-	font-family: 'Roboto', sans-serif;
-	font-size: 24px;
-	font-weight: 700;
+    font-family: 'Abel';
+	font-size: 17px;
 }
 .product-overlay h2{
 	color: #fff;
@@ -942,20 +942,18 @@ h2.title {
 
 
 .add-to-cart {
-  background:#F5F5ED;
-  border: 0 none;
-  border-radius: 0;
-  color: #696763;
-  font-family: 'Roboto', sans-serif;
+  border-radius: 7px;
+  font-family: 'FontAwesome';
   font-size: 15px;
   margin-bottom: 25px;
 }
 
 .add-to-cart:hover {
   background: #FE980F;
-  border: 0 none;
-  border-radius: 0;
+  border-radius: 7px;
+  font-family: 'FontAwesome';
   color: #FFFFFF;
+  margin-bottom: 25px;
 }
 
 .add-to{
@@ -2522,6 +2520,37 @@ h2.title {
 
 .contact-info .social-networks ul li a:hover{
   color: #FE980F;
+}
+
+/*category*/
+.categories{
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 40px 30px;
+  margin: 18px 0;
+}
+.categories h3{
+  margin-bottom: 30px;
+}
+aside ul li a {
+  /* margin-top: 40px; */
+  text-decoration: none;
+  background: #f6f6f6;
+  color: rgb(5, 5, 5);
+  display: flex;
+  margin-bottom: 5px;
+  padding: 9px 20px;
+  justify-content: space-between;
+  justify-items: center;
+}
+aside ul li a:hover {
+  background: #fe3e57;
+  color: #fff;
+}
+aside ul li a p{
+  margin: 0;
+}
+aside ul{
+  padding: 0;
 }
 
 
