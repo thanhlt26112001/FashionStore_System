@@ -27,7 +27,7 @@ public class ProductService {
                                  String sortDirection, String keyword, int categoryId) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
-        Pageable pageable = PageRequest.of(currentPage - 1, 9, sort);
+        Pageable pageable = PageRequest.of(currentPage - 1, 6, sort);
         if (categoryId == -1) {
             return productRepository.searchProductByName(keyword, pageable);
         }
@@ -90,7 +90,7 @@ public class ProductService {
 
     public Page<Product> getFeaturedProducts(){
         Sort sort = Sort.by("id").descending();
-        Pageable pageable = PageRequest.of(0, 8, sort);
+        Pageable pageable = PageRequest.of(0, 9, sort);
         return productRepository.findByStatus(1, pageable);
     }
     public List<Product>getProductbyCategoryId(int categoryId){

@@ -18,98 +18,28 @@
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
-                <div class="left-sidebar">
-                    <div style="margin-bottom: 40px">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown"
-                                    style="width: 200%">
-                                Sorted
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
-                                    +'&sortField=price&sortDir='+ asc+'&keyword='+${keyword}}">
-                                        Lowest to highest cost</a>
-                                </li>
-                                <li>
-                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
-                                    +'&sortField=price&sortDir='+ desc+'&keyword='+${keyword}}">
-                                        Highest to lowest cost</a>
-                                </li>
-                                <li>
-                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
-                                    +'&sortField=createdAt&sortDir='+ asc+'&keyword='+${keyword}}">
-                                        Latest products</a>
-                                </li>
-                                <li>
-                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
-                                    +'&sortField=createdAt&sortDir='+ desc+'&keyword='+${keyword}}">
-                                        Oldest products</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <h2>Category</h2>
-                    <div class="panel-group category-products" id="accordian">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a th:href="@{'/product/listproducts/1?categoryId=-1&sortField='
-                                +${sortField}+'&sortDir='+ ${sortDir}+'&keyword= '}">AllProduct</a></h4>
-                            </div>
-                        </div>
-                        <div th:each="category:${categoryList}" class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a th:href="@{'/product/listproducts/1?categoryId='+${category.getId()}+'&sortField='
-                                +${sortField}+'&sortDir='+ ${sortDir}+'&keyword= '}"
-                                                           th:text="${category.getName()}"></a></h4>
-                            </div>
-                        </div>
-                    </div><!--/category-productsr-->
-                    <div class="shipping text-center"><!--shipping-->
-                        <img th:src="@{/images/home/shipping.jpg}"/>
-                    </div><!--/shipping-->
-
-                </div>
-            </div>
-            <tbody>
-            <div class="col-sm-9 padding-right">
+            <div class="col-sm-8 padding-right">
                 <div class="features_items"><!--features_items-->
                     <h2 class="title text-center">Features Items</h2>
-                    <div class="col-sm-4" th:each="product : ${listproduct}">
-                        <div class="product-image-wrapper">
+                    <div class="col-sm-6" th:each="product : ${listproduct}">
+                        <div class="product-image-wrapper" style="box-shadow: 5px 1px 15px #d7d5d5;">
                             <div class="single-products">
                                 <div class="productinfo text-center">
                                     <img th:src="${product.getImage()}"/>
-                                    <h2 th:text="${product.price} + ' VNĐ'"></h2>
                                     <a th:href="@{'/product/productdetail/'+${product.id}}">
-                                        <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
+                                        <h4 style="color: black; text-align: center; margin-left: 10%; margin-right: 10%;
+                                        white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis; font-size: 25px;
+                                        font-weight: bold; font-family: 'FontAwesome';"
                                             th:text="${product.name}"></h4></a>
+                                    <h2 th:text="${product.price.longValue()} + ' VNĐ'" ></h2>
                                     <a sec:authorize="hasRole('CUSTOMER')"
                                        th:href="@{'/cart/addtoCart/'+${product.id}}"
                                        class="btn btn-default add-to-cart">
                                         <i class="fa fa-shopping-cart"></i>Add to cart</a>
                                     <a sec:authorize="!isAuthenticated()"
                                        th:href="@{'/cart/addtoCart/'+${product.id}}"
-                                       class="btn btn-default add-to-cart">
+                                       class="btn btn-default add-to-cart" >
                                         <i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                </div>
-                                <div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2 th:text="${product.price} + ' VNĐ'"></h2>
-                                        <a th:href="@{'/product/productdetail/'+${product.id}}">
-                                            <h4 style="color: white; text-align: center; margin-left: 10%; margin-right: 10%; white-space: nowrap; width: 80%; overflow: hidden; text-overflow: ellipsis;"
-                                                th:text="${product.name}"></h4></a>
-                                        <a sec:authorize="hasRole('CUSTOMER')"
-                                           th:href="@{'/cart/addtoCart/'+${product.id}}"
-                                           class="btn btn-default add-to-cart">
-                                            <i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                        <a sec:authorize="!isAuthenticated()"
-                                           th:href="@{'/cart/addtoCart/'+${product.id}}"
-                                           class="btn btn-default add-to-cart">
-                                            <i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -184,6 +114,65 @@
                 </div>
             </div>
             </tbody>
+            <div class="col-sm-4">
+                <div class="left-sidebar">
+                    <div>
+                        <div class="btn-group" style="width: 100%">
+                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown"
+                                    style="width: 100%">
+                                Sorted
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
+                                    +'&sortField=price&sortDir='+ asc+'&keyword='+${keyword}}">
+                                        Lowest to highest cost</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
+                                    +'&sortField=price&sortDir='+ desc+'&keyword='+${keyword}}">
+                                        Highest to lowest cost</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
+                                    +'&sortField=createdAt&sortDir='+ asc+'&keyword='+${keyword}}">
+                                        Latest products</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{'/product/listproducts/'+${currentPage}+'?categoryId='+${categoryId}
+                                    +'&sortField=createdAt&sortDir='+ desc+'&keyword='+${keyword}}">
+                                        Oldest products</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--/category-productsr-->
+                    <div class="categories">
+                        <h3>CATEGORIES</h3>
+                        <aside>
+                            <ul>
+                                <li>
+                                    <a th:href="@{'/product/listproducts/1?categoryId=-1&sortField='
+                                +${sortField}+'&sortDir='+ ${sortDir}+'&keyword= '}">All Product</a>
+                                </li>
+                                <li th:each="category:${categoryList}">
+                                    <a th:href="@{'/product/listproducts/1?categoryId='+${category.getId()}+'&sortField='
+                                +${sortField}+'&sortDir='+ ${sortDir}+'&keyword= '}">
+                                        <p th:text="${category.getName()}"> </p>
+                                        <p th:text="${category.products.size()}"></p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+                    </div>
+                    <div class="shipping text-center"><!--shipping-->
+                        <img th:src="@{/images/home/shipping.jpg}"/>
+                    </div><!--/shipping-->
+
+                </div>
+            </div>
+            <tbody>
         </div>
     </div>
 </section>

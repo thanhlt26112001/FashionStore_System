@@ -106,7 +106,7 @@
                             </select>
                         </li>
                     </ul>
-                    <button style="margin-left: 40px" class="btn btn-default check_out" type="submit">Apply</button>
+                    <button style="margin-left: 40px; box-shadow: 5px 3px 5px rgb(0 0 0 / 50%);" class="btn btn-default check_out" type="submit">Apply</button>
                 </div>
                 </form>
             </div>
@@ -119,11 +119,11 @@
                         <li>Shipping Cost <span>Free</span></li>
                         <li>Total <span th:value="${total}" th:text="${total}"></span></li>
                     </ul>
-                    <a class="btn btn-default update" th:href="@{/cart/show}" >Update</a>
+                    <a class="btn btn-default update" th:href="@{/cart/show}" style="box-shadow: 5px 3px 5px rgb(0 0 0 / 50%);" >Update</a>
                     <input type="hidden" name="totalprice" th:value="${total}">
                     <input type="hidden" name="subtotal" th:value="${subtotal}">
                     <input type="hidden" name="promotionId" th:value="${promotion.id}">
-                    <button th:if="${listCart.size()>0}" type="submit" class="btn btn-default check_out" >Check Out</button>
+                    <button th:if="${listCart.size()>0}" type="submit" class="btn btn-default check_out" style="box-shadow: 5px 3px 5px rgb(0 0 0 / 50%);" >Check Out</button>
                 </div>
                 </div>
                 </form>

@@ -15,22 +15,25 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="left-sidebar">
-                    <h2>Category</h2>
-                    <div class="panel-group category-products" id="accordian">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a
-                                        th:href="@{'/product/listproducts/1?categoryId=-1&sortField=id&sortDir=desc&keyword= '}">AllProduct</a>
-                                </h4>
-                            </div>
-                        </div>
-                        <div th:each="category:${categoryList}" class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a th:href="@{'/product/listproducts/1?categoryId='+${category.getId()}
-                                +'&sortField=id&sortDir=desc&keyword= '}" th:text="${category.getName()}"></a></h4>
-                            </div>
-                        </div>
-                    </div><!--/category-productsr-->
+                    <div class="categories" style="margin: 10px 0; padding: 15px">
+                        <h3>CATEGORIES</h3>
+                        <aside>
+                            <ul>
+                                <li>
+                                    <a th:href="@{'/product/listproducts/1?categoryId=-1&sortField='
+                                +'id'+'&sortDir='+ 'desc'+'&keyword= '}">All Product</a>
+                                </li>
+                                <li th:each="category:${categoryList}">
+                                    <a th:href="@{'/product/listproducts/1?categoryId='+${category.getId()}+'&sortField='
+                                +'id'+'&sortDir='+ 'desc'+'&keyword= '}">
+                                        <p th:text="${category.getName()}"> </p>
+                                        <p th:text="${category.products.size()}"></p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+                    </div>
+                    <!--/category-productsr-->
                     <div class="shipping text-center"><!--shipping-->
                         <img th:src="@{/images/home/shipping.jpg}"/>
                     </div><!--/shipping-->
@@ -72,7 +75,7 @@
                                 <div style="border-bottom: 2px solid rgba(0, 0, 0, 0.1);
                                 display: flex;justify-content: space-between;margin-bottom: 5px">
                                     <h3 style="opacity: 0.6;">Price</h3>
-                                    <h3 th:text="${product.getPrice()+' VNĐ'}"></h3>
+                                    <h3 th:text="${product.getPrice().longValue()+' VNĐ'}"></h3>
                                 </div>
                                 <h4 style="opacity: 0.6">Description:</h4>
                                 <p th:text="${product.getDescription()}"
