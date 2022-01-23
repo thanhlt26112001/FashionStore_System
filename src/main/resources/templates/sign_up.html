@@ -28,7 +28,8 @@
                         <label>Fullname(*) </label>
                         <input type="text" placeholder="Full Name" th:field="*{customer.name}" required>
                         <label>Email(*) </label>
-                        <input type="email" id="email" name="email" placeholder="Your Email" th:field="*{customer.email}" required>
+                        <input type="email" id="email" name="email" pattern="[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z]{1,63}$"
+                               placeholder="Your Email" th:field="*{customer.email}" required>
                         <span id="msg_email"></span>
                         <br>
                         <label>Password(*) (Must contain more than 6 characters) </label>
@@ -81,7 +82,7 @@
                         $('#msg_username').html('Checking...');
                     },
                     statusCode: {
-                        500: function(xhr) {
+                        400: function(xhr) {
                             $('#msg_username').show();
                             $("#msg_username").html("Username available").css("color", "green");
                         }
@@ -123,7 +124,7 @@
                         $('#msg_email').html('Checking...');
                     },
                     statusCode: {
-                        500: function(xhr) {
+                        400: function(xhr) {
                             $('#msg_email').show();
                             $("#msg_email").html("Email available").css("color", "green");
                         }
