@@ -14,22 +14,6 @@ public class ChartController {
     @Autowired
     private OrderService orderService;
 
-    //    @RequestMapping("/linechartdata")
-//    public String getDataFromDB(){
-//        List<Order> dataList = orderRepository.findAll();
-//        JsonArray jsonArrayMonth = new JsonArray();
-//        JsonArray jsonArrayPrice = new JsonArray();
-//        JsonObject jsonObject = new JsonObject();
-//        SimpleDateFormat formatter = new SimpleDateFormat("MM/YYYY");
-//        dataList.forEach(data->{
-//            String strDate = formatter.format(data.getCreatedAt());
-//            jsonArrayMonth.add(data.);
-//            jsonArrayPrice.add(data.getPrice());
-//        });
-//        jsonObject.add("monthofyear", jsonArrayMonth);
-//        jsonObject.add("price", jsonArrayPrice);
-//        return jsonObject.toString();
-//    }
     @RequestMapping("/admin/revenue")
     public String getPieChart(@RequestParam(name = "Year",defaultValue = "2022") int Year,Model model) {
         Map<String, Integer> graphData = new TreeMap<>();

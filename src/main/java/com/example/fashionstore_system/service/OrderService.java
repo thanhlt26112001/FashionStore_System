@@ -74,7 +74,7 @@ public class OrderService {
         for (Order order: orderList) {
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(order.getCreatedAt());
-            if((calendar.get(Calendar.MONTH)+1)==month && calendar.get(Calendar.YEAR)==year){
+            if((calendar.get(Calendar.MONTH)+1)==month && calendar.get(Calendar.YEAR)==year && order.getStatus()==2){
                 revenue += order.getPrice().intValue();
             }
         }
