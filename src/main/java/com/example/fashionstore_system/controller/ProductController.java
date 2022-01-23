@@ -2,6 +2,8 @@ package com.example.fashionstore_system.controller;
 
 import com.example.fashionstore_system.entity.*;
 import com.example.fashionstore_system.service.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -127,6 +129,10 @@ public class ProductController {
                                      @RequestParam("productId") int productId,
                                      RedirectAttributes model) throws IOException {
         String fileName = StringUtils.cleanPath(image.getOriginalFilename());
+        if (!(fileName.endsWith("jpeg")||fileName.endsWith("png"))) {
+            model.addFlashAttribute("alert","Wrong picture format! (.jpeg or .png)");
+            return new RedirectView("/product/productdetail/"+productId);
+        }
         feedback.setImage(fileName);
         feedback.setContent(feedback.getContent());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

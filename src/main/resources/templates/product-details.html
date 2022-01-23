@@ -221,6 +221,7 @@
                                     <li><a><i class="fa fa-user"></i><span sec:authentication="name"></span></a>
                                     </li>
                                 </ul>
+                                <span th:text="${alert}" style="color: red"></span>
                                 <form th:action="@{/product/feedback/saveFeedback}" th:object="${feedback}"
                                       method="post"
                                       enctype="multipart/form-data">
