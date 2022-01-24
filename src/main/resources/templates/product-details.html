@@ -72,6 +72,8 @@
                             <span style="margin-top: 5px; width: 100%">
                                 <p th:text="'Category - '+${product.category.name}" style="border-bottom:
                                 2px solid rgba(0, 0, 0, 0.1); opacity: 0.6"></p>
+                                <p th:if="${product.quantity>0}" th:text="'Remaining: '+${product.quantity}" style="border-bottom:
+                                2px solid rgba(0, 0, 0, 0.1); opacity: 0.6"></p>
                                 <div style="border-bottom: 2px solid rgba(0, 0, 0, 0.1);
                                 display: flex;justify-content: space-between;margin-bottom: 5px">
                                     <h3 style="opacity: 0.6;">Price</h3>

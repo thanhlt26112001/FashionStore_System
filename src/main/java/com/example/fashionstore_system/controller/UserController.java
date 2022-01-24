@@ -115,16 +115,23 @@ public class UserController {
     }
 
     @RequestMapping("/send_pass_back")
-    public String sendPassword(Model model, @RequestParam(name = "email") String email) {
+    public RedirectView sendPassword(RedirectAttributes model, @RequestParam(name = "email") String email) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        User user = customerService.findByEmail(email).getUser();
+        User user = new User();
+        try{
+            user = customerService.findByEmail(email).getUser();
+        }
+        catch(Exception e){
+            model.addFlashAttribute("alert", "Email not exist!!");
+            return new RedirectView("/forgot_password");
+        }
         String newPass = randomPassword();
         user.setPassword(encoder.encode(newPass));
         userService.saveUser(user);
         mailService.sendSimpleMessage(email, "Reset password", "This is your new password: " + newPass + "\n" +
                 "Please login and change password!!");
-        model.addAttribute("alert", "Email sent!!");
-        return "redirect:/login";
+        model.addFlashAttribute("alert", "Password changed!! Please check your email!!");
+        return new RedirectView("/login");
     }
 
     private String randomPassword() {
