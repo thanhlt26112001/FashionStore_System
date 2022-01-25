@@ -1,6 +1,7 @@
 package com.example.fashionstore_system.repository;
 
 import com.example.fashionstore_system.entity.Customer;
+import com.example.fashionstore_system.entity.OrderDetail;
 import com.example.fashionstore_system.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,4 +29,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query(value = "SELECT * FROM Products where status = 1 and quantity > 0 and category_id = ? limit 4",nativeQuery = true)
     public List<Product> getProductByCategoryId(int CategoryId);
+
+    @Query(value = "select * from  Products where  status = 1 order by  count desc limit 9 ", nativeQuery = true)
+     public List<Product> getHotProduct();
 }

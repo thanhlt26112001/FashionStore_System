@@ -100,4 +100,13 @@ public class ProductService {
     public void saveAllProduct(List<Product> productList){
         productRepository.saveAll(productList);
     }
+    public Page<Product> getFeaturedProducts2(){
+        Sort sort = Sort.by("id").descending();
+        Pageable pageable = PageRequest.of(0, 9, sort);
+        return productRepository.findByStatus(1, pageable);
+    }
+
+    public List<Product> getProductHot(){
+        return  productRepository.getHotProduct();
+    }
 }

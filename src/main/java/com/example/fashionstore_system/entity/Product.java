@@ -41,6 +41,9 @@ public class Product implements Serializable {
     @Column
     private Integer status;
     //0: out of stock, 1: available
+    @Column
+    private Integer count;
+    // count product order
     @Column(name = "created_at")
     @CreationTimestamp
     private Timestamp createdAt;
