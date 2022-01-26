@@ -48,8 +48,8 @@ public class PromotionService {
     public List<Promotion> getAllPromotions(){
         return promotionRepository.findAll();
     }
-    public Promotion getPromotionById(int promotionId){
-        return promotionRepository.findAllById(promotionId);
+    public Promotion getPromotionByCode(String promotionCode){
+        return promotionRepository.findByCode(promotionCode);
     }
 }
 

@@ -57,42 +57,6 @@ public class CartController {
         }
         model.addAttribute("subtotal",total);
         model.addAttribute("total",total);
-        List<Promotion> allpromotion = promotionService.getAllPromotions();
-        Date today = new Date();
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
-        String dayInWeek ="";
-        switch (day){
-            case 2:
-            dayInWeek+= "Monday";
-            break;
-            case 3:
-                dayInWeek+= "Tuesday";
-                break;
-            case 4:
-                dayInWeek+= "Wednesday";
-                break;
-            case 5:
-                dayInWeek+= "Thursday";
-                break;
-            case 6:
-                dayInWeek+= "Friday";
-                break;
-            case 7:
-                dayInWeek+= "Saturday";
-                break;
-            case 8:
-                dayInWeek+= "Sunday";
-                break;
-        }
-        List<Promotion> availablepromotion = new ArrayList<Promotion>() ;
-        for (Promotion promotion:allpromotion){
-            if (promotion.getStartDate().before(today)&&promotion.getEndDate().after(today)
-                &&(promotion.getApplyDay().contains(dayInWeek)||promotion.getApplyDay().equals("AllWeek"))){
-                availablepromotion.add(promotion);
-            }
-        }
-        model.addAttribute("listPromotion",availablepromotion);
         Promotion promotion = new Promotion();
         model.addAttribute("promotion",promotion);
         return "cart";
@@ -160,7 +124,7 @@ public class CartController {
     @GetMapping("/checkout")
     public String checkout(Model model ,@RequestParam(name="totalprice",required = false)Double totalprice,
                                         @RequestParam(name="subtotal",required = false)Double subtotal,
-                                        @RequestParam(name="promotionId",required = false)Integer promotionId) {
+                                        @RequestParam(name="promotionCode",required = false)String promotionCode) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "redirect:/login";
@@ -175,8 +139,8 @@ public class CartController {
         model.addAttribute("listCart", cartList);
         model.addAttribute("totalprice",totalprice);
         model.addAttribute("subtotal",subtotal);
-        if(promotionId!=null) {
-            model.addAttribute("promotion", promotionService.getPromotionById(promotionId));
+        if(promotionCode!=null) {
+            model.addAttribute("promotion", promotionService.getPromotionByCode(promotionCode));
         }
         model.addAttribute("shippingUnitlist",shippingUnitService.getAllShippingUnits());
         return "checkout_form";
@@ -195,54 +159,31 @@ public class CartController {
             total+=cart.getQuantity()* Double.parseDouble(String.valueOf(cart.getProduct().getPrice()));
         }
         double subtotal = total;
-        Promotion data = promotionService.getPromotionById(promotion.getId());
-        promotion.setDiscount(data.getDiscount());
-        total = total-(total*(promotion.getDiscount())/100);
-        model.addAttribute("total",total);
-        model.addAttribute("subtotal",subtotal);
-        List<Promotion> allpromotion = promotionService.getAllPromotions();
-        Date today = new Date();
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
-        String dayInWeek ="";
-        switch (day){
-            case 2:
-                dayInWeek+= "Monday";
-                break;
-            case 3:
-                dayInWeek+= "Tuesday";
-                break;
-            case 4:
-                dayInWeek+= "Wednesday";
-                break;
-            case 5:
-                dayInWeek+= "Thursday";
-                break;
-            case 6:
-                dayInWeek+= "Friday";
-                break;
-            case 7:
-                dayInWeek+= "Saturday";
-                break;
-            case 8:
-                dayInWeek+= "Sunday";
-                break;
-        }
-        List<Promotion> availablepromotion = new ArrayList<Promotion>() ;
-        for (Promotion promotion1:allpromotion){
-            if (promotion1.getStartDate().before(today)&&promotion1.getEndDate().after(today)
-                    &&(promotion1.getApplyDay().contains(dayInWeek)||promotion1.getApplyDay().equals("AllWeek"))){
-                availablepromotion.add(promotion1);
+        Promotion data = promotionService.getPromotionByCode(promotion.getCode());
+        if(data.getRemainapply()>0 && data.getStatus()==1){
+            data.setDiscount(data.getDiscount());
+            if ((total*(data.getDiscount())/100) > data.getMaxdiscount()){
+                total = total - data.getMaxdiscount();
+            } else {
+                total = total-(total*(data.getDiscount())/100);
             }
-        }
-        model.addAttribute("listPromotion",availablepromotion);
+            model.addAttribute("total",total);
+            model.addAttribute("subtotal",subtotal);
+            model.addAttribute("promotion",promotion);
+            return "cart";
 
-        model.addAttribute("promotion",promotion);
-        return "cart";
+        }else{
+            model.addAttribute("subtotal",total);
+            model.addAttribute("total",total);
+            model.addAttribute("promotion",promotion);
+            model.addAttribute("alert_promotion", "discount code has expired!!!");
+            return "cart";
+        }
+
     }
     @PostMapping("/saveOrder")
     public String finishcheckout(@ModelAttribute(name = "order") Order order,
-                                 @RequestParam(name="promotionId",required = false)Integer promotionId,
+                                 @RequestParam(name="promotionCode",required = false)String promotionCode,
                                  @RequestParam(name="totalprice",required = false)Double totalprice){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
@@ -251,16 +192,19 @@ public class CartController {
         User user = userService.findByUsername(authentication.getName());
         List<Cart> cartList = cartService.getCustomerCart(user.getCustomer().getId());
         order.setCustomer(user.getCustomer());
-        if(promotionId!=0) {
-            order.setPromotion(promotionService.getPromotionById(promotionId));
+        if(promotionCode!=null) {
+            order.setPromotion(promotionService.getPromotionByCode(promotionCode));
         }
         order.setPrice(BigDecimal.valueOf(totalprice));
         order.setStatus(0);
         if(order.getPaymentMethod()==1){
             order.setPaymentStatus(1);
-        }else {
+        }else{
             order.setPaymentStatus(0);
         }
+        Promotion promotion = promotionService.getPromotionByCode(promotionCode);
+        promotion.setRemainapply((promotion.getRemainapply() - 1));
+        promotionService.save(promotion);
         orderService.saveOrder(order);
         for (Cart cart:cartList){
             OrderDetail orderDetail = new OrderDetail();
