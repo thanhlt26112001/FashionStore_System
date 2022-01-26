@@ -99,6 +99,26 @@
                                        pattern="^[0-9]{1,3}$" title="Must enter from 0 to 100"
                                        name="discount" placeholder="Enter Discount" id="discount" value="" required>
                             </div>
+                            <div class="form-group">
+                                <label>Max discount</label>
+                                <input th:field="*{maxdiscount}" type="text" class="form-control"
+                                       name="maxdiscount" placeholder="Enter maxdiscount" id="maxdiscount" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Remain Apply</label>
+                                <input th:field="*{remainapply}" type="text" class="form-control"
+                                       name="remainapply" placeholder="Enter remainapply" id="remainapply" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <input th:field="*{status}" type="text" class="form-control"
+                                       name="status" placeholder="Enter status" id="status" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Code</label>
+                                <input th:field="*{code}" type="text" class="form-control"
+                                       name="code" placeholder="Enter code" id="code" value="" required>
+                            </div>
                             <span th:text="${alert}" style="color:red"></span>
                             <br>
                             <button sec:authorize="hasAnyRole('ADMIN','MANAGER')"

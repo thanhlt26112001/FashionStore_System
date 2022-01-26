@@ -1,12 +1,18 @@
 package com.example.fashionstore_system.controller;
 
 import com.example.fashionstore_system.entity.Product;
+import com.example.fashionstore_system.entity.Promotion;
+import com.example.fashionstore_system.entity.User;
 import com.example.fashionstore_system.service.CategoriesService;
 import com.example.fashionstore_system.service.ProductService;
+import com.example.fashionstore_system.service.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -19,6 +25,7 @@ public class HomeController {
     ProductService productService;
     @Autowired
     CategoriesService categoriesService;
+
 
 
     @RequestMapping({"/","/index"})
@@ -34,5 +41,11 @@ public class HomeController {
         return "index";
     }
 
+//    @GetMapping("/index")
+//    public String ListAllCart(Model model){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        User user = userService.findByUsername(authentication.getName());
+//        return "layout_customer/navbar";
+//    }
 
 }

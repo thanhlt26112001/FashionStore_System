@@ -103,12 +103,12 @@
                                 </tr>
                                 <tr class="shipping-cost">
                                     <td>Promotion</td>
-                                    <td th:if="${promotion!=null}" th:text="${promotion.discount}+'%'"></td>
+                                    <td th:if="${promotion!=null}" th:text="${promotion.discount}+'%' +' ( max: ' + ${promotion.maxdiscount} +' VNĐ )'"></td>
                                     <td th:if="${promotion==null}">None </td>
                                 </tr>
                                 <tr>
                                     <td>Total</td>
-                                    <td><span th:text="${totalprice}"></span></td>
+                                    <td><span th:text="${total}"></span></td>
                                 </tr>
                             </table>
                         </td>

@@ -41,6 +41,10 @@
                             Discount</a></th>
                         <th>Apply day</th>
                         <th>Total usage</th>
+                        <th>Max discount</th>
+                        <th>Remain Apply</th>
+                        <th>Status</th>
+                        <th>Code</th>
                         <th style="text-align: center">Action</th>
                     </tr>
                     </thead>
@@ -51,6 +55,10 @@
                         <td th:text="${promotion.discount}+'%'"></td>
                         <td th:text="${promotion.applyDay}"></td>
                         <td th:text="${promotion.orders.size()}"></td>
+                        <td th:text="${promotion.maxdiscount}"></td>
+                        <td th:text="${promotion.remainapply}"></td>
+                        <td th:text="${promotion.status}"></td>
+                        <td th:text="${promotion.code}"></td>
                         <td style="text-align: center"><a class="btn btn-primary btn-sm"
                                                           th:href="@{'/admin/edit/'+${promotion.id}}"
                                                           style="margin-top: 0">Detail & Edit</a>

@@ -122,9 +122,7 @@ public class CartController {
         return new RedirectView("/cart/show");
     }
     @GetMapping("/checkout")
-    public String checkout(Model model ,@RequestParam(name="totalprice",required = false)Double totalprice,
-                                        @RequestParam(name="subtotal",required = false)Double subtotal,
-                                        @RequestParam(name="promotionCode",required = false)String promotionCode) {
+    public String checkout(Model model , @RequestParam(name="promotionCode",required = false)String promotionCode) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "redirect:/login";
@@ -137,16 +135,49 @@ public class CartController {
         Order order = new Order();
         model.addAttribute("order", order);
         model.addAttribute("listCart", cartList);
-        model.addAttribute("totalprice",totalprice);
-        model.addAttribute("subtotal",subtotal);
+//        model.addAttribute("totalprice",totalprice);
+//        model.addAttribute("subtotal",subtotal);
         if(promotionCode!=null) {
             model.addAttribute("promotion", promotionService.getPromotionByCode(promotionCode));
         }
+        model.addAttribute("listCart", cartList);
+        double total=0.0;
+        for (Cart cart : cartList){
+            total+=cart.getQuantity()* Double.parseDouble(String.valueOf(cart.getProduct().getPrice()));
+        }
+        double subtotal = total;
+        Promotion data = promotionService.getPromotionByCode(promotionCode);
+        if(data != null){
+            if(data.getRemainapply()>0 && data.getStatus()==1){
+                data.setDiscount(data.getDiscount());
+                if ((total*(data.getDiscount())/100) > data.getMaxdiscount()){
+                    total = total - data.getMaxdiscount();
+                } else {
+                    total = total-(total*(data.getDiscount())/100);
+                }
+                model.addAttribute("total",total);
+                model.addAttribute("subtotal",subtotal);
+                model.addAttribute("promotion",data);
+//            return "checkout_form";
+
+            }else{
+                model.addAttribute("subtotal",total);
+                model.addAttribute("total",total);
+                model.addAttribute("promotion",data);
+                model.addAttribute("alert_promotion", "discount code has expired!!!");
+//            return "checkout_form";
+            }
+        } else {
+            model.addAttribute("subtotal",total);
+            model.addAttribute("total",total);
+            model.addAttribute("promotion",data);
+        }
+
         model.addAttribute("shippingUnitlist",shippingUnitService.getAllShippingUnits());
         return "checkout_form";
     }
     @GetMapping("/applycoupon")
-    public String UsePromotion(@ModelAttribute(name = "promotion") Promotion promotion,Model model){
+    public String UsePromotion(@ModelAttribute(name = "promotion") Promotion promotion,Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "redirect:/login";
@@ -154,29 +185,36 @@ public class CartController {
         User user = userService.findByUsername(authentication.getName());
         List<Cart> cartList = cartService.getCustomerCart(user.getCustomer().getId());
         model.addAttribute("listCart", cartList);
-        double total=0.0;
-        for (Cart cart : cartList){
-            total+=cart.getQuantity()* Double.parseDouble(String.valueOf(cart.getProduct().getPrice()));
+        double total = 0.0;
+        for (Cart cart : cartList) {
+            total += cart.getQuantity() * Double.parseDouble(String.valueOf(cart.getProduct().getPrice()));
         }
         double subtotal = total;
         Promotion data = promotionService.getPromotionByCode(promotion.getCode());
-        if(data.getRemainapply()>0 && data.getStatus()==1){
-            data.setDiscount(data.getDiscount());
-            if ((total*(data.getDiscount())/100) > data.getMaxdiscount()){
-                total = total - data.getMaxdiscount();
-            } else {
-                total = total-(total*(data.getDiscount())/100);
-            }
-            model.addAttribute("total",total);
-            model.addAttribute("subtotal",subtotal);
-            model.addAttribute("promotion",promotion);
-            return "cart";
+        if (data != null) {
+            if (data.getRemainapply() > 0 && data.getStatus() == 1) {
+                data.setDiscount(data.getDiscount());
+                if ((total * (data.getDiscount()) / 100) > data.getMaxdiscount()) {
+                    total = total - data.getMaxdiscount();
+                } else {
+                    total = total - (total * (data.getDiscount()) / 100);
+                }
+                model.addAttribute("total", total);
+                model.addAttribute("subtotal", subtotal);
+                model.addAttribute("promotion", promotion);
+                return "cart";
 
-        }else{
-            model.addAttribute("subtotal",total);
-            model.addAttribute("total",total);
-            model.addAttribute("promotion",promotion);
-            model.addAttribute("alert_promotion", "discount code has expired!!!");
+            } else {
+                model.addAttribute("subtotal", total);
+                model.addAttribute("total", total);
+                model.addAttribute("promotion", promotion);
+                model.addAttribute("alert_promotion", "discount code has expired!!!");
+                return "cart";
+            }
+        } else {
+            model.addAttribute("subtotal", total);
+            model.addAttribute("total", total);
+            model.addAttribute("promotion", promotion);
             return "cart";
         }
 

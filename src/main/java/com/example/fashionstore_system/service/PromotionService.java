@@ -44,6 +44,9 @@ public class PromotionService {
     public Promotion findByName(String name) {
         return promotionRepository.findByName(name);
     }
+    public Promotion findByCode(String code) {
+        return promotionRepository.findByCode(code);
+    }
 
     public List<Promotion> getAllPromotions(){
         return promotionRepository.findAll();

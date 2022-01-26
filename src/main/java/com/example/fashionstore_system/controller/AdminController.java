@@ -427,6 +427,11 @@ public class AdminController {
             model.addFlashAttribute("alert", "Promotion name is existed!!!");
             return new RedirectView("/admin/listPromotions/add");
         }
+        Promotion promotion2 = promotionService.findByCode(promotion.getCode());
+        if (promotion2 != null) {
+            model.addFlashAttribute("alert", "Promotion code is existed!!!");
+            return new RedirectView("/admin/listPromotions/add");
+        }
         if (promotion.getDiscount() > 100 || promotion.getDiscount() < 0) {
             model.addFlashAttribute("alert", "Discount must from 0 to 100!!!");
             return new RedirectView("/admin/listPromotions/add");
@@ -512,6 +517,11 @@ public class AdminController {
                                  @RequestParam(name = "Sunday", required = false) String Sunday,
                                  @RequestParam(name = "AllWeek", required = false) String AllWeek,
                                  RedirectAttributes model) {
+        Promotion promotion2 = promotionService.findByCode(promotion.getCode());
+        if (promotion2 != null) {
+            model.addFlashAttribute("alert", "Promotion code is existed!!!");
+            return new RedirectView("/admin/listPromotions/add");
+        }
         if (promotion.getDiscount() > 100 || promotion.getDiscount() < 0) {
             model.addFlashAttribute("alert", "Discount must from 0 to 100!!!");
             return new RedirectView("/admin/edit/" + promotion.getId());
