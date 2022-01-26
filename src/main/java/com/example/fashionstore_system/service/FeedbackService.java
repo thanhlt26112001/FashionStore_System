@@ -31,10 +31,12 @@ public class FeedbackService {
     public Feedback getFeedback(int id) {
         return feedbackRepository.findById(id).get();
     }
-    public Feedback getById(int id){ return feedbackRepository.getById(id);}
+    public Feedback getById(int id){
+        return feedbackRepository.getById(id);
+    }
 
-    public void deleteFeedback(int id) {
-        feedbackRepository.deleteById(id);
+    public void deleteFeedback(Feedback feedback) {
+        feedbackRepository.delete(feedback);
     }
     //phân trang
     public Page<Feedback> listAllFeedback(int productId, int currentPage, String sortDirection) {

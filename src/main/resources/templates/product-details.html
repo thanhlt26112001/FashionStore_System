@@ -26,7 +26,7 @@
                                 <li th:each="category:${categoryList}">
                                     <a th:href="@{'/product/listproducts/1?categoryId='+${category.getId()}+'&sortField='
                                 +'id'+'&sortDir='+ 'desc'+'&keyword= '}">
-                                        <p th:text="${category.getName()}"> </p>
+                                        <p th:text="${category.getName()}"></p>
                                         <p th:text="${category.products.size()}"></p>
                                     </a>
                                 </li>
@@ -140,6 +140,20 @@
                                         <h4 style="word-wrap: break-word; white-space: -moz-pre-wrap; white-space: pre-wrap;"
                                             th:text="${review.customer.name}"></h4>
                                         <span style="font-size: x-small" th:text="${review.createdAt}"></span>
+                                        <td style="text-align: center">
+                                            <th:block sec:authorize="hasRole('CUSTOMER')">
+                                                <a th:if="${review.customer.id == userCurent.customer.id } "
+                                                   th:href="@{'/product/deleteFeedback/' + ${review.id}}"
+                                                   class="btn btn-danger btn-sm"
+                                                >Delete</a>
+                                            </th:block>
+                                            <th:block sec:authorize="hasRole('ADMIN')">
+                                                <a
+                                                        th:href="@{'/product/deleteFeedback/' + ${review.id}}"
+                                                        class="btn btn-danger btn-sm"
+                                                >Delete</a>
+                                            </th:block>
+                                        </td>
                                     </div>
                                     <pre class="col-md-10">
                                         <p th:text="${review.content}"></p>

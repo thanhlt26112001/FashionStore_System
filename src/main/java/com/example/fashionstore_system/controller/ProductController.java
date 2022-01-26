@@ -4,6 +4,7 @@ import com.example.fashionstore_system.entity.*;
 import com.example.fashionstore_system.service.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -16,12 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.*;
 import java.util.List;
 
@@ -107,7 +106,9 @@ public class ProductController {
                     flag=true;
                 }
             }
+            model.addAttribute("userCurent", user);
         }
+
         Feedback feedback = new Feedback();
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("totalPages", totalPages);
@@ -129,8 +130,8 @@ public class ProductController {
                                      @RequestParam("productId") int productId,
                                      RedirectAttributes model) throws IOException {
         String fileName = StringUtils.cleanPath(image.getOriginalFilename());
-        if (!(fileName.endsWith("jpeg")||fileName.endsWith("png"))) {
-            model.addFlashAttribute("alert","Wrong picture format! (.jpeg or .png)");
+        if (!(fileName.toLowerCase().endsWith("jpeg")||fileName.toLowerCase().endsWith("png")||fileName.toLowerCase().endsWith("jpg"))) {
+            model.addFlashAttribute("alert","Wrong picture format! (.jpeg or .png or  .jpg)");
             return new RedirectView("/product/productdetail/"+productId);
         }
         feedback.setImage(fileName);
@@ -140,7 +141,6 @@ public class ProductController {
         feedback.setCustomer(customer);
         feedback.setProduct(productService.getProduct(productId));
         Feedback feedbackSave = feedbackService.saveFeedback(feedback);
-//        Path uploadPath =  Paths.get("./src/main/resources/static/feedback_image/"+feedbackSave.getId());
         Path uploadPath =  Paths.get("feedback_image/"+feedbackSave.getId());
         if(!Files.exists(uploadPath)){
             Files.createDirectories(uploadPath);
@@ -153,5 +153,26 @@ public class ProductController {
         }
         return new RedirectView("/product/productdetail/"+productId);
     }
-
+    @RequestMapping("/deleteFeedback/{id}")
+    public String deleteFeedback(@PathVariable(name = "id") int id) throws IOException {
+        Feedback feedback = feedbackService.getFeedback(id);
+        String nameImg= feedback.getFeedbackImage();
+        feedbackService.deleteFeedback(feedback);
+        File fileImg = new File("feedback_image/"+id);
+        deleteDirectoryRecursionJava6(fileImg);
+        return "redirect:/product/productdetail/"+feedback.getProduct().getId();
+    }
+    void deleteDirectoryRecursionJava6(File file) throws IOException {
+        if (file.isDirectory()) {
+            File[] entries = file.listFiles();
+            if (entries != null) {
+                for (File entry : entries) {
+                    deleteDirectoryRecursionJava6(entry);
+                }
+            }
+        }
+        if (!file.delete()) {
+            throw new IOException("Failed to delete " + file);
+        }
+    }
 }
