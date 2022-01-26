@@ -14,9 +14,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
@@ -121,7 +124,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .usernameParameter("username")
                     .passwordParameter("password")
                     .loginProcessingUrl("/doLogin")
-                    .failureUrl("/loginFail")
+                .failureHandler(new AuthenticationFailureHandler() {
+                    @Override
+                    public void onAuthenticationFailure(HttpServletRequest request,
+                                                        HttpServletResponse response,
+                                                        AuthenticationException exception) throws IOException, ServletException {
+                        User user = userServices.findByUsername(request.getParameter("username"));
+                        if(user.getCustomer().getStatus()==0){
+                            response.sendRedirect("/accountLocked");
+                        }else{
+                            response.sendRedirect("/loginFail");
+                        }
+                    }
+                })
+
                 .successHandler(new AuthenticationSuccessHandler() {
 
                     @Override

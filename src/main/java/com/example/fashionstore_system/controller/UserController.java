@@ -11,10 +11,7 @@ import com.example.fashionstore_system.payload.LoginResponse;
 import com.example.fashionstore_system.repository.RoleRepository;
 import com.example.fashionstore_system.repository.UserRepository;
 import com.example.fashionstore_system.security.MyUserDetail;
-import com.example.fashionstore_system.service.CustomerService;
-import com.example.fashionstore_system.service.MailService;
-import com.example.fashionstore_system.service.StaffService;
-import com.example.fashionstore_system.service.UserService;
+import com.example.fashionstore_system.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -54,6 +51,8 @@ public class UserController {
     private RoleRepository roleRepository;
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Autowired
+    private CartService cartService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -68,6 +67,12 @@ public class UserController {
     @RequestMapping("/loginFail")
     public RedirectView loginFail(RedirectAttributes model) {
         model.addFlashAttribute("alert", "Wrong Username or Password!");
+        return new RedirectView("/login");
+    }
+
+    @RequestMapping("/accountLocked")
+    public RedirectView accountLocked(RedirectAttributes model) {
+        model.addFlashAttribute("alert", "Your account has been locked!");
         return new RedirectView("/login");
     }
 
@@ -172,12 +177,13 @@ public class UserController {
     }
 
     @GetMapping("/changePassword")
-    public String changePassword() {
+    public String changePassword(Model model) {
         //prevent user return back to login page if they already login to the system
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "login";
         }
+        model.addAttribute("size_carts", cartService.getCartSize());
         return "changePassword";
     }
 

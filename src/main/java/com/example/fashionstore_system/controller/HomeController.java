@@ -1,11 +1,10 @@
 package com.example.fashionstore_system.controller;
 
+import com.example.fashionstore_system.entity.Cart;
 import com.example.fashionstore_system.entity.Product;
 import com.example.fashionstore_system.entity.Promotion;
 import com.example.fashionstore_system.entity.User;
-import com.example.fashionstore_system.service.CategoriesService;
-import com.example.fashionstore_system.service.ProductService;
-import com.example.fashionstore_system.service.PromotionService;
+import com.example.fashionstore_system.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -25,7 +24,10 @@ public class HomeController {
     ProductService productService;
     @Autowired
     CategoriesService categoriesService;
-
+    @Autowired
+    UserService userService;
+    @Autowired
+    CartService cartService;
 
 
     @RequestMapping({"/","/index"})
@@ -38,14 +40,10 @@ public class HomeController {
         model.addAttribute("listProductsbyCategory1",productService.getProductbyCategoryId(categoriesService.listAll().get(0).getId()));
         model.addAttribute("listProductsbyCategory2",productService.getProductbyCategoryId(categoriesService.listAll().get(1).getId()));
         model.addAttribute("listProductsbyCategory3",productService.getProductbyCategoryId(categoriesService.listAll().get(2).getId()));
+        model.addAttribute("size_carts", cartService.getCartSize());
         return "index";
     }
 
-//    @GetMapping("/index")
-//    public String ListAllCart(Model model){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User user = userService.findByUsername(authentication.getName());
-//        return "layout_customer/navbar";
-//    }
+
 
 }

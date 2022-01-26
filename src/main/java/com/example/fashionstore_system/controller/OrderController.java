@@ -4,10 +4,7 @@ import com.example.fashionstore_system.entity.Order;
 import com.example.fashionstore_system.entity.OrderDetail;
 import com.example.fashionstore_system.entity.Product;
 import com.example.fashionstore_system.entity.User;
-import com.example.fashionstore_system.service.OrderDetailService;
-import com.example.fashionstore_system.service.OrderService;
-import com.example.fashionstore_system.service.ProductService;
-import com.example.fashionstore_system.service.UserService;
+import com.example.fashionstore_system.service.*;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -35,6 +32,8 @@ public class OrderController {
     private OrderDetailService orderDetailService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CartService cartService;
 
     @GetMapping("/myorder")
     public String listorder(Model model){
@@ -45,13 +44,14 @@ public class OrderController {
         User user = userService.findByUsername(authentication.getName());
         int customerId= user.getCustomer().getId();
         model.addAttribute("orderlist",orderService.getAllUserOrder(customerId));
+        model.addAttribute("size_carts", cartService.getCartSize());
         return "user_order";
     }
     @RequestMapping("/myorder/{id}")
     public String vieworderdetails(@PathVariable("id") Integer id, Model model){
         model.addAttribute("orderdetail",orderDetailService.getOrderDetailsByOrderId(id));
         model.addAttribute("order",orderService.findOrderbyOrderId(id));
-
+        model.addAttribute("size_carts", cartService.getCartSize());
         return "order_detail";
     }
     @RequestMapping("/myorder/cancel/{id}")

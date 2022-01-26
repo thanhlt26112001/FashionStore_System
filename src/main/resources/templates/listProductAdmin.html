@@ -83,6 +83,7 @@
                                href="#" style="margin-top: 0">Details</a>
 
                             <a sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                               th:if="${product.status==1}"
                                th:href="@{'/admin/product/delete/' + ${product.id}}" class="btn btn-danger btn-sm"
                                href="#">Disable</a>
 

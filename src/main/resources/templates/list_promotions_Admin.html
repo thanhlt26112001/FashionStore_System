@@ -57,15 +57,16 @@
                         <td th:text="${promotion.orders.size()}"></td>
                         <td th:text="${promotion.maxdiscount}"></td>
                         <td th:text="${promotion.remainapply}"></td>
-                        <td th:text="${promotion.status}"></td>
+                        <td th:text="${promotion.status==0? 'Disable':'Enable'}"></td>
                         <td th:text="${promotion.code}"></td>
                         <td style="text-align: center"><a class="btn btn-primary btn-sm"
                                                           th:href="@{'/admin/edit/'+${promotion.id}}"
                                                           style="margin-top: 0">Detail & Edit</a>
-                            <th:block th:if="${promotion.orders.size()==0}"><a
+                            <th:block><a
+                                    th:if="${promotion.status==1}"
                                     sec:authorize="hasAnyRole('ADMIN','MANAGER')"
                                     class="btn btn-danger btn-sm"
-                                    th:href="@{'/admin/delete/'+${promotion.id}}">Delete</a>
+                                    th:href="@{'/admin/delete/'+${promotion.id}}">Disable</a>
                             </th:block>
                         </td>
                     </tr>

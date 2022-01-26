@@ -59,6 +59,7 @@ public class CartController {
         model.addAttribute("total",total);
         Promotion promotion = new Promotion();
         model.addAttribute("promotion",promotion);
+        model.addAttribute("size_carts", cartService.getCartSize());
         return "cart";
     }
     public static String getToday(String format){
@@ -174,6 +175,7 @@ public class CartController {
         }
 
         model.addAttribute("shippingUnitlist",shippingUnitService.getAllShippingUnits());
+        model.addAttribute("size_carts", cartService.getCartSize());
         return "checkout_form";
     }
     @GetMapping("/applycoupon")
@@ -202,22 +204,23 @@ public class CartController {
                 model.addAttribute("total", total);
                 model.addAttribute("subtotal", subtotal);
                 model.addAttribute("promotion", promotion);
-                return "cart";
+
 
             } else {
                 model.addAttribute("subtotal", total);
                 model.addAttribute("total", total);
                 model.addAttribute("promotion", promotion);
                 model.addAttribute("alert_promotion", "discount code has expired!!!");
-                return "cart";
+
             }
         } else {
             model.addAttribute("subtotal", total);
             model.addAttribute("total", total);
             model.addAttribute("promotion", promotion);
-            return "cart";
-        }
 
+        }
+        model.addAttribute("size_carts", cartService.getCartSize());
+        return "cart";
     }
     @PostMapping("/saveOrder")
     public String finishcheckout(@ModelAttribute(name = "order") Order order,
