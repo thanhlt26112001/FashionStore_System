@@ -709,7 +709,7 @@ public class AdminController {
             model.addFlashAttribute("alert_status","This order have been paid!");
             return new RedirectView("/admin/orderDetail/"+order.getId());
         }
-        else if(orderSave.getStatus()!=2){
+        else if(orderSave.getStatus()!=2 && orderSave.getPaymentStatus()!=0){
             orderSave.setPaymentStatus(order.getPaymentStatus());
             orderSave.setStatus(order.getStatus());
         } else if(orderSave.getPaymentStatus()==0 && orderSave.getStatus()==2){
@@ -718,6 +718,9 @@ public class AdminController {
         } else if(orderSave.getPaymentStatus()==0){
             if(order.getStatus()!=2){
                 orderSave.setStatus(order.getStatus());
+            }
+            else{
+                orderSave.setStatus(orderSave.getStatus());
             }
             orderSave.setPaymentStatus(order.getPaymentStatus());
         }
