@@ -23,10 +23,6 @@ public class OrderService {
         return orderRepository.findAllByCustomerId(customerId);
     }
 
-    public void deleteOrder(int orderId) {
-        orderRepository.deleteById(orderId);
-    }
-
     public Optional<Order> getOrderById(int orderId) {
         return orderRepository.findById(orderId);
     }
@@ -56,10 +52,11 @@ public class OrderService {
         return orderRepository.findByReceiverNameContaining(keyword, pageable);
     }
 
-//    public Order findByName(String name) {
-//        return orderRepository.findByName(name);M
-//    }
-//phân trang
+    public Page<Order> listOrderByMonthAndYear(int currentPage, int month, int year) {
+        Pageable pageable = PageRequest.of(currentPage - 1, 6);
+        return orderRepository.findByMonthAndYear(month,year,pageable);
+    }
+
     public List<Order> listAll(String keyword) {
         if (keyword != null && keyword != "") {
             List<Order> orderList = orderRepository.search(keyword);
@@ -86,8 +83,6 @@ public class OrderService {
     }
     public List<Order> getAllOrders(){
         return orderRepository.findAll();
-
     }
-
 }
 

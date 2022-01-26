@@ -660,7 +660,7 @@ public class AdminController {
     }
     // admin Order
     @GetMapping("/order")
-    public String viewOrder(Model model,
+    public String view(Model model,
                                @RequestParam(value = "keyword", defaultValue = "") String keyword,
                                @RequestParam(value = "sortField", defaultValue = "id") String sortField,
                                @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir) {
@@ -700,12 +700,29 @@ public class AdminController {
         return mav;
     }
     @RequestMapping(value = "/saveOrderEdit", method = RequestMethod.POST)
-    public String saveOrderEdit(@ModelAttribute("order") Order order) {
+    public RedirectView saveOrderEdit(@ModelAttribute("order") Order order,
+                                      RedirectAttributes model) {
         Order orderSave = orderService.getById(order.getId());
-        orderSave.setPaymentStatus(order.getPaymentStatus());
-        orderSave.setStatus(order.getStatus());
+        if(orderSave.getPaymentStatus()==1){
+            orderSave.setStatus(order.getStatus());
+            orderSave.setPaymentStatus(1);
+            model.addFlashAttribute("alert_status","This order have been paid!");
+            return new RedirectView("/admin/orderDetail/"+order.getId());
+        }
+        else if(orderSave.getStatus()!=2){
+            orderSave.setPaymentStatus(order.getPaymentStatus());
+            orderSave.setStatus(order.getStatus());
+        } else if(orderSave.getPaymentStatus()==0 && orderSave.getStatus()==2){
+            model.addFlashAttribute("alert_status","This order haven't been paid!");
+            return new RedirectView("/admin/orderDetail/"+order.getId());
+        } else if(orderSave.getPaymentStatus()==0){
+            if(order.getStatus()!=2){
+                orderSave.setStatus(order.getStatus());
+            }
+            orderSave.setPaymentStatus(order.getPaymentStatus());
+        }
         orderService.saveOrder(orderSave);
-        return "redirect:/admin/order" ;
+        return new RedirectView("/admin/order");
     }
     @GetMapping("/home")
     public String AdminHomePage(Model model){

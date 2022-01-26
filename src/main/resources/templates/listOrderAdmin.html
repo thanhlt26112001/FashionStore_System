@@ -18,6 +18,20 @@
                         <form th:action="@{'/admin/order'}">
                             Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
                         </form>
+                        <form th:action="@{'/admin/order'}">
+                            <div class="form-group">
+                                <label>Start date</label>
+                                <input type="date" class="form-control"
+                                       name="startDate" placeholder="Enter Start date" id="startDate" value="">
+                            </div>
+                            <div class="form-group">
+                                <label>End date</label>
+                                <input type="date" class="form-control"
+                                       name="endDate" placeholder="Enter End date" id="endDate" value="">
+                            </div>
+                            <span style="color:red" th:text="${alert_order}"></span><br>
+                            <button>Submit</button>
+                        </form>
                     </div>
                 </div>
                 <table class="table table-bordered">
