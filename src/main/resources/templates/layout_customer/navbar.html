@@ -37,7 +37,7 @@
                                 <th:block sec:authorize="hasAnyRole('CUSTOMER')">
                                 <li style="display: flex">
                                     <a th:href="@{/cart/}" >
-                                    <i class="fa fa-shopping-cart"></i><a th:text="'Cart ' +'('+${size_carts}+')'"></a> </a></li>
+                                    <i class="fa fa-shopping-cart"></i><a th:href="@{/cart/}" th:text="'Cart ' +'('+${size_carts}+')'"></a> </a></li>
                                 <li><a th:href="@{/myorder}"><i class="fa fa-shopping-cart"></i> Order History</a></li>
                                 </th:block>
                                 <th:block sec:authorize="hasAnyRole('ADMIN','MANAGER','STAFF')">

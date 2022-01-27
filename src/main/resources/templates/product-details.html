@@ -157,7 +157,7 @@
                                     </div>
                                     <pre class="col-md-10">
                                         <p th:text="${review.content}"></p>
-                                        <a th:href="@{${review.getFeedbackImage()}}">
+                                        <a th:if="${review.image!=null}" th:href="@{${review.getFeedbackImage()}}">
                                             <img th:src="@{${review.getFeedbackImage()}}" width="20%"
                                                  alt="feedback_image">
                                         </a>

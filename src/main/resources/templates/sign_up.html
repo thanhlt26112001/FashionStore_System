@@ -32,9 +32,11 @@
                                placeholder="Your Email" th:field="*{customer.email}" required>
                         <span id="msg_email"></span>
                         <br>
-                        <label> Password(*) (Must contain more than 6 characters) </label>
-                        <input type="password" placeholder="Password"
-                               minlength="6" th:field="*{password}" required>
+                        <label> Password(*) </label>
+                        <input type="password" placeholder="Minimum eight characters, at least one letter, one number and one special character (@$!%*#?&) "
+                               pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                               title="Minimum eight characters, at least one letter, one number and one special character"
+                               th:field="*{password}" required>
                         <label>Phone </label>
                         <input type="text" placeholder="Phone" pattern="^[0-9]{10,11}$"th:field="*{customer.phone}" >
                         <label>Address </label>

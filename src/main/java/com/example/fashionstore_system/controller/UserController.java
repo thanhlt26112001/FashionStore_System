@@ -77,7 +77,7 @@ public class UserController {
     }
 
     @RequestMapping("/404")
-    public String notFoundPage(){
+    public String notFoundPage() {
         return "404";
     }
 
@@ -123,10 +123,9 @@ public class UserController {
     public RedirectView sendPassword(RedirectAttributes model, @RequestParam(name = "email") String email) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = new User();
-        try{
+        try {
             user = customerService.findByEmail(email).getUser();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             model.addFlashAttribute("alert", "Email not exist!!");
             return new RedirectView("/forgot_password");
         }
@@ -140,17 +139,15 @@ public class UserController {
     }
 
     private String randomPassword() {
-        int leftLimit = 48; // numeral '0'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 8;
+        String character = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "abcdefghijklmnopqrstuvwxyz"
+                + "0123456789"
+                + "@$!%*#?&";
         Random random = new Random();
-
-        String generatedString = random.ints(leftLimit, rightLimit + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-
+        String generatedString = "";
+        for (int i = 0; i < 8; i++) {
+            generatedString += character.charAt(random.nextInt(character.length()));
+        }
         return generatedString;
     }
 
@@ -235,10 +232,11 @@ public class UserController {
         model.addAttribute("user", user);
         return "edit_Customer_Profile";
     }
+
     //function save customer by id
     @PostMapping("/customeruser/save")
     public RedirectView saveCustomerUser(@ModelAttribute("user") User user,
-                                        RedirectAttributes model) {
+                                         RedirectAttributes model) {
         Customer customerSave = new Customer();
         customerSave.setId(user.getCustomer().getId());
         customerSave.setEmail(user.getCustomer().getEmail());
@@ -255,7 +253,7 @@ public class UserController {
         userSave.setRole(user.getRole());
         userSave.setCreatedAt(user.getCreatedAt());
         userSave.setCustomer(customerSave);
-        if(user.getStaff().getId()!=null){
+        if (user.getStaff().getId() != null) {
             userSave.setStaff(staffService.get(user.getStaff().getId()));
         }
         userService.saveUser(userSave);

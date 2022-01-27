@@ -213,6 +213,7 @@ public class AdminController {
     public RedirectView saveCustomerAdmin(@Valid User user, RedirectAttributes model) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(user.getPassword());
+        user.getCustomer().setStatus(1);
         user.setPassword(encodedPassword);
         user.setUsername(user.getUsername());
         user.setRole(roleRepository.getById(1));
@@ -246,6 +247,7 @@ public class AdminController {
         userSave.setUsername(user.getUsername());
         //customer
         Customer customerSave = customerService.getById(user.getCustomer().getId());
+        customerSave.setStatus(user.getCustomer().getStatus());
         customerSave.setName(user.getCustomer().getName());
         customerSave.setEmail(user.getCustomer().getEmail());
         customerSave.setPhone(user.getCustomer().getPhone());
@@ -267,22 +269,14 @@ public class AdminController {
     }
 
     //function delete customer by id
-    @RequestMapping("/customer/delete/{id}")
-    public String deleteCustomer(@PathVariable(name = "id") int id) {
+    @RequestMapping("/customer/disable/{id}")
+    public String disableCustomer(@PathVariable(name = "id") int id) {
         User user = userService.getById(id);
-        userService.deleteUser(id);
+        user.getCustomer().setStatus(0);
+        userService.saveUser(user);
         return "redirect:/admin/customer";
     }
 
-    //Admin Staff Manager
-    // functions show list Staff
-//    @RequestMapping("/staff")
-//    public String viewStaffAdmin(Model model, @Param("keyword") String keyword) {
-//        List<Staff> listStaffs = staffService.listAll(keyword);
-//        model.addAttribute("listStaffs", listStaffs);
-//        model.addAttribute("keyword", keyword);
-//        return "listStaffAdmin";
-//    }
     @GetMapping("/staff")
     public String viewStaff(Model model,
                             @RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -339,6 +333,7 @@ public class AdminController {
         customer.setBirthday(user.getCustomer().getBirthday());
         customer.setAvatar(user.getStaff().getAvatar());
         customer.setPoint(0);
+        customer.setStatus(1);
         if (userRepository.findByUsername(user.getUsername()) != null) {
             model.addFlashAttribute("alert_Username", "Username is exited!");
             return new RedirectView("/admin/newStaff");

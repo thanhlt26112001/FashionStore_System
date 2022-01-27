@@ -59,6 +59,8 @@
                             <th:block sec:authorize="hasRole('ADMIN')">
                                 <a th:href="@{'/admin/customer/edit/' + ${customer.user.id} }" class="btn btn-primary btn-sm"
                                    href="#" style="margin-top: 0">Detail</a>
+                                <a th:href="@{'/admin/customer/disable/' + ${customer.user.id} }" class="btn btn-danger btn-sm"
+                                   href="#" style="margin-top: 0">Disable</a>
                             </th:block>
                         </td>
                     </tr>

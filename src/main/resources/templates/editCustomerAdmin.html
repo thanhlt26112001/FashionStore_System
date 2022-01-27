@@ -73,6 +73,13 @@
                                 <input th:field="*{customer.birthday}" type="date" class="form-control"
                                        name="birthday" id="birthday">
                             </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select th:field="*{customer.status}" class="form-select">
+                                    <option th:value='0' th:text="Disable"></option>
+                                    <option th:value='1' th:text="Enable"></option>
+                                </select>
+                            </div>
                             <br>
                             <button sec:authorize="hasAnyRole('ADMIN','MANAGER')"
                                     type="submit" class="btn btn-primary">Save Edit</button>

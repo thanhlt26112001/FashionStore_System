@@ -43,7 +43,7 @@
                                 </select>
                                 <input th:if="${promotion!=null}" type="hidden" name="promotionCode" th:value="${promotion.code}">
                                 <input th:if="${promotion==null}" type="hidden" name="promotionId" th:value="${0}">
-                                <input type="hidden" name="totalprice" th:value="${totalprice}">
+                                <input type="hidden" name="totalprice" th:value="${total}">
                                 <button type="submit" class="btn btn-default check_out" >Check out</button>
                             </form>
                         </div>
