@@ -68,12 +68,12 @@ public class ChartController {
         return "listOrderRevenueAdmin";
     }
 
-    @GetMapping("/orderByTime")
-    public String viewOrderByTime(Model model) {
-        List<Order> orderList = orderService.getAllOrders();
-        model.addAttribute("orderList", orderList);
-        return "listOrderByTimeAdmin";
-    }
+//    @GetMapping("/orderByTime")
+//    public String viewOrderByTime(Model model) {
+//        List<Order> orderList = orderService.getAllOrders();
+//        model.addAttribute("orderList", orderList);
+//        return "listOrderByTimeAdmin";
+//    }
 
     @RequestMapping("/admin/orderListByTime")
     public RedirectView viewOrderList(@RequestParam(name = "startDate") String startDate,
