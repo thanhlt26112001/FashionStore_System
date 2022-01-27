@@ -41,7 +41,7 @@
                                             th:value="${shippingunit.id}"
                                             th:utext="${shippingunit.name}">
                                 </select>
-                                <input th:if="${promotion!=null}" type="hidden" name="promotionId" th:value="${promotion.id}">
+                                <input th:if="${promotion!=null}" type="hidden" name="promotionCode" th:value="${promotion.code}">
                                 <input th:if="${promotion==null}" type="hidden" name="promotionId" th:value="${0}">
                                 <input type="hidden" name="totalprice" th:value="${totalprice}">
                                 <button type="submit" class="btn btn-default check_out" >Check out</button>
@@ -103,12 +103,12 @@
                                 </tr>
                                 <tr class="shipping-cost">
                                     <td>Promotion</td>
-                                    <td th:if="${promotion!=null}" th:text="${promotion.discount}+'%'"></td>
+                                    <td th:if="${promotion!=null}" th:text="${promotion.discount}+'%' +' ( max: ' + ${promotion.maxdiscount} +' VNĐ )'"></td>
                                     <td th:if="${promotion==null}">None </td>
                                 </tr>
                                 <tr>
                                     <td>Total</td>
-                                    <td><span th:text="${totalprice}"></span></td>
+                                    <td><span th:text="${total}"></span></td>
                                 </tr>
                             </table>
                         </td>

@@ -49,7 +49,7 @@ public class MyUserDetail implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return user.getCustomer().getStatus()==1;
     }
 
     @Override

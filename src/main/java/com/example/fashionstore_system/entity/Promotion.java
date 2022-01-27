@@ -42,4 +42,12 @@ public class Promotion implements Serializable {
     private Timestamp updatedAt;
     @OneToMany(mappedBy="promotion")
     private Set<Order> orders;
+    @Column
+    private Long remainapply;
+    @Column
+    private Long maxdiscount;
+    @Column
+    private Integer status;
+    @Column
+    private String code;
 }

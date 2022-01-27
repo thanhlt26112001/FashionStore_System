@@ -53,4 +53,6 @@ public class Customer implements Serializable {
     private Set<Feedback> feedbacks;
     @OneToMany(mappedBy="customer")
     private Set<Cart> carts;
+    @Column
+    private Integer status;
 }

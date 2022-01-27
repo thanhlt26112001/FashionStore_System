@@ -95,17 +95,12 @@
                 <form th:action="@{/cart/applycoupon}" th:object="${promotion}">
                 <div class="chose_area">
                     <ul class="user_info">
-
                         <li class="single_field">
                             <label>Coupon:</label>
-                            <select th:field="*{id}" >
-                                <option value="">--</option>
-                                <option th:each="promotion:${listPromotion}"
-                                th:value="${promotion.id}"
-                                th:utext="${promotion.name}">
-                            </select>
+                            <input type="text" th:field="*{code}" >
                         </li>
                     </ul>
+                    <span th:text="${alert_promotion}" style="color:red; margin-left: 40px;display: block"></span>
                     <button style="margin-left: 40px; box-shadow: 5px 3px 5px rgb(0 0 0 / 50%);" class="btn btn-default check_out" type="submit">Apply</button>
                 </div>
                 </form>
@@ -120,9 +115,9 @@
                         <li>Total <span th:value="${total}" th:text="${total}"></span></li>
                     </ul>
                     <a class="btn btn-default update" th:href="@{/cart/show}" style="box-shadow: 5px 3px 5px rgb(0 0 0 / 50%);" >Update</a>
-                    <input type="hidden" name="totalprice" th:value="${total}">
-                    <input type="hidden" name="subtotal" th:value="${subtotal}">
-                    <input type="hidden" name="promotionId" th:value="${promotion.id}">
+                    <input type="text" name="totalprice" th:value="${total}" style="display: none">
+                    <input type="text" name="subtotal" th:value="${subtotal}" style="display: none">
+                    <input type="text" name="promotionCode" th:value="${promotion.code}" style="display: none">
                     <button th:if="${listCart.size()>0}" type="submit" class="btn btn-default check_out" style="box-shadow: 5px 3px 5px rgb(0 0 0 / 50%);" >Check Out</button>
                 </div>
                 </div>

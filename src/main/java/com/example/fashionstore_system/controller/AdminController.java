@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.fashionstore_system.entity.Customer;
@@ -105,6 +107,7 @@ public class AdminController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("query", "?sortField=" + sortField + "&sortDir="
                 + sortDir + "&keyword=" + keyword);
+
         return "listProductAdmin";
     }
 
@@ -430,6 +433,11 @@ public class AdminController {
             model.addFlashAttribute("alert", "Promotion name is existed!!!");
             return new RedirectView("/admin/listPromotions/add");
         }
+        Promotion promotion2 = promotionService.findByCode(promotion.getCode());
+        if (promotion2 != null) {
+            model.addFlashAttribute("alert", "Promotion code is existed!!!");
+            return new RedirectView("/admin/listPromotions/add");
+        }
         if (promotion.getDiscount() > 100 || promotion.getDiscount() < 0) {
             model.addFlashAttribute("alert", "Discount must from 0 to 100!!!");
             return new RedirectView("/admin/listPromotions/add");
@@ -515,6 +523,11 @@ public class AdminController {
                                  @RequestParam(name = "Sunday", required = false) String Sunday,
                                  @RequestParam(name = "AllWeek", required = false) String AllWeek,
                                  RedirectAttributes model) {
+        Promotion promotion2 = promotionService.findByCode(promotion.getCode());
+        if (promotion2 != null && promotion2.getId() != promotion.getId()) {
+            model.addFlashAttribute("alert", "Promotion code is existed!!!");
+            return new RedirectView("/admin/listPromotions/add");
+        }
         if (promotion.getDiscount() > 100 || promotion.getDiscount() < 0) {
             model.addFlashAttribute("alert", "Discount must from 0 to 100!!!");
             return new RedirectView("/admin/edit/" + promotion.getId());
@@ -558,7 +571,9 @@ public class AdminController {
 
     @RequestMapping("/delete/{id}")
     public String deletePromotion(@PathVariable(name = "id") int id) {
-        promotionService.delete(id);
+        Promotion promotion = promotionService.getById(id);
+        promotion.setStatus(0);
+        promotionService.save(promotion);
         return "redirect:/admin/listPromotions";
     }
 

@@ -37,6 +37,8 @@ public class ProductController {
     private UserService userService;
     @Autowired
     private OrderDetailService orderDetailService;
+    @Autowired
+    private CartService cartService;
 
 
     @GetMapping("/listproducts")
@@ -74,6 +76,7 @@ public class ProductController {
         model.addAttribute("query", "?sortField=" + sortField + "&sortDir="
                 + sortDir + "&keyword=" + keyword + "&categoryId=" + categoryId);
         model.addAttribute("categoryList", productService.getCategoryList());
+        model.addAttribute("size_carts", cartService.getCartSize());
         return "shop";
     }
 
@@ -121,6 +124,7 @@ public class ProductController {
         model.addAttribute("categoryList", productService.getCategoryList());
         model.addAttribute("query", "?sortDir="
                 + sortDir);
+        model.addAttribute("size_carts", cartService.getCartSize());
         return "product-details";
     }
     //function saveFeedback
