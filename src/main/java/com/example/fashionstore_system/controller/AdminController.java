@@ -7,6 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,7 +63,7 @@ public class AdminController {
     @Autowired
     private StaffRepository staffRepository;
     @Autowired
-    private  ShippingUnitService shippingUnitService;
+    private ShippingUnitService shippingUnitService;
     @Autowired
     private ExcelService excelService;
 
@@ -156,7 +158,7 @@ public class AdminController {
 
     //function delete product by id
     @RequestMapping("/product/delete/{id}")
-    public String deleteProduct(@PathVariable(name = "id") int id) {
+    public String delete(@PathVariable(name = "id") int id) {
         Product product = productService.getProduct(id);
         product.setStatus(0);
         productService.saveProduct(product);
@@ -285,6 +287,7 @@ public class AdminController {
                             @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir) {
         return listByPagesStaff(1, sortField, sortDir, keyword, model);
     }
+
     @GetMapping("/staff/{pageNumber}")
     public String listByPagesStaff(@PathVariable(name = "pageNumber") int currentPage,
                                    @RequestParam(value = "sortField", defaultValue = "id") String sortField,
@@ -658,21 +661,26 @@ public class AdminController {
                 + sortDir + "&keyword=" + keyword);
         return "list_category_Admin";
     }
+
     // admin Order
     @GetMapping("/order")
-    public String viewOrder(Model model,
-                               @RequestParam(value = "keyword", defaultValue = "") String keyword,
-                               @RequestParam(value = "sortField", defaultValue = "id") String sortField,
-                               @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir) {
-        return listByPagesOrder(1, sortField, sortDir, keyword, model);
+    public String view(Model model,
+                       @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                       @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                       @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) throws ParseException {
+        return listByPagesOrder(1, keyword, startDate, endDate, model);
     }
+
     @GetMapping("/order/{pageNumber}")
     public String listByPagesOrder(@PathVariable(name = "pageNumber") int currentPage,
-                                      @RequestParam(value = "sortField", defaultValue = "id") String sortField,
-                                      @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
-                                      @RequestParam(value = "keyword", defaultValue = "") String keyword,
-                                      Model model) {
-        Page<Order> page = orderService.listAllOrder(currentPage, sortField, sortDir, keyword);
+                                   @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                   @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                   @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                                   Model model) throws ParseException {
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("query", "?keyword=" + keyword + "&startDate=" + startDate + "&endDate=" + endDate);
+        Page<Order> page = orderService.sortByTime(currentPage, keyword, startDate, endDate);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
         List<Order> orderList = page.getContent();
@@ -680,12 +688,7 @@ public class AdminController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("totalPages", totalPages);
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("keyword", keyword);
-        model.addAttribute("query", "?sortField=" + sortField + "&sortDir="
-                + sortDir + "&keyword=" + keyword);
         return "listOrderAdmin";
     }
 
@@ -699,62 +702,78 @@ public class AdminController {
         mav.addObject("order", order);
         return mav;
     }
+
     @RequestMapping(value = "/saveOrderEdit", method = RequestMethod.POST)
-    public String saveOrderEdit(@ModelAttribute("order") Order order) {
+    public RedirectView saveOrderEdit(@ModelAttribute("order") Order order,
+                                      RedirectAttributes model) {
         Order orderSave = orderService.getById(order.getId());
-        orderSave.setPaymentStatus(order.getPaymentStatus());
-        orderSave.setStatus(order.getStatus());
+        if (orderSave.getPaymentStatus() == 1) {
+            orderSave.setStatus(order.getStatus());
+            orderSave.setPaymentStatus(1);
+            model.addFlashAttribute("alert_status", "This order have been paid!");
+            return new RedirectView("/admin/orderDetail/" + order.getId());
+        } else if (orderSave.getStatus() != 2 && orderSave.getPaymentStatus() != 0) {
+            orderSave.setPaymentStatus(order.getPaymentStatus());
+            orderSave.setStatus(order.getStatus());
+        } else if (orderSave.getPaymentStatus() == 0 && orderSave.getStatus() == 2) {
+            model.addFlashAttribute("alert_status", "This order haven't been paid!");
+            return new RedirectView("/admin/orderDetail/" + order.getId());
+        } else if (orderSave.getPaymentStatus() == 0) {
+            if (order.getStatus() != 2) {
+                orderSave.setStatus(order.getStatus());
+            } else {
+                orderSave.setStatus(orderSave.getStatus());
+            }
+            orderSave.setPaymentStatus(order.getPaymentStatus());
+        }
         orderService.saveOrder(orderSave);
-        return "redirect:/admin/order" ;
+        return new RedirectView("/admin/order");
     }
+
     @GetMapping("/home")
-    public String AdminHomePage(Model model){
+    public String AdminHomePage(Model model) {
 
         List<Order> allorders = orderService.getAllOrders();
-        double price=0.0;
-        int count=0;
-        for (Order order:allorders){
-            if(order.getStatus()==2){
-                price+=Double.parseDouble(order.getPrice().toString());
-                Set<OrderDetail> orderDetailSet=order.getOrderDetails();
-                for (OrderDetail orderDetail:orderDetailSet){
-                    count+=orderDetail.getQuantity();
+        double price = 0.0;
+        int count = 0;
+        for (Order order : allorders) {
+            if (order.getStatus() == 2) {
+                price += Double.parseDouble(order.getPrice().toString());
+                Set<OrderDetail> orderDetailSet = order.getOrderDetails();
+                for (OrderDetail orderDetail : orderDetailSet) {
+                    count += orderDetail.getQuantity();
                 }
             }
         }
-        model.addAttribute("numberofcustomers",customerService.getAllCustomer().size());
-        model.addAttribute("sales",count);
-        model.addAttribute("income",price);
-        model.addAttribute("listorder",orderService.getLastestOrders());
+        model.addAttribute("numberofcustomers", customerService.getAllCustomer().size());
+        model.addAttribute("sales", count);
+        model.addAttribute("income", price);
+        model.addAttribute("listorder", orderService.getLastestOrders());
         return ("admin_home");
     }
 
 
     @RequestMapping("/exportproducts")
-    public RedirectView ExportProductsToExcel(RedirectAttributes model){
+    public RedirectView ExportProductsToExcel(RedirectAttributes model) {
         List<Product> allProducts = productService.getAllProducts();
-        Path uploadPath =  Paths.get("excel_export");
+        Path uploadPath = Paths.get("excel_export");
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy--HH-mm-ss");
-        String path = uploadPath.toAbsolutePath().toString()+"\\productList"+sdf.format(date).toString()+".xlsx";
-        try
-        {
+        String path = uploadPath.toAbsolutePath().toString() + "\\productList" + sdf.format(date).toString() + ".xlsx";
+        try {
             XSSFWorkbook workbook = new XSSFWorkbook();
             XSSFSheet sheet = workbook.createSheet("Product List");
             Row row0 = sheet.createRow(0);
             excelService.createHeader(row0);
             int rownum = 1;
-            for (Product product : allProducts)
-            {
+            for (Product product : allProducts) {
                 Row row = sheet.createRow(rownum++);
                 excelService.createList(product, row);
             }
             FileOutputStream out = new FileOutputStream(new File(path)); // path + file name
             workbook.write(out);
             out.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         model.addFlashAttribute("alert", "Exported excel file at: " + path);
@@ -762,13 +781,13 @@ public class AdminController {
     }
 
     @RequestMapping("/readExcel")
-    public RedirectView getUserByUserName(@RequestParam(value = "excelFile",required = false) MultipartFile excelFile,
+    public RedirectView getUserByUserName(@RequestParam(value = "excelFile", required = false) MultipartFile excelFile,
                                           RedirectAttributes model) throws IOException {
-        try{
+        try {
             List<Product> productList = excelService.readExcel(excelFile);
-        productService.saveAllProduct(productList);
+            productService.saveAllProduct(productList);
             model.addFlashAttribute("alert", "Add products succesfully!");
-        }catch (Exception e){
+        } catch (Exception e) {
             model.addFlashAttribute("alert", "Add products fail!");
         }
         return new RedirectView("/admin/product");

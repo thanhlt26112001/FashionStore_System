@@ -15,8 +15,20 @@
                 <h1 style="font-family: cursive; color: orange;">List Order</h1>
                 <div class="search_box pull-right" style="margin-bottom: 10px">
                     <div class="input-group">
-                        <form th:action="@{'/admin/order'}">
-                            Search: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/>
+                        <form th:action="@{'/admin/order'}" style="display: flex; justify-content: space-between">
+                            <div class="form-group col-3"><h5>Receiver name:</h5> <input style="width: 100%" type="text" name="keyword" id="keyword" size="50" th:value="${keyword}"/></div>
+                            <div class="form-group col-4" style="width: 160px">
+                                <h5>Start date</h5>
+                                <input type="date" class="form-control"
+                                       name="startDate" placeholder="Enter Start date" id="startDate" th:value="${#dates.format(startDate,'yyyy-MM-dd')}">
+                            </div>
+                            <div class="form-group col-4" style="width: 160px">
+                                <h5>End date</h5>
+                                <input type="date" class="form-control"
+                                       name="endDate" placeholder="Enter End date" id="endDate" th:value="${#dates.format(endDate,'yyyy-MM-dd')}">
+                            </div>
+                            <button class="btn btn-primary btn-sm" style="height: 39px; margin-top: 29px">Submit</button>
+
                         </form>
                     </div>
                 </div>
@@ -30,9 +42,7 @@
                         <th style="text-align: center">Reciver Phone</th>
                         <th style="text-align: center">Promotion</th>
                         <th style="text-align: center">Shipping Unit</th>
-                        <th style="text-align: center"><a style="color: black" th:href="@{'/admin/order/'+${currentPage}
-                                    +'?sortField=price&sortDir='+ ${reverseSortDir}+'&keyword='+${keyword}}">
-                            Price</a></th>
+                        <th style="text-align: center">Price</th>
                         <th style="text-align: center">Payment Method</th>
                         <th style="text-align: center">Payment Status</th>
                         <th style="text-align: center">Status</th>

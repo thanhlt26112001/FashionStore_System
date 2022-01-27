@@ -23,7 +23,7 @@
                     <button style="vertical-align: unset" type="submit" class="btn btn-primary col-2">OK</button>
                 </form><br>
                 <div align="center" style="width: 100%;">
-                    <div id="chart_div"></div>
+                    <a src="https://www.facebook.com/"><div id="chart_div"></div></a>
                 </div>
                 <th:block th:replace="layout_admin/footer :: footer"></th:block>
             </div>
@@ -60,6 +60,10 @@
         var chart = new google.visualization.ColumnChart(document
             .getElementById('chart_div'));
         chart.draw(data, options);
+        google.visualization.events.addListener(chart, 'select', function() {
+            var selectedMonth = data.getValue(chart.getSelection()[0].row, 0);
+            window.location.href='/admin/revenue/order/'+selectedMonth+'/'+[[${Year}]];
+        });
     }
 </script>
 </body>

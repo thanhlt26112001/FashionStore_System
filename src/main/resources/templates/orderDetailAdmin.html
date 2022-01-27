@@ -49,7 +49,8 @@
                             </select>
                             <input type="hidden" th:field="*{id}">
                             <div sec:authorize="hasAnyRole('ADMIN','MANAGER')">
-                            <input type="submit" value="OK" class="btn btn-success col-2"/>
+                                <span style="color:red" th:text="${alert_status}" ></span>
+                                <input style="display: block" type="submit" value="OK" class="btn btn-success col-2"/>
                             </div>
                         </form>
                     </div>
