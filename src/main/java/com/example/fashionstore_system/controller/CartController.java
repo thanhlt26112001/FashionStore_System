@@ -244,8 +244,10 @@ public class CartController {
             order.setPaymentStatus(0);
         }
         Promotion promotion = promotionService.getPromotionByCode(promotionCode);
-        promotion.setRemainapply((promotion.getRemainapply() - 1));
-        promotionService.save(promotion);
+        if(promotion !=null){
+            promotion.setRemainapply((promotion.getRemainapply() - 1));
+            promotionService.save(promotion);
+        }
         orderService.saveOrder(order);
         for (Cart cart:cartList){
             OrderDetail orderDetail = new OrderDetail();
