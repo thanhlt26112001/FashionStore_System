@@ -240,6 +240,8 @@ public class UserController {
         Customer customerSave = new Customer();
         customerSave.setId(user.getCustomer().getId());
         customerSave.setEmail(user.getCustomer().getEmail());
+        customerSave.setStatus(user.getCustomer().getStatus());
+        customerSave.setPoint(user.getCustomer().getPoint());
         customerSave.setName(user.getCustomer().getName());
         customerSave.setPhone(user.getCustomer().getPhone());
         customerSave.setAddress(user.getCustomer().getAddress());

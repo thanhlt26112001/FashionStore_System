@@ -34,6 +34,7 @@ public class ExcelService {
     private static final int COLUMN_STATUS = 7;
     private static final int COLUMN_CREATED_AT = 8;
     private static final int COLUMN_UPDATED_AT = 9;
+    private static final int COLUMN_SOLD = 10;
 
 
     public void createList(Product product, Row row) {
@@ -85,6 +86,8 @@ public class ExcelService {
         } else {
             cell.setCellValue(product.getUpdatedAt().toString());
         }
+        cell = row.createCell(10);
+        cell.setCellValue(product.getCount());
     }
 
     public void createHeader(Row row) {
@@ -108,6 +111,8 @@ public class ExcelService {
         cell.setCellValue("Created At");
         cell = row.createCell(9);
         cell.setCellValue("Updated At");
+        cell = row.createCell(10);
+        cell.setCellValue("Sold");
     }
 
 
@@ -171,6 +176,9 @@ public class ExcelService {
                         break;
                     case COLUMN_UPDATED_AT:
                         product.setUpdatedAt(Timestamp.valueOf((String) getCellValue(cell)));
+                        break;
+                    case COLUMN_SOLD:
+                        product.setCount(new BigDecimal((double) cellValue).intValue());
                         break;
                     default:
                         break;

@@ -123,6 +123,12 @@ public class AdminController {
     //function save product
     @RequestMapping(value = "/product/save", method = RequestMethod.POST)
     public String saveProduct(@ModelAttribute("product") Product product) {
+        if(product.getStatus()==null){
+            product.setStatus(1);
+        }
+        if(product.getCount()==null || product.getCount()<0){
+            product.setCount(0);
+        }
         productService.saveProduct(product);
         return "redirect:/admin/product";
     }
@@ -164,6 +170,7 @@ public class AdminController {
     public String delete(@PathVariable(name = "id") int id) {
         Product product = productService.getProduct(id);
         product.setStatus(0);
+        product.setCreatedAt(product.getCreatedAt());
         productService.saveProduct(product);
         return "redirect:/admin/product";
     }

@@ -25,7 +25,8 @@
                         </div>
                         <form th:action="@{/admin/product/save}" th:object="${product}" method="post"
                               enctype="multipart/form-data">
-                            <!--        <input type="hidden" th:field="*{id}">-->
+                                    <input type="hidden" th:field="*{createdAt}">
+                                    <input type="hidden" th:field="*{count}">
                             <div class="form-group">
                                 <label>Id</label>
                                 <input th:field="*{id}" type="text" class="form-control"
