@@ -694,9 +694,6 @@ public class AdminController {
                                    @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                    @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
                                    Model model) throws ParseException {
-        model.addAttribute("startDate", startDate);
-        model.addAttribute("endDate", endDate);
-        model.addAttribute("query", "?keyword=" + keyword + "&startDate=" + startDate + "&endDate=" + endDate);
         Page<Order> page = orderService.sortByTime(currentPage, keyword, startDate, endDate);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
@@ -706,6 +703,20 @@ public class AdminController {
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("keyword", keyword);
+        String start="";
+        String end="";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if(startDate!=null){
+            start=simpleDateFormat.format(startDate);
+//            start=startDate.toString();
+        }
+        if(endDate!=null){
+            end=simpleDateFormat.format(endDate);
+//            end=endDate.toString();
+        }
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("query", "?keyword=" + keyword + "&startDate=" + start + "&endDate=" + end);
         return "listOrderAdmin";
     }
 
