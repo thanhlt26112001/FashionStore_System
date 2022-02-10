@@ -735,27 +735,18 @@ public class AdminController {
     public RedirectView saveOrderEdit(@ModelAttribute("order") Order order,
                                       RedirectAttributes model) {
         Order orderSave = orderService.getById(order.getId());
-        if (orderSave.getPaymentStatus() == 1) {
-            orderSave.setStatus(order.getStatus());
-            orderSave.setPaymentStatus(1);
-            model.addFlashAttribute("alert_status", "This order have been paid!");
+        if (orderSave.getPaymentStatus() == 1 && order.getPaymentStatus() == 1 && orderSave.getStatus()==2) {
+            model.addFlashAttribute("alert_status", "This order has been Finished!");
             return new RedirectView("/admin/orderDetail/" + order.getId());
-        } else if (orderSave.getStatus() != 2 && orderSave.getPaymentStatus() != 0) {
-            orderSave.setPaymentStatus(order.getPaymentStatus());
-            orderSave.setStatus(order.getStatus());
-        } else if (orderSave.getPaymentStatus() == 0 && orderSave.getStatus() == 2) {
-            model.addFlashAttribute("alert_status", "This order haven't been paid!");
+        } else if (orderSave.getPaymentStatus() == 0 && order.getPaymentStatus() == 0 && order.getStatus() == 2) {
+            model.addFlashAttribute("alert_status", "This order has not been Paid!");
             return new RedirectView("/admin/orderDetail/" + order.getId());
-        } else if (orderSave.getPaymentStatus() == 0) {
-            if (order.getStatus() != 2) {
-                orderSave.setStatus(order.getStatus());
-            } else {
-                orderSave.setStatus(orderSave.getStatus());
-            }
-            orderSave.setPaymentStatus(order.getPaymentStatus());
         }
+        orderSave.setStatus(order.getStatus());
+        orderSave.setPaymentStatus(order.getPaymentStatus());
         orderService.saveOrder(orderSave);
-        return new RedirectView("/admin/order");
+        model.addFlashAttribute("alert_status", "Status has been changed!");
+        return new RedirectView("/admin/orderDetail/" + order.getId());
     }
 
     @GetMapping("/home")
